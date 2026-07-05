@@ -1,0 +1,16 @@
+[project]
+name = "andon-light"
+version = "0.1.0"
+description = "Host-side driver CLI for the Agent Andon Light desktop status device"
+requires-python = ">=3.9"
+dependencies = ["pyserial>=3.5"]
+
+[project.scripts]
+andon-light = "andon_light.cli:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["andon_light"]
