@@ -33,6 +33,10 @@ Change the pins in `andon_light_firmware.ino` by editing `kGreenPin`/`kYellowPin
 
 Added 2026-07-07 alongside the `PostCompact` hook, for "still working, just doing internal context compaction" — visually distinct from solid green (`G`, ordinary working) via a sharp on/off blink (`kFlashPeriodMs = 500` in `led_controller.cpp`), as opposed to `StalePulse`'s slow smooth breathing fade. **Needs re-flashing** to take effect — this is source-level only until the sketch is re-uploaded.
 
+## Power-on default: idle (red), not off
+
+Added 2026-07-08 — the board's `setup()` used to leave all 3 bulbs off until the first serial command arrived. That's fine when Claude Code's `SessionStart` hook fires right after, but a bare USB replug/power-cycle is a hardware event Claude Code never sees, so the light would sit dark indefinitely until some other hook happened to fire. `LedController::begin()` now boots straight to `LightColor::Red` (idle) instead of `Off`, matching the same "not working yet" default reasoning as the `SessionStart` hook. **Needs re-flashing** to take effect. Note: replugging the USB cable does **not** erase or require re-flashing the firmware itself (it's stored permanently in flash memory) — this fix is only about what color it happens to boot into, not whether the program is still there.
+
 ## Watchdog timeout: 30 minutes, not 15 seconds
 
 Originally 15s, raised to `kWatchdogTimeoutMs = 1800000` (30 min) after real-world testing with Claude Code hooks showed false stale-pulse trips: the hooks only fire at a few discrete moments (prompt submitted, tool used, waiting, stopped), so any gap longer than 15s between them — e.g. a long stretch of the model just thinking with no tool calls — incorrectly looked "disconnected." 30 minutes comfortably covers that while still eventually recovering if a session is genuinely abandoned mid-turn. See `../hooks/README.md` for the corresponding `PreToolUse` hook addition that keeps the watchdog kicked during tool-heavy stretches.

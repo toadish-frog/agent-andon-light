@@ -2,7 +2,7 @@
 
 A physical desktop status light for Claude Code / CLI coding agents — so you can walk away while an agent works and still know its state at a glance, instead of staring at a terminal.
 
-```
+```txt
 green            → agent working
 yellow           → waiting on you (permission or input)
 red              → idle / stopped / session ended
@@ -26,14 +26,14 @@ This doc is the "I already have the hardware, how do I get it running" guide. If
 
 **2. Install the host CLI.**
 
-```
+```txt
 cd host
 pipx install --editable .
 ```
 
 Confirm it can see the board:
 
-```
+```txt
 andon-light doctor
 ```
 
@@ -49,7 +49,7 @@ That's it. From here the light tracks your session automatically — no manual c
 
 Useful for testing, or if you just want to set the light by hand:
 
-```
+```txt
 andon-light set working       # solid green
 andon-light set waiting       # solid yellow
 andon-light set idle          # solid red
@@ -60,16 +60,19 @@ andon-light doctor            # detect the device and report its port
 
 ## Troubleshooting
 
+For a full step-by-step diagnostic playbook (exact terminal commands, in order, for every issue hit while building this), see [`.prompt/docs/TROUBLESHOOTING.md`](.prompt/docs/TROUBLESHOOTING.md). Quick version:
+
 - **"No Andon Light device found"** — check the USB cable is data-capable (not charge-only), and run `andon-light doctor`. Override with `--port /dev/ttyACM0` or the `ANDON_LIGHT_PORT` env var if auto-detection finds the wrong thing.
 - **"Device or resource busy"** — something else has the serial port open (commonly Arduino IDE's Serial Monitor). Close it — only one process can hold the port at a time. `andon-light` retries briefly on its own before giving up.
 - **Permission denied opening the port** — your user needs to be in the `dialout` group (`sudo usermod -aG dialout $USER`, then log out/in), or as a quick one-off: `sudo chmod 666 /dev/ttyACM0` (resets on replug).
 - **Light stuck on the wrong color** — shouldn't happen; if it does, confirm your `~/.claude/settings.json` hooks don't have `"async": true` on them (that reintroduces an ordering race — see `hooks/README.md` "Why not async"), and restart Claude Code to be sure the current config is actually loaded.
 - **Light drops to slow pulsing red mid-session** — the watchdog hasn't heard anything in 30 minutes. If this happens sooner than that, something's wrong with the hook config (check `PreToolUse` is present and firing).
 - **Nothing lights up at all** — flash didn't take, or the wrong pins. Check `firmware/README.md`'s pin assignments against your actual wiring.
+- **Light is off after a replug/power-cycle** — expected on firmware from before 2026-07-08 (it booted to "off" until the first hook fired); fixed by having it boot straight to idle/red instead — reflash if you're still on older firmware. Either way, you never need to reflash just for a replug — firmware is stored permanently in flash memory and survives power cycles; reflashing is only needed when the source code itself changes.
 
 ## Project layout
 
-```
+```txt
 firmware/    Arduino sketch — reads serial commands, drives the 3 LEDs, runs the watchdog
 host/        Python CLI (`andon-light`) — talks to the firmware over USB serial
 hooks/       Claude Code hook config that drives the CLI automatically

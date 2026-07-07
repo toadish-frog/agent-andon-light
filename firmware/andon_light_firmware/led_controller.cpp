@@ -14,7 +14,11 @@ void LedController::begin() {
   pinMode(greenPin_, OUTPUT);
   pinMode(yellowPin_, OUTPUT);
   pinMode(redPin_, OUTPUT);
-  showSolid(false, false, false);
+  // Boot straight to idle (red) rather than Off — a bare power-on/replug is a
+  // hardware event Claude Code's SessionStart hook never sees, so without this
+  // the light would sit dark until the next real hook fires. Same "not working
+  // yet" default reasoning as the SessionStart hook.
+  setColor(LightColor::Red);
 }
 
 void LedController::setColor(LightColor color) {

@@ -19,6 +19,15 @@ cd host
 pipx install --editable .
 ```
 
+`--editable` is right if you're actively developing this repo (symlinks back to the source, so edits show up immediately without reinstalling). If you're setting this up for someone else who just wants a working device — not editing the code — drop `--editable`:
+
+``` txt
+cd host
+pipx install .
+```
+
+A plain install copies the package into pipx's own store, so it keeps working even if the source folder is later moved or deleted — `--editable` would silently break in that case, since it only points back at the original path.
+
 ## Usage
 
 ``` txt
