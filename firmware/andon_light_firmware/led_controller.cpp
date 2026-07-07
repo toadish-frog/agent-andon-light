@@ -3,7 +3,8 @@
 #include <math.h>
 
 namespace {
-constexpr uint32_t kPulsePeriodMs = 1200;
+constexpr uint32_t kPulsePeriodMs = 1200;   // StalePulse: slow breathing fade
+constexpr uint32_t kFlashPeriodMs = 500;    // CompactFlash: sharp on/off blink
 }  // namespace
 
 LedController::LedController(uint8_t greenPin, uint8_t yellowPin, uint8_t redPin)
@@ -17,8 +18,10 @@ void LedController::begin() {
 }
 
 void LedController::setColor(LightColor color) {
-  if (color == LightColor::StalePulse && current_ == LightColor::StalePulse) {
-    return;  // already pulsing — don't reset the animation phase every loop
+  bool alreadyAnimating = (color == LightColor::StalePulse || color == LightColor::CompactFlash) &&
+                           color == current_;
+  if (alreadyAnimating) {
+    return;  // already animating this state — don't reset the animation phase every loop
   }
   current_ = color;
 
@@ -29,6 +32,11 @@ void LedController::setColor(LightColor color) {
     case LightColor::StalePulse:
       digitalWrite(greenPin_, LOW);
       digitalWrite(yellowPin_, LOW);
+      pulsePhaseStartMs_ = millis();
+      break;
+    case LightColor::CompactFlash:
+      digitalWrite(yellowPin_, LOW);
+      digitalWrite(redPin_, LOW);
       pulsePhaseStartMs_ = millis();
       break;
     case LightColor::Off:
@@ -42,6 +50,10 @@ void LedController::update() {
     float phase = elapsed / static_cast<float>(kPulsePeriodMs);
     float brightness = 0.5f * (1.0f - cosf(phase * 2.0f * PI));  // 0..1 breathing curve
     analogWrite(redPin_, static_cast<int>(255 * brightness));
+  } else if (current_ == LightColor::CompactFlash) {
+    uint32_t elapsed = (millis() - pulsePhaseStartMs_) % kFlashPeriodMs;
+    bool on = elapsed < (kFlashPeriodMs / 2);  // sharp square-wave blink, not a fade
+    digitalWrite(greenPin_, on ? HIGH : LOW);
   }
 }
 

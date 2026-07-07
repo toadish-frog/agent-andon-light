@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 
-enum class LightColor { Off, Green, Yellow, Red, StalePulse };
+enum class LightColor { Off, Green, Yellow, Red, StalePulse, CompactFlash };
 
 class LedController {
  public:

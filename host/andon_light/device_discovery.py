@@ -8,8 +8,8 @@ from dataclasses import dataclass
 from serial.tools import list_ports
 
 # arduino-pico's default TinyUSB descriptor keeps the Raspberry Pi Foundation
-# vendor ID. Unverified against real hardware yet — confirm with `andon-light
-# doctor` once the board is flashed and plugged in, and adjust if it's wrong.
+# vendor ID. Confirmed correct (2026-07-07) against the real Waveshare
+# RP2040-Zero via `udevadm info` and `andon-light doctor`.
 DEFAULT_VID = 0x2E8A
 
 ENV_PORT_OVERRIDE = "ANDON_LIGHT_PORT"

@@ -1,6 +1,6 @@
 # Firmware — Agent Andon Light
 
-Arduino sketch for the Waveshare RP2040-Zero, implementing the v1 wire protocol from `.prompt/docs/Implementation-Summary.md` (`G`/`Y`/`R`/`H`).
+Arduino sketch for the Waveshare RP2040-Zero, implementing the v2 wire protocol from `.prompt/docs/Implementation-Summary.md` (`G`/`Y`/`R`/`C`/`H`).
 
 ## Setup (once — see `.prompt/docs/USER-GUIDE.md` Phase 1 checklist)
 
@@ -22,9 +22,17 @@ Change the pins in `andon_light_firmware.ino` by editing `kGreenPin`/`kYellowPin
 
 1. Select "Waveshare RP2040-Zero" as the board, then flash.
 2. Open the Serial Monitor at 115200 baud, line ending "Newline".
-3. Type `G`, `Y`, `R` and press enter — confirm the LEDs respond. Then stop sending anything for ~15s and confirm it drops into a slow red pulse (the stale/disconnected state) rather than freezing on the last color.
+3. Type `G`, `Y`, `R` and press enter — confirm the LEDs respond. To test the stale-pulse fallback without waiting the full 30 minutes, temporarily lower `kWatchdogTimeoutMs` (e.g. to `15000`), flash, confirm the slow red pulse kicks in after that shorter wait, then change it back to `1800000` and reflash.
 
-## Known unknowns (this hasn't touched real hardware yet)
+## Confirmed on real hardware (2026-07-07)
 
-- `kGreenPin`/`kYellowPin`/`kRedPin` (`GPIO1`/`GPIO2`/`GPIO3`) are starting guesses, not verified pins — confirm against the PCBA's actual connector pinout (read the silkscreen labels, don't assume) and update the sketch to match your wiring.
-- The `StalePulse` breathing animation uses `analogWrite` (PWM) on the red pin — confirm `arduino-pico` supports PWM on whichever GPIO you pick for red (most RP2040 GPIOs do; check if you land on a pin that doesn't).
+- `kGreenPin`/`kYellowPin`/`kRedPin` (`GPIO1`/`GPIO2`/`GPIO3`) — confirmed correct against the actual PCBA wiring via Serial Monitor testing.
+- `StalePulse`'s `analogWrite` (PWM) breathing animation on the red pin — confirmed working on GPIO3.
+
+## New in v2: flashing green (`C`)
+
+Added 2026-07-07 alongside the `PostCompact` hook, for "still working, just doing internal context compaction" — visually distinct from solid green (`G`, ordinary working) via a sharp on/off blink (`kFlashPeriodMs = 500` in `led_controller.cpp`), as opposed to `StalePulse`'s slow smooth breathing fade. **Needs re-flashing** to take effect — this is source-level only until the sketch is re-uploaded.
+
+## Watchdog timeout: 30 minutes, not 15 seconds
+
+Originally 15s, raised to `kWatchdogTimeoutMs = 1800000` (30 min) after real-world testing with Claude Code hooks showed false stale-pulse trips: the hooks only fire at a few discrete moments (prompt submitted, tool used, waiting, stopped), so any gap longer than 15s between them — e.g. a long stretch of the model just thinking with no tool calls — incorrectly looked "disconnected." 30 minutes comfortably covers that while still eventually recovering if a session is genuinely abandoned mid-turn. See `../hooks/README.md` for the corresponding `PreToolUse` hook addition that keeps the watchdog kicked during tool-heavy stretches.

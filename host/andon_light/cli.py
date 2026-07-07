@@ -5,6 +5,8 @@ from __future__ import annotations
 import argparse
 import sys
 
+import serial
+
 from .device_discovery import find_device_port
 from .serial_link import SerialLink
 
@@ -12,6 +14,7 @@ COLOR_COMMANDS = {
     "working": "G",
     "waiting": "Y",
     "idle": "R",
+    "compacting": "C",
 }
 
 
@@ -77,7 +80,11 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
-    args.func(args)
+    try:
+        args.func(args)
+    except serial.SerialException as exc:
+        print(f"andon-light: serial error: {exc}", file=sys.stderr)
+        return 1
     return 0
 
 

@@ -1,6 +1,20 @@
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "andon-light set idle || true" }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "andon-light set working || true" }
+        ]
+      }
+    ],
+    "PreToolUse": [
       {
         "hooks": [
           { "type": "command", "command": "andon-light set working || true" }
@@ -11,6 +25,20 @@
       {
         "hooks": [
           { "type": "command", "command": "andon-light set waiting || true" }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          { "type": "command", "command": "andon-light set waiting || true" }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          { "type": "command", "command": "andon-light set compacting || true" }
         ]
       }
     ],
