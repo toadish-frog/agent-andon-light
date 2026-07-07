@@ -2,13 +2,14 @@
 #include "watchdog.h"
 
 namespace {
-constexpr uint8_t kLedDataPin = 0;  // GPIO0 — WS2812 data-in, through the series resistor per BOM
-constexpr uint16_t kLedCount = 5;
+constexpr uint8_t kGreenPin = 1;   // GPIO1 — to the LED PCBA's "Green" pin; confirm against your wiring
+constexpr uint8_t kYellowPin = 2;  // GPIO2 — to the LED PCBA's "Yellow" pin; confirm against your wiring
+constexpr uint8_t kRedPin = 3;     // GPIO3 — to the LED PCBA's "Red" pin; confirm against your wiring
 constexpr uint32_t kWatchdogTimeoutMs = 15000;
 constexpr unsigned long kSerialBaud = 115200;
 }  // namespace
 
-LedController leds(kLedDataPin, kLedCount);
+LedController leds(kGreenPin, kYellowPin, kRedPin);
 Watchdog watchdog(kWatchdogTimeoutMs);
 
 void setup() {

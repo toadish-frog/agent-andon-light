@@ -4,17 +4,19 @@ Arduino sketch for the Waveshare RP2040-Zero, implementing the v1 wire protocol 
 
 ## Setup (once — see `.prompt/docs/USER-GUIDE.md` Phase 1 checklist)
 
-1. Arduino IDE 2.x, with the `arduino-pico` board package and the Adafruit NeoPixel library installed.
+1. Arduino IDE 2.x, with the `arduino-pico` board package installed. No LED library needed — the 3 status bulbs are plain `digitalWrite`/`analogWrite` GPIO, not an addressable protocol.
 2. Open `andon_light_firmware/andon_light_firmware.ino` — Arduino IDE will load `led_controller.h/.cpp` and `watchdog.h` alongside it as tabs.
 
 ## Wiring
 
-- WS2812 data pin ← `GPIO0` (through the 300–500 Ω resistor from the BOM)
-- WS2812 5V/GND ← board 5V/GND (add the 1000 µF cap across these if you have one)
+The status light is a custom PCBA with 3 discrete LED bulbs (Red/Yellow/Green) and a 4-pin connector: `GND`, `Red`, `Yellow`, `Green`.
 
-Change the pin in `andon_light_firmware.ino` by editing `kLedDataPin` if you wire it differently. Note the RP2040-Zero uses plain GPIO numbers (`GPIO0`, `GPIO1`, ...), not the `D0`-style aliases Seeed's boards use — don't copy pin names from XIAO tutorials verbatim.
+- PCBA `GND` ← board `GND`
+- PCBA `Green` ← `GPIO1`
+- PCBA `Yellow` ← `GPIO2`
+- PCBA `Red` ← `GPIO3`
 
-**Free smoke test before wiring anything:** the RP2040-Zero has its own onboard WS2812 RGB LED on `GPIO16`. You can flash a quick one-off sketch pointed at pin 16 to confirm the board, toolchain, and NeoPixel library all work *before* you've wired a single external LED — a good first checkpoint given no hardware here has been tested yet.
+Change the pins in `andon_light_firmware.ino` by editing `kGreenPin`/`kYellowPin`/`kRedPin` if you wire it differently. Note the RP2040-Zero uses plain GPIO numbers (`GPIO0`, `GPIO1`, ...), not the `D0`-style aliases Seeed's boards use — don't copy pin names from XIAO tutorials verbatim.
 
 ## Flash & test
 
@@ -24,5 +26,5 @@ Change the pin in `andon_light_firmware.ino` by editing `kLedDataPin` if you wir
 
 ## Known unknowns (this hasn't touched real hardware yet)
 
-- `kLedDataPin = 0` (GPIO0) is a starting guess, not a verified pin — swap it if you wire the LED elsewhere. Avoid GPIO16 for the external strip since that's wired to the onboard LED.
-- `NEO_GRB + NEO_KHZ800` is the standard WS2812B config; if colors come out swapped (e.g. green shows as red), the specific LEDs you received may use a different color order — check the datasheet/listing.
+- `kGreenPin`/`kYellowPin`/`kRedPin` (`GPIO1`/`GPIO2`/`GPIO3`) are starting guesses, not verified pins — confirm against the PCBA's actual connector pinout (read the silkscreen labels, don't assume) and update the sketch to match your wiring.
+- The `StalePulse` breathing animation uses `analogWrite` (PWM) on the red pin — confirm `arduino-pico` supports PWM on whichever GPIO you pick for red (most RP2040 GPIOs do; check if you land on a pin that doesn't).

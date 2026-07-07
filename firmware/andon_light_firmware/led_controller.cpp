@@ -1,20 +1,19 @@
 #include "led_controller.h"
 
-#include <Arduino.h>
 #include <math.h>
 
 namespace {
 constexpr uint32_t kPulsePeriodMs = 1200;
-constexpr uint8_t kBrightness = 80;  // out of 255; keep it desk-friendly, not blinding
 }  // namespace
 
-LedController::LedController(uint8_t dataPin, uint16_t ledCount)
-    : strip_(ledCount, dataPin, NEO_GRB + NEO_KHZ800) {}
+LedController::LedController(uint8_t greenPin, uint8_t yellowPin, uint8_t redPin)
+    : greenPin_(greenPin), yellowPin_(yellowPin), redPin_(redPin) {}
 
 void LedController::begin() {
-  strip_.begin();
-  strip_.setBrightness(kBrightness);
-  showSolid(0, 0, 0);
+  pinMode(greenPin_, OUTPUT);
+  pinMode(yellowPin_, OUTPUT);
+  pinMode(redPin_, OUTPUT);
+  showSolid(false, false, false);
 }
 
 void LedController::setColor(LightColor color) {
@@ -24,31 +23,30 @@ void LedController::setColor(LightColor color) {
   current_ = color;
 
   switch (color) {
-    case LightColor::Green:  showSolid(0, 255, 0); break;
-    case LightColor::Yellow: showSolid(255, 200, 0); break;
-    case LightColor::Red:    showSolid(255, 0, 0); break;
-    case LightColor::StalePulse: pulsePhaseStartMs_ = millis(); break;
+    case LightColor::Green:  showSolid(true, false, false); break;
+    case LightColor::Yellow: showSolid(false, true, false); break;
+    case LightColor::Red:    showSolid(false, false, true); break;
+    case LightColor::StalePulse:
+      digitalWrite(greenPin_, LOW);
+      digitalWrite(yellowPin_, LOW);
+      pulsePhaseStartMs_ = millis();
+      break;
     case LightColor::Off:
-    default:                 showSolid(0, 0, 0); break;
+    default: showSolid(false, false, false); break;
   }
 }
 
 void LedController::update() {
   if (current_ == LightColor::StalePulse) {
-    showPulse();
+    uint32_t elapsed = (millis() - pulsePhaseStartMs_) % kPulsePeriodMs;
+    float phase = elapsed / static_cast<float>(kPulsePeriodMs);
+    float brightness = 0.5f * (1.0f - cosf(phase * 2.0f * PI));  // 0..1 breathing curve
+    analogWrite(redPin_, static_cast<int>(255 * brightness));
   }
 }
 
-void LedController::showSolid(uint8_t r, uint8_t g, uint8_t b) {
-  for (uint16_t i = 0; i < strip_.numPixels(); ++i) {
-    strip_.setPixelColor(i, strip_.Color(r, g, b));
-  }
-  strip_.show();
-}
-
-void LedController::showPulse() {
-  uint32_t elapsed = (millis() - pulsePhaseStartMs_) % kPulsePeriodMs;
-  float phase = elapsed / static_cast<float>(kPulsePeriodMs);
-  float brightness = 0.5f * (1.0f - cosf(phase * 2.0f * PI));  // 0..1 breathing curve
-  showSolid(static_cast<uint8_t>(255 * brightness), 0, 0);
+void LedController::showSolid(bool green, bool yellow, bool red) {
+  digitalWrite(greenPin_, green ? HIGH : LOW);
+  digitalWrite(yellowPin_, yellow ? HIGH : LOW);
+  digitalWrite(redPin_, red ? HIGH : LOW);
 }

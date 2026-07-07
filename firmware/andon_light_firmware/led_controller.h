@@ -1,22 +1,23 @@
 #pragma once
 
-#include <Adafruit_NeoPixel.h>
+#include <Arduino.h>
 
 enum class LightColor { Off, Green, Yellow, Red, StalePulse };
 
 class LedController {
  public:
-  LedController(uint8_t dataPin, uint16_t ledCount);
+  LedController(uint8_t greenPin, uint8_t yellowPin, uint8_t redPin);
 
   void begin();
   void setColor(LightColor color);
   void update();  // call every loop() iteration; drives the StalePulse animation
 
  private:
-  Adafruit_NeoPixel strip_;
+  uint8_t greenPin_;
+  uint8_t yellowPin_;
+  uint8_t redPin_;
   LightColor current_ = LightColor::Off;
   uint32_t pulsePhaseStartMs_ = 0;
 
-  void showSolid(uint8_t r, uint8_t g, uint8_t b);
-  void showPulse();
+  void showSolid(bool green, bool yellow, bool red);
 };
