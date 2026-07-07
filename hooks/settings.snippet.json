@@ -48,6 +48,13 @@
           { "type": "command", "command": "andon-light set idle || true" }
         ]
       }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          { "type": "command", "command": "andon-light set idle || true" }
+        ]
+      }
     ]
   }
 }

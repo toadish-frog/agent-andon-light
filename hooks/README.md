@@ -10,7 +10,8 @@
 | `Notification` | waiting (yellow) | General "needs your attention" |
 | `PermissionRequest` | waiting (yellow) | Specifically waiting on a permission decision (e.g. approve a `Bash`/`npm install` call) |
 | `PostCompact` | flashing green (compacting) | Internal context compaction — still "alive," distinct from ordinary working |
-| `Stop` | idle (red) | Turn/session ended |
+| `Stop` | idle (red) | Turn/session ended normally |
+| `SessionEnd` | idle (red) | Session terminated for any reason, including abrupt ones `Stop` doesn't cover |
 
 Commands run **synchronously** (not `async`) — see "Why not `async`" below.
 
@@ -23,6 +24,8 @@ Commands run **synchronously** (not `async`) — see "Why not `async`" below.
 **Why `PostCompact` gets its own color:** without it, a compaction pass would either stay on whatever color was last set (misleading if it was red/idle) or require yet another hook just to flip back afterward. A distinct flashing-green state reads as "still alive, doing upkeep" at a glance, and naturally reverts to solid green (or whatever's next) once the following hook fires — no extra "compaction done" hook needed.
 
 **Why `SessionStart` was added:** without it, a new session inherits whatever color the *previous* session left behind — usually fine (`Stop` already leaves it on idle/red), but not guaranteed if a prior session crashed mid-turn without a clean `Stop`. Explicitly setting idle on `SessionStart` makes the default deterministic regardless of history.
+
+**Why `SessionEnd` was added:** bug report (2026-07-08) — pressing Ctrl+C to kill an active `claude` process outright (not just interrupting a turn) left the light stuck on green forever. Root cause: Claude Code's docs explicitly state `Stop` hooks "don't fire on user interrupts," and `SessionEnd` ("when a session terminates") isn't documented as covering abrupt SIGINT either — so this was unverified until tested against real hardware, per the standing rule of not trusting a timeout/protocol behavior picked by reasoning alone. Added `SessionEnd` → idle (red) with no matcher (covers all termination reasons) and confirmed empirically: Ctrl+C now correctly turns the light red. `Stop` is kept as well since normal turn/session ends should still resolve as fast as possible, without waiting on session teardown.
 
 ## Why not `async`
 
