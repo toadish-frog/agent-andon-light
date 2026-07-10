@@ -1,8 +1,10 @@
 # Firmware — Agent Andon Light
 
-Arduino sketch for the Waveshare RP2040-Zero, implementing the v2 wire protocol from `.prompt/docs/Implementation-Summary.md` (`G`/`Y`/`R`/`C`/`H`).
+Arduino sketch for the Waveshare RP2040-Zero, implementing the v2 wire protocol from `../docs/Implementation-Summary.md` (`G`/`Y`/`R`/`C`/`H`).
 
-## Setup (once — see `.prompt/docs/USER-GUIDE.md` Phase 1 checklist)
+This is the **3-discrete-bulb variant** (Red/Yellow/Green LEDs on a 4-pin connector). For the addressable LED strip variant, see `../../led-strip/firmware/`.
+
+## Setup (once — see `../docs/USER-GUIDE.md` Phase 1 checklist)
 
 1. Arduino IDE 2.x, with the `arduino-pico` board package installed. No LED library needed — the 3 status bulbs are plain `digitalWrite`/`analogWrite` GPIO, not an addressable protocol.
 2. Open `andon_light_firmware/andon_light_firmware.ino` — Arduino IDE will load `led_controller.h/.cpp` and `watchdog.h` alongside it as tabs.
@@ -39,4 +41,4 @@ Added 2026-07-08 — the board's `setup()` used to leave all 3 bulbs off until t
 
 ## Watchdog timeout: 30 minutes, not 15 seconds
 
-Originally 15s, raised to `kWatchdogTimeoutMs = 1800000` (30 min) after real-world testing with Claude Code hooks showed false stale-pulse trips: the hooks only fire at a few discrete moments (prompt submitted, tool used, waiting, stopped), so any gap longer than 15s between them — e.g. a long stretch of the model just thinking with no tool calls — incorrectly looked "disconnected." 30 minutes comfortably covers that while still eventually recovering if a session is genuinely abandoned mid-turn. See `../hooks/README.md` for the corresponding `PreToolUse` hook addition that keeps the watchdog kicked during tool-heavy stretches.
+Originally 15s, raised to `kWatchdogTimeoutMs = 1800000` (30 min) after real-world testing with Claude Code hooks showed false stale-pulse trips: the hooks only fire at a few discrete moments (prompt submitted, tool used, waiting, stopped), so any gap longer than 15s between them — e.g. a long stretch of the model just thinking with no tool calls — incorrectly looked "disconnected." 30 minutes comfortably covers that while still eventually recovering if a session is genuinely abandoned mid-turn. See `../../hooks/README.md` for the corresponding `PreToolUse` hook addition that keeps the watchdog kicked during tool-heavy stretches.
