@@ -88,7 +88,10 @@ led-bulb/    3-discrete-bulb variant — firmware/ (Arduino sketch) + docs/ (BOM
 led-strip/   addressable LED strip variant — same firmware/ + docs/ shape (BOM, Implementation-Summary, USER-GUIDE, TROUBLESHOOTING)
 host/        Python CLI (`andon-light`) — talks to either variant's firmware over USB serial, unmodified
 hooks/       Claude Code hook config that drives the CLI automatically, unmodified regardless of variant
+docs/        Cross-variant docs — how to swap which firmware is flashed on the one physical board you have
 ```
+
+Only one firmware variant can be flashed to the board at a time — see [`docs/FLASHING-GUIDE.md`](docs/FLASHING-GUIDE.md) if you want to switch between the bulb and strip firmware (e.g. to test one while normally running the other).
 
 ## Status
 
