@@ -155,7 +155,7 @@ Track progress with the table in §4.2 below — update the Status column as you
 | 2 | Host CLI MVP | 3–5 days | 4–6 hrs | **Done** — installed in a venv, `andon-light doctor` auto-detected the board (VID `0x2E8A` guess confirmed correct via `udevadm`), `andon-light set working/waiting/idle` confirmed end-to-end against real hardware |
 | 3 | Claude Code Hook Integration | 2–3 days | 3–4 hrs | **Done** — merged into `~/.claude/settings.json` (global), `andon-light` on `PATH` via `pipx`. Fine-tuned twice from real-session feedback: expanded to 7 hook events (`SessionStart`, `UserPromptSubmit`, `PreToolUse`, `Notification`, `PermissionRequest`, `PostCompact`, `Stop`), added a 4th LED state (flashing green for compaction), and fixed an `async`-induced ordering race (see §5 Phase 3 and `hooks/README.md`) |
 | 4 | Reliability Pass | ~1 week | 5–6 hrs | **Mostly done (2026-07-07)** — watchdog tuned from real usage, CLI error handling hardened (clean messages + busy-retry, no more raw tracebacks), auto-reconnect found to be N/A given the one-shot-CLI architecture actually built. Remaining: live unplug/replug + long-turn stress test, needs the user present |
-| 5 | Custom PCB | 1–2 weeks (design + fab/ship) | 10–15 hrs | Not Started |
+| 5 | Custom PCB | 1–2 weeks (design + fab/ship) | 10–15 hrs | **On hold (2026-07-11)** — deprioritized in favor of the **led-strip** variant's Phase 5, chosen to go first (see `../../led-strip/docs/Implementation-Summary.md` §6). This variant itself is fully functional and validated (Phases 0-4 all Done) — it's just not the one getting a custom PCB right now. Plan below remains valid if bulb is revisited later. |
 | 6 | Enclosure | ~1 week | 4–6 hrs | Not Started |
 | 7 | Packaging & Distribution | 3–5 days | 4–5 hrs | Not Started — scope expanded 2026-07-08 to explicitly include a one-click cross-platform installer + permission-gated hooks merge (was in the original RFP, just not scoped until now) |
 | 8 | Stretch Goals | Open-ended | — | Backlog |
@@ -223,6 +223,8 @@ Total hands-on effort through Phase 6 is roughly **35–50 hours** — fast part
 - **Blocked by:** Phase 3 end-to-end flow working.
 
 ### Phase 5 — Custom PCB
+
+**Status: On hold (2026-07-11)** — see §4.1. The **led-strip** variant was chosen to go first for a custom PCB, since it reached a fully-validated state (firmware, host CLI, hooks, power all confirmed on real hardware) before this variant's own Phase 5 was picked up. This plan remains valid and ready to resume if the bulb variant is revisited later.
 
 *Est. 1–2 weeks (design + fab/ship) · 10–15 hrs effort*
 
