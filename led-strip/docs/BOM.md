@@ -15,6 +15,8 @@ Every part below is a standard, unrestricted commodity electronic component (mic
 | 5 | 3-pin connector/wire matching the PCBA's header (`S`/`V`/`G`) | 1 | ¥5 | Match the PCBA's actual header type (JST or plain pin header) |
 | 6 | USB-C to USB-A cable (data-capable) | 1 | ¥15 | Confirm it's rated for data transfer, not charge-only — many cheap cables are power-only and won't enumerate as a serial device |
 | 7 | (Optional, only if data-line glitches are observed) 74HCT125 level shifter | 1 | ¥2 | Not needed by default — see `../firmware/README.md` Power note. Buy only if troubleshooting shows a real need. |
+| 8 | (Optional, recommended) 330–470 Ω resistor | 1 | <¥1 | In series on the data line (`GPIO1` → strip `S`), close to the strip end — damps ringing/overshoot on the signal edge. Standard WS2812 wiring practice; cheap enough to include by default. |
+| 9 | (Optional, recommended) Electrolytic capacitor, 100–1000 µF, rated ≥6.3V | 1 | ¥1 | Across `V`/`G`, close to the strip end — buffers the current spikes from 10 LEDs switching at once. **Polarized** — mind the +/− legs when wiring. Standard WS2812 wiring practice; cheap enough to include by default. |
 
 **Phase 1 total: ~¥60 (~$8), plus whatever the PCBA itself cost.** No soldering strictly required beyond the MCU's header pins — everything else plugs together.
 
