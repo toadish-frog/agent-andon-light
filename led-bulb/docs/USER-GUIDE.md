@@ -11,7 +11,7 @@ A companion doc for the "I've never built hardware before" part of this project 
 - **Serial / USB CDC** — a way for the dev board to show up on your computer as a plain "serial port" (like an old-school COM port) over USB, so your Python code can just open it and write/read text, no custom USB driver needed on Linux/macOS.
 - **Watchdog** — a safety timer in the firmware that resets to a known-safe state if it doesn't hear from the host software for too long, so the device fails safely instead of freezing on stale data.
 - **KiCad** — free, open-source software for designing PCBs (used in Phase 2, not needed for Phase 1's breadboard).
-- **PCBA** — "PCB Assembly": a bare PCB with all the components soldered onto it. Fabs like JLCPCB/PCBWay can do this for you from your KiCad files, or you can hand-solder it yourself. You already have one for the 3 status LEDs.
+- **PCBA** — "PCB Assembly": a bare PCB with all the components soldered onto it. A PCB fab/assembly service can do this for you from your KiCad files, or you can hand-solder it yourself. You already have one for the 3 status LEDs.
 
 ## Phase 1 Setup Checklist (Breadboard MVP)
 

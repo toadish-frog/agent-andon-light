@@ -10,12 +10,12 @@
 
 | Part | Recommendation | Why |
 | --- | --- | --- |
-| MCU board | **Waveshare RP2040-Zero** | Native USB (no separate USB-UART chip), thumbnail-sized (23.5×18mm) with castellated pads (easy to hand-solder onto a custom PCB later), USB-C, ~¥30, Waveshare is Shenzhen-based with strong domestic retail presence (Pinduoduo-friendly). Fully supported by Arduino IDE via the same `arduino-pico` board package as the XIAO — one-time setup, then standard Arduino workflow. Bonus: has its own onboard WS2812 RGB LED (GPIO16), so firmware/toolchain can be smoke-tested before wiring anything external. Switched from the originally-proposed Seeed XIAO RP2040 on 2026-07-05 — functionally equivalent, this one's onboard LED and domestic availability edged it out; only firmware-level difference is pin naming (`GPIO0`-style, not XIAO's `D0`-style aliases). |
+| MCU board | **Waveshare RP2040-Zero** | Native USB (no separate USB-UART chip), thumbnail-sized (23.5×18mm) with castellated pads (easy to hand-solder onto a custom PCB later), USB-C, ~¥30. Fully supported by Arduino IDE via the same `arduino-pico` board package as the XIAO — one-time setup, then standard Arduino workflow. Bonus: has its own onboard WS2812 RGB LED (GPIO16), so firmware/toolchain can be smoke-tested before wiring anything external. Switched from the originally-proposed Seeed XIAO RP2040 on 2026-07-05 — functionally equivalent, this one's onboard LED edged it out; only firmware-level difference is pin naming (`GPIO0`-style, not XIAO's `D0`-style aliases). |
 | Status LEDs | **Custom PCBA, 3x discrete LED bulbs** (Red/Yellow/Green), wired to the MCU via a 4-pin connector (`GND`, `Red`, `Yellow`, `Green`) | Swapped from an addressable WS2812B strip on 2026-07-07 — user already has this custom PCBA in hand. Each bulb is its own simple on/off GPIO output instead of a single-wire addressable protocol; current-limiting resistors for each bulb live on the PCBA itself, not as separate breadboard parts. Simpler to drive (`digitalWrite`, no timing-sensitive protocol) at the cost of losing full-RGB/animatable color — fine here since the product only ever needs 3 fixed colors. |
 | Cable / connector | 4-conductor wire or JST-style connector matching the PCBA's header, plus USB-C to USB-A cable (data-capable) to the host | 4 wires (`GND`+3 signal) from MCU GPIOs to the PCBA; USB-C carries power+serial to the host computer. |
-| Enclosure (Phase 2) | 3D-printed or laser-cut diffuser + base | Cheap to iterate on locally or via a Chinese print-on-demand service. |
+| Enclosure (Phase 2) | 3D-printed or laser-cut diffuser + base | Cheap to iterate on locally or via a print-on-demand service. |
 
-No part on this list is export-restricted or unusual — it's a commodity microcontroller and commodity LEDs, the same components used in countless hobbyist keyboards and lamps. Anyone sourcing on SZLCSC/JLCPCB/Pinduoduo will find all of it without issue.
+No part on this list is export-restricted or unusual — it's a commodity microcontroller and commodity LEDs, the same components used in countless hobbyist keyboards and lamps.
 
 ### Firmware
 
@@ -134,7 +134,7 @@ agent-andon-light/
 Not Scrum, not pure waterfall — a hybrid that fits a solo builder mixing hardware and software:
 
 - **Phase-gated** because hardware forces real sequential dependencies a sprint board can't paper over — you can't do Phase 5 (custom PCB) before Phase 1–4 prove the firmware/host/hook logic actually works, and you can't do anything in a phase until the parts for it have physically arrived. That's a waterfall trait, and pretending otherwise just creates rework.
-- **Kanban, not fixed sprints,** within and across phases — because the two things that block you (a Pinduoduo shipment, a JLCPCB fab run) don't respect a 2-week sprint boundary. A single-piece-flow board (`Backlog → In Progress → Blocked (shipping/fab) → Done`) reflects reality better than committing to sprint goals you can't control the input to.
+- **Kanban, not fixed sprints,** within and across phases — because the two things that block you (a parts shipment, a PCB fab run) don't respect a 2-week sprint boundary. A single-piece-flow board (`Backlog → In Progress → Blocked (shipping/fab) → Done`) reflects reality better than committing to sprint goals you can't control the input to.
 - **Agile-style short feedback loops *within* each phase** — each phase is still scoped to end in something you can see or hold (a blinking LED, a working CLI call, a live Claude Code demo), rather than batching all design work before any hands-on testing.
 
 Track progress with the table in §4.2 below — update the Status column as you go. Treat it as a living tracker, not a commitment device.
@@ -142,15 +142,15 @@ Track progress with the table in §4.2 below — update the Status column as you
 ### Timeline Assumptions
 
 - Solo, part-time hobbyist pace (~5–8 hours/week) — you said "learn as I build," so estimates include a first-timer's learning curve on Arduino and (later) KiCad, not an experienced maker's pace.
-- Pinduoduo shipping: ~1–5 days domestic (varies by seller), SZLCSC ~1–3 days domestic.
-- JLCPCB (嘉立创 / Jiālìchuàng) fab + domestic shipping: ~1 week for a standard (non-expedited) small-batch order — noticeably faster than the international-shipping estimate this replaced, now that sourcing is all domestic.
+- Parts shipping: ~1–5 days (varies by supplier).
+- PCB fab + shipping: ~1 week for a standard (non-expedited) small-batch order — noticeably faster than the original international-shipping estimate this replaced.
 - **Kickoff: 2026-07-05** (today).
 
 ### 4.1 Roadmap Tracking Table
 
 | Phase | Goal | Est. Duration (elapsed) | Est. Effort | Status |
 | --- | --- | --- | --- | --- |
-| 0 | Research & Order Parts | 3–7 days (domestic shipping is fast) | 3–5 hrs | **Done** — RP2040-Zero + custom LED PCBA in hand, soldered and wired |
+| 0 | Research & Order Parts | 3–7 days (shipping is fast) | 3–5 hrs | **Done** — RP2040-Zero + custom LED PCBA in hand, soldered and wired |
 | 1 | Breadboard MVP (firmware only) | ~1 week | 5–8 hrs | **Done** — flashed to real hardware 2026-07-07; `G`/`Y`/`R` confirmed correct on the physical bulbs, watchdog stale-pulse confirmed (drops to breathing red after ~15–18s with no heartbeat) |
 | 2 | Host CLI MVP | 3–5 days | 4–6 hrs | **Done** — installed in a venv, `andon-light doctor` auto-detected the board (VID `0x2E8A` guess confirmed correct via `udevadm`), `andon-light set working/waiting/idle` confirmed end-to-end against real hardware |
 | 3 | Claude Code Hook Integration | 2–3 days | 3–4 hrs | **Done** — merged into `~/.claude/settings.json` (global), `andon-light` on `PATH` via `pipx`. Fine-tuned twice from real-session feedback: expanded to 7 hook events (`SessionStart`, `UserPromptSubmit`, `PreToolUse`, `Notification`, `PermissionRequest`, `PostCompact`, `Stop`), added a 4th LED state (flashing green for compaction), and fixed an `async`-induced ordering race (see §5 Phase 3 and `hooks/README.md`) |
@@ -165,7 +165,7 @@ Track progress with the table in §4.2 below — update the Status column as you
 - **Working breadboard MVP**, hooked into a live Claude Code session (Phases 0–4): ~4 weeks from kickoff → around **2026-08-02**.
 - **Finished v1** with custom PCB + enclosure (Phases 0–6): ~6–7 weeks from kickoff → around **2026-08-23**.
 
-Total hands-on effort through Phase 6 is roughly **35–50 hours** — domestic sourcing (Pinduoduo + SZLCSC/JLCPCB) cuts several weeks off the original international-shipping estimate, so elapsed time now tracks closer to actual effort than to logistics waits. These dates will still drift; re-baseline them once Phase 0 parts actually land, since that's the first real signal on your actual pace.
+Total hands-on effort through Phase 6 is roughly **35–50 hours** — fast parts and PCB fab turnaround cuts several weeks off the original international-shipping estimate, so elapsed time now tracks closer to actual effort than to logistics waits. These dates will still drift; re-baseline them once Phase 0 parts actually land, since that's the first real signal on your actual pace.
 
 ---
 
@@ -173,12 +173,12 @@ Total hands-on effort through Phase 6 is roughly **35–50 hours** — domestic 
 
 ### Phase 0 — Research & Order Parts
 
-*Est. 3–7 days elapsed (domestic shipping) · 3–5 hrs effort*
+*Est. 3–7 days elapsed (shipping) · 3–5 hrs effort*
 
 - Install Arduino IDE 2.x; add the `arduino-pico` board-manager URL; install the RP2040 board package (no LED library needed — 3 discrete bulbs are driven with plain `digitalWrite`/`analogWrite`).
-- Order the Phase 1 BOM from Pinduoduo (`BOM.md`).
+- Order the Phase 1 BOM (`BOM.md`).
 - **Deliverable:** parts in transit, dev environment ready to go the moment they arrive.
-- **Done ahead of schedule while parts ship:** the Phase 1 firmware sketch, Phase 2 host CLI, and Phase 3 hooks config were all written now, since none of them needed hardware to write — see `firmware/`, `host/`, `hooks/`. Still outstanding for Phase 0 itself: installing Arduino IDE and actually placing the Pinduoduo order.
+- **Done ahead of schedule while parts ship:** the Phase 1 firmware sketch, Phase 2 host CLI, and Phase 3 hooks config were all written now, since none of them needed hardware to write — see `firmware/`, `host/`, `hooks/`. Still outstanding for Phase 0 itself: installing Arduino IDE and actually placing the parts order.
 
 ### Phase 1 — Breadboard MVP (firmware only)
 
@@ -228,8 +228,8 @@ Total hands-on effort through Phase 6 is roughly **35–50 hours** — domestic 
 
 - Learn just enough KiCad to place the RP2040-Zero and route it to the LED PCBA's connector (or integrate the 3 discrete LEDs + resistors directly onto one board, if consolidating).
 - Route a 2-layer board; run DRC; export Gerbers.
-- Send CAD to **JLCPCB (嘉立创 / Jiālìchuàng)**; order 5–10 boards (see `BOM.md` for the sourcing split between JLCPCB fab and SZLCSC/Pinduoduo components).
-- Hand-solder (or use JLCPCB assembly service if parts were sourced via SZLCSC).
+- Send CAD to a PCB fab service; order 5–10 boards (see `BOM.md` for the parts list).
+- Hand-solder (or use the fab's assembly service, if you want them to place and solder the SMD parts for you).
 - **Deliverable:** first real PCBA.
 - **Blocked by:** Phase 4 firmware/protocol being stable — don't lock in a PCB layout around a protocol that's still changing.
 
@@ -238,7 +238,7 @@ Total hands-on effort through Phase 6 is roughly **35–50 hours** — domestic 
 *Est. ~1 week · 4–6 hrs effort*
 
 - Design a simple diffuser + base (3D-printable or laser-cut).
-- Prototype locally if you have access to a printer, or ride along with the JLCPCB order's add-on services.
+- Prototype locally if you have access to a printer, or ride along with the PCB order's add-on services, if the fab offers them.
 - **Deliverable:** looks like a product, not a breadboard.
 - **Blocked by:** Phase 5 PCB dimensions being final (the enclosure has to fit the actual board).
 

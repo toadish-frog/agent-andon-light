@@ -28,11 +28,30 @@ Change the pin in `andon_light_firmware_strip.ino` by editing `kDataPin` if you 
 
 Pull `V` from the RP2040-Zero's `5V`/`VBUS` pin, not `3V3` — WS2812-style LEDs are rated for ~5V and 10 of them can draw meaningfully more current than the 3 discrete bulbs did. The data line itself runs at 3.3V logic from the RP2040, which most WS2812 clones tolerate fine at short (<~30cm) wire lengths; if you see flicker or wrong colors, the usual fix is a level shifter (e.g. 74HCT125) on the data line, or shortening the wire run. Firmware caps brightness at `kBrightness = 130/255` in `led_controller.cpp` (see the comment there) to keep both current draw and eye comfort reasonable — raise it if the strip is diffused behind a cover.
 
+## Pixel layout: addressable sections, not one solid color
+
+Unlike a first-pass version of this firmware (which used `strip.fill()` to set all 10 pixels to the same color — visually correct-ish, but not actually andon-light behavior, which communicates state by *which* lamp is lit), each color owns a dedicated sub-range of the strip:
+
+```txt
+pixel:   1        2  3  4        5  6  7        8  9  10
+role:    status    green section    yellow section    red section
+color:   dim white 0,255,0 (G)      255,255,0 (Y)      255,0,0 (R)
+```
+
+- **Pixel 1 is always dim white**, regardless of state — it's a "board is powered and firmware is running" indicator, separate from the G/Y/R state color. It stays lit through every state, including `Off`.
+- **`G`** lights pixels 2-4 green; pixels 5-10 go dark.
+- **`Y`** lights pixels 5-7 yellow; pixels 2-4 and 8-10 go dark.
+- **`R`** lights pixels 8-10 red; pixels 2-7 go dark.
+- **`StalePulse`** (watchdog timeout) breathes the red section (8-10), same cosine curve as before, just confined to that section instead of the whole strip.
+- **`CompactFlash`** blinks the green section (2-4) on/off, same square-wave as before, confined to that section.
+
+See `led_controller.cpp`'s `kGreenStart`/`kYellowStart`/`kRedStart`/`kStatusPixel` constants and `led-strip/docs/Implementation-Summary.md` "Addressable pixel layout" for the full reasoning.
+
 ## Flash & test
 
 1. Select "Waveshare RP2040-Zero" as the board, then flash.
 2. Open the Serial Monitor at 115200 baud, line ending "Newline".
-3. Type `G`, `Y`, `R` and press enter — confirm all 10 LEDs light up the same solid color together. To test the stale-pulse fallback without waiting the full 30 minutes, temporarily lower `kWatchdogTimeoutMs` (e.g. to `15000`), flash, confirm the slow red breathing pulse kicks in after that shorter wait, then change it back to `1800000` and reflash.
+3. Before sending anything, confirm pixel 1 alone is dim white and pixels 2-10 are dark (boot state). Then type `G`, `Y`, `R` and press enter after each — confirm only that color's 3-pixel section lights up (pixels 2-4 / 5-7 / 8-10 respectively) while the rest of the strip (other than the status pixel) stays dark. To test the stale-pulse fallback without waiting the full 30 minutes, temporarily lower `kWatchdogTimeoutMs` (e.g. to `15000`), flash, confirm the slow red breathing pulse kicks in on pixels 8-10 after that shorter wait, then change it back to `1800000` and reflash.
 
 ## Status: not yet flashed/tested on real hardware
 
@@ -41,10 +60,10 @@ Written against the same protocol and `LightColor` semantics as the validated bu
 ## Wire protocol (identical to the bulb variant)
 
 ```txt
-G\n   → all 10 pixels solid green    (agent working)
-Y\n   → all 10 pixels solid yellow   (waiting for human input / permission)
-R\n   → all 10 pixels solid red      (idle / stopped / quota reached)
-C\n   → all 10 pixels flashing green (compacting — internal maintenance, still alive)
+G\n   → pixels 2-4 solid green, rest dark (except status pixel)   (agent working)
+Y\n   → pixels 5-7 solid yellow, rest dark (except status pixel)  (waiting for human input / permission)
+R\n   → pixels 8-10 solid red, rest dark (except status pixel)    (idle / stopped / quota reached)
+C\n   → pixels 2-4 flashing green, rest dark (except status pixel) (compacting — internal maintenance, still alive)
 H\n   → heartbeat (no color change, resets watchdog)
 ```
 

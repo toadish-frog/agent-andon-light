@@ -18,5 +18,10 @@ class LedController {
   LightColor current_ = LightColor::Off;
   uint32_t pulsePhaseStartMs_ = 0;
 
-  void showSolid(uint8_t r, uint8_t g, uint8_t b);
+  // Lights pixels [sectionStart, sectionStart + sectionCount) to (r,g,b) and every other
+  // non-status pixel off, then always re-asserts the dim-white status pixel on top. This is
+  // the single render path for every state (solid colors call it directly; StalePulse/
+  // CompactFlash call it once per update() with a time-varying color) so the status pixel and
+  // "everything outside the active section is off" behavior can't drift between states.
+  void renderSection(uint16_t sectionStart, uint16_t sectionCount, uint8_t r, uint8_t g, uint8_t b);
 };

@@ -9,7 +9,7 @@ Copy-paste each command block into a terminal. Read the **What it tells you** li
 Jump to the matching section:
 
 - Light is completely dark / unresponsive → [Step 1](#step-1-is-the-board-running-firmware-at-all)
-- Some pixels light up but not others, or colors look wrong/dim/flickery → [Step 3.5](#step-35-strip-specific-flicker-wrong-colors-or-partial-lighting)
+- Colors look wrong/flickery, or the *lit* section itself looks broken/garbled (not just other sections being dark, which is normal) → [Step 3.5](#step-35-strip-specific-flicker-wrong-colors-or-unexpected-partial-lighting)
 - Light is on but the wrong color, or stuck → [Step 4](#step-4-is-the-hook-config-correct)
 - `andon-light` command fails or errors → [Step 2](#step-2-is-the-device-reachable-by-the-host-cli)
 - Something worked once but broke after unplugging/replugging → [Step 1](#step-1-is-the-board-running-firmware-at-all)
@@ -94,13 +94,16 @@ Check the exit code explicitly if the message scrolled past:
 andon-light set idle; echo "exit code: $?"
 ```
 
-## Step 3.5: strip-specific — flicker, wrong colors, or partial lighting
+## Step 3.5: strip-specific — flicker, wrong colors, or unexpected partial lighting
 
 This step doesn't exist in the bulb variant's playbook — discrete on/off bulbs can't exhibit these symptoms, but an addressable strip can, because it depends on precise data timing and adequate power, not just an on/off signal.
 
-- **Only some pixels light up, or the color is right on the first few and garbage/dark on the rest** → classic symptom of a data-line signal integrity problem. The RP2040 drives `S` at 3.3V logic; most WS2812 clones tolerate this at short wire runs, but a marginal connection, a long wire, or a clone with tighter timing margins can lose sync partway down the chain. Try: shortening the `S` wire, checking the connector crimp/solder joint, or adding a 74HCT125 level shifter (see `BOM.md` item #7) between `GPIO1` and `S`.
+**First, rule out the obvious non-bug: partial lighting is the design, not a fault.** Since the pixel-layout refinement, `G`/`Y`/`R` each light only their own 3-pixel section (2-4 / 5-7 / 8-10) plus the always-on dim-white status pixel (1) — see `../firmware/README.md` "Pixel layout: addressable sections, not one solid color." Seeing 7 pixels dark while `G` is active is correct behavior, not a symptom. The signal/power problems below produce a different, distinguishable pattern: pixels *within* the active section itself are wrong (some lit, some not, or garbled color), or the pattern doesn't match any valid section boundary at all.
+
+- **Within the active section, some pixels light up correctly and the rest are garbage/dark (not just "the other two sections are off," but the lit section itself looks broken)** → classic symptom of a data-line signal integrity problem. The RP2040 drives `S` at 3.3V logic; most WS2812 clones tolerate this at short wire runs, but a marginal connection, a long wire, or a clone with tighter timing margins can lose sync partway down the chain. Try: shortening the `S` wire, checking the connector crimp/solder joint, or adding a 74HCT125 level shifter (see `BOM.md` item #7) between `GPIO1` and `S`.
 - **Colors look dim, wrong hue, or the board browns-out/resets when the light comes on** → check `V` is wired to the MCU's `5V`/`VBUS` pin, not `3V3` (a common miswiring since `3V3` is often the more prominent pin on breakout diagrams). 10 addressable LEDs draw meaningfully more current than `3V3` regulators on small dev boards are meant to supply. See `../firmware/README.md` "Power note."
-- **Nothing lights up at all, but `andon-light set idle` returns exit code 0** → confirm `kDataPin` in `andon_light_firmware_strip.ino` actually matches the GPIO you wired to `S`. Unlike the bulb variant (where a wrong pin still toggles *some* GPIO, just not the one you're watching), a wrong data pin on the strip means zero pixels get valid data at all — check the pin, not the LEDs.
+- **Nothing lights up at all — not even the pixel-1 status light — but `andon-light set idle` returns exit code 0** → confirm `kDataPin` in `andon_light_firmware_strip.ino` actually matches the GPIO you wired to `S`. Unlike the bulb variant (where a wrong pin still toggles *some* GPIO, just not the one you're watching), a wrong data pin on the strip means zero pixels get valid data at all — check the pin, not the LEDs. (If pixel 1 alone is lit dim white but sections 2-10 stay dark no matter which command you send, that's not a data-pin problem — see Step 3 first, the command may not be reaching the board at all.)
+- **The lit pixels don't line up with pixel 1 / 2-4 / 5-7 / 8-10 at all** (e.g. a `G` command lights pixels 4-6 instead of 2-4) → the strip's physical pixel 1 may not correspond to the firmware's index-0 pixel. Addressable strips have a data-in end and a data-out end; if `S` is wired to the wrong end, or the PCBA numbers its pixels in the opposite direction from the firmware's assumption, every section shifts. Check which end of the strip PCBA is silkscreened as the data input and confirm `S` is wired there.
 - **Still stuck?** Confirm the Adafruit_NeoPixel library is actually installed (Arduino IDE → Tools → Manage Libraries... → search "Adafruit NeoPixel") — a missing library shows as a compile error, not a runtime symptom, but it's worth ruling out if you're not sure the last flash actually succeeded.
 
 ## Step 4: is the hook config correct?
@@ -126,10 +129,10 @@ This step is identical regardless of variant — the hook config has no idea whi
 ## Step 5: manually simulate what a hook would do
 
 ```txt
-andon-light set working    # should go solid green, all 10 pixels
-andon-light set waiting    # should go solid yellow, all 10 pixels
-andon-light set idle       # should go solid red, all 10 pixels
-andon-light set compacting # should go flashing green, all 10 pixels
+andon-light set working    # pixels 2-4 solid green (rest dark except pixel 1)
+andon-light set waiting    # pixels 5-7 solid yellow (rest dark except pixel 1)
+andon-light set idle       # pixels 8-10 solid red (rest dark except pixel 1)
+andon-light set compacting # pixels 2-4 flashing green (rest dark except pixel 1)
 ```
 
 If all four work correctly by hand but the light doesn't react during an actual Claude Code session, the problem is in the hook config (Step 4) or Claude Code not having picked it up yet — not in the hardware or CLI.

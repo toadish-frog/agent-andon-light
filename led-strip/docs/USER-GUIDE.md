@@ -4,7 +4,7 @@ Companion to `../../led-bulb/docs/USER-GUIDE.md` — read that one first for the
 
 ## Glossary additions (strip-specific terms)
 
-- **Addressable LED / WS2812** — unlike a discrete LED (plain on/off via one GPIO), an addressable LED is controlled over a single data wire using a precise timed protocol, and many can be daisy-chained on that one wire. This project drives 10 of them, all set to the same color at once (no per-pixel effects), so from across the room it looks and behaves just like the bulb variant.
+- **Addressable LED / WS2812** — unlike a discrete LED (plain on/off via one GPIO), an addressable LED is controlled over a single data wire using a precise timed protocol, and many can be daisy-chained on that one wire, each individually settable to its own color. This project uses that per-pixel control to split the 10-pixel strip into dedicated sections — see "Pixel layout" below — rather than setting every pixel to the same color at once.
 - **NeoPixel** — Adafruit's name for WS2812-family addressable LEDs, and the name of the Arduino library (`Adafruit_NeoPixel`) used to drive them — see `../firmware/README.md`.
 - **Data line / signal timing** — WS2812 LEDs read color data as a sequence of precisely-timed pulses (roughly 800kHz). This is too fast and too precise for plain `digitalWrite` loops to produce reliably, which is why this variant needs the NeoPixel library where the bulb variant didn't need any library at all.
 
@@ -14,7 +14,26 @@ Companion to `../../led-bulb/docs/USER-GUIDE.md` — read that one first for the
 2. In Arduino IDE → Preferences → "Additional Board Manager URLs", add the `arduino-pico` board package URL, then install "Raspberry Pi Pico/RP2040" boards via the Boards Manager — select "Waveshare RP2040-Zero" as the board when flashing.
 3. **Install the Adafruit NeoPixel library** (Tools → Manage Libraries... → search "Adafruit NeoPixel" → Install). Only needed for this variant, not the bulb one.
 4. Wire the PCBA (see "Wiring the LED Strip PCBA" below): PCBA `G` → board `GND`, PCBA `V` → board `5V`/`VBUS` (not `3V3`), PCBA `S` → one board GPIO pin (note it in the sketch — the firmware defaults to `GPIO1`, a placeholder to confirm against your actual wiring).
-5. Flash the sketch, open the Serial Monitor, send `G`, `Y`, `R` as single characters — confirm all 10 LEDs light up together in the same solid color.
+5. Flash the sketch, open the Serial Monitor. Before sending anything, confirm pixel 1 alone is lit dim white (boot state — see "Pixel layout" below). Then send `G`, `Y`, `R` as single characters — confirm each one lights only its own 3-pixel section (2-4 / 5-7 / 8-10), not the whole strip.
+
+## Pixel layout
+
+The strip is addressable, so each state lights a dedicated sub-range instead of the whole strip:
+
+```txt
+pixel:   1           2   3   4     5   6   7      8   9   10
+role:    status       green section    yellow section    red section
+lit by:  always on    G / C (flash)    Y                  R / stale-pulse
+```
+
+- **Pixel 1** is a dim white "board is powered and running" indicator — it's on in every state, including right after boot before any command has been sent.
+- **`G`** → pixels 2-4 solid green (pixels 5-10 dark, except pixel 1).
+- **`Y`** → pixels 5-7 solid yellow (pixels 2-4 and 8-10 dark, except pixel 1).
+- **`R`** → pixels 8-10 solid red (pixels 2-7 dark, except pixel 1).
+- **Compacting** → pixels 2-4 flash green (same section as `G`, blinking instead of solid).
+- **Stale/watchdog timeout** → pixels 8-10 breathe red (same section as `R`, pulsing instead of solid).
+
+If you see all 10 pixels the same color at once, that's the old (pre-refinement) firmware behavior — reflash from the current `led-strip/firmware/` source to get the sectioned layout described above.
 
 ## Wiring the LED Strip PCBA
 
@@ -45,4 +64,4 @@ Simpler in wire count than the bulb variant (3 wires instead of 4) but more sens
 
 ## Quick Reference: Wire Protocol
 
-Identical to the bulb variant — see `../../led-bulb/docs/USER-GUIDE.md` "Quick Reference: Wire Protocol" and "Hook mapping." The only difference is that each command now drives all 10 pixels to the same state instead of 1-3 discrete GPIOs; the host CLI, hook config, and protocol bytes are byte-for-byte identical.
+Identical to the bulb variant — see `../../led-bulb/docs/USER-GUIDE.md` "Quick Reference: Wire Protocol" and "Hook mapping." The only difference is that each command now drives its own dedicated 3-pixel section of the strip (see "Pixel layout" above) instead of 1-3 discrete GPIOs; the host CLI, hook config, and protocol bytes are byte-for-byte identical.
