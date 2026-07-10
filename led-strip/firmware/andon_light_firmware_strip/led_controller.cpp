@@ -4,7 +4,19 @@
 
 namespace {
 constexpr uint32_t kPulsePeriodMs = 1200;   // StalePulse: slow breathing fade
-constexpr uint32_t kFlashPeriodMs = 500;    // CompactFlash: sharp on/off blink
+
+// CompactFlash: a chase-fill sequence, not a blink. Each pass sweeps a single lit pixel
+// down from silkscreen pixel 10 to pixel 2 (a "chase"), then locks that pass's bottom
+// pixel on before starting the next pass — so pixels accumulate from pixel 2 upward, one
+// per pass, until all 9 non-status pixels are lit, then the whole thing resets and
+// repeats. kCompactPixelCount is all non-status pixels (array indices
+// kGreenStart..kRedStart+kRedCount-1, i.e. 1-9, which are silkscreen pixels 2-10); pass k
+// (array-index terms) sweeps (kCompactPixelCount - k) transient pixels then locks index k,
+// so total steps across all kCompactPixelCount passes is the triangular number
+// kCompactPixelCount + (kCompactPixelCount-1) + ... + 1.
+constexpr uint32_t kCompactStepMs = 120;
+constexpr uint16_t kCompactPixelCount = 9;
+constexpr uint16_t kCompactTotalSteps = kCompactPixelCount * (kCompactPixelCount + 1) / 2;
 
 // Base brightness cap (0-255), applied to every solid/animated color.
 // WS2812 pixels are uncomfortably bright at 255/255 close up, and capping
@@ -74,9 +86,31 @@ void LedController::update() {
     float brightness = 0.5f * (1.0f - cosf(phase * 2.0f * PI));  // 0..1 breathing curve
     renderSection(kRedStart, kRedCount, static_cast<uint8_t>(255 * brightness), 0, 0);
   } else if (current_ == LightColor::CompactFlash) {
-    uint32_t elapsed = (millis() - pulsePhaseStartMs_) % kFlashPeriodMs;
-    bool on = elapsed < (kFlashPeriodMs / 2);  // sharp square-wave blink, not a fade
-    renderSection(kGreenStart, kGreenCount, 0, on ? 255 : 0, 0);
+    uint32_t step = ((millis() - pulsePhaseStartMs_) / kCompactStepMs) % kCompactTotalSteps;
+
+    // Find which pass `step` falls in and the offset within it. Pass k (1-indexed) has
+    // (kCompactPixelCount - k) transient steps followed by 1 lock step, so pass sizes count
+    // down from kCompactPixelCount to 1 as k goes from 1 to kCompactPixelCount.
+    uint16_t offset = step;
+    uint16_t pass = 1;
+    uint16_t passSize = kCompactPixelCount;
+    while (offset >= passSize) {
+      offset -= passSize;
+      pass++;
+      passSize = kCompactPixelCount - pass + 1;
+    }
+    uint16_t numTransient = kCompactPixelCount - pass;
+    bool transientPhase = offset < numTransient;
+    uint16_t filledCount = transientPhase ? (pass - 1) : pass;  // pixels 1..filledCount locked on
+    // Sweep direction is top-down: the topmost unfilled pixel goes first each pass.
+    uint16_t activeIndex = transientPhase ? (kRedStart + kRedCount - 1 - offset) : 0;
+
+    for (uint16_t i = kGreenStart; i <= kRedStart + kRedCount - 1; i++) {
+      bool lit = (i <= filledCount) || (transientPhase && i == activeIndex);
+      strip_.setPixelColor(i, lit ? strip_.Color(0, 255, 0) : 0);
+    }
+    strip_.setPixelColor(kStatusPixel, strip_.Color(kDimWhiteLevel, kDimWhiteLevel, kDimWhiteLevel));
+    strip_.show();
   }
 }
 

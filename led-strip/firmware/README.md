@@ -42,7 +42,7 @@ This wiring — RP2040 off-board via individual jumpers, resistor/capacitor adde
 
 ## Pixel layout: addressable sections, not one solid color
 
-Unlike a first-pass version of this firmware (which used `strip.fill()` to set all 10 pixels to the same color — visually correct-ish, but not actually andon-light behavior, which communicates state by *which* lamp is lit), each color owns a dedicated sub-range of the strip:
+Unlike a first-pass version of this firmware (which used `strip.fill()` to set all 10 pixels to the same color — visually correct-ish, but not actually andon-light behavior, which communicates state by *which* lamp is lit), `G`/`Y`/`R` each own a dedicated 3-pixel sub-range of the strip. `CompactFlash` is the one exception — it animates across all 9 non-status pixels rather than staying inside one section (see below):
 
 ```txt
 pixel:   1        2  3  4        5  6  7        8  9  10
@@ -55,7 +55,7 @@ color:   dim white 0,255,0 (G)      255,255,0 (Y)      255,0,0 (R)
 - **`Y`** lights pixels 5-7 yellow; pixels 2-4 and 8-10 go dark.
 - **`R`** lights pixels 8-10 red; pixels 2-7 go dark.
 - **`StalePulse`** (watchdog timeout) breathes the red section (8-10), same cosine curve as before, just confined to that section instead of the whole strip.
-- **`CompactFlash`** blinks the green section (2-4) on/off, same square-wave as before, confined to that section.
+- **`CompactFlash`** uses all 9 non-status pixels (2-10), not the green section — a chase-fill sequence: a single lit pixel sweeps from pixel 10 down to pixel 2, then locks pixel 2 on; the next sweep goes from 10 down to pixel 3 (skipping the now-locked pixel 2), locks pixel 3, and so on, so pixels accumulate lit from pixel 2 upward, one per pass, until all 9 are lit — then it resets to empty and repeats. See `led_controller.cpp`'s `kCompactPixelCount`/`kCompactStepMs` constants.
 
 See `led_controller.cpp`'s `kGreenStart`/`kYellowStart`/`kRedStart`/`kStatusPixel` constants and `led-strip/docs/Implementation-Summary.md` "Addressable pixel layout" for the full reasoning.
 
@@ -63,11 +63,11 @@ See `led_controller.cpp`'s `kGreenStart`/`kYellowStart`/`kRedStart`/`kStatusPixe
 
 1. Select "Waveshare RP2040-Zero" as the board, then flash.
 2. Open the Serial Monitor at 115200 baud, line ending "Newline".
-3. Before sending anything, confirm pixel 1 alone is dim white and pixels 2-10 are dark (boot state). Then type `G`, `Y`, `R` and press enter after each — confirm only that color's 3-pixel section lights up (pixels 2-4 / 5-7 / 8-10 respectively) while the rest of the strip (other than the status pixel) stays dark. To test the stale-pulse fallback without waiting the full 30 minutes, temporarily lower `kWatchdogTimeoutMs` (e.g. to `15000`), flash, confirm the slow red breathing pulse kicks in on pixels 8-10 after that shorter wait, then change it back to `1800000` and reflash.
+3. Before sending anything, confirm pixel 1 alone is dim white and pixels 2-10 are dark (boot state). Then type `G`, `Y`, `R` and press enter after each — confirm only that color's 3-pixel section lights up (pixels 2-4 / 5-7 / 8-10 respectively) while the rest of the strip (other than the status pixel) stays dark. Type `C` — confirm a single lit pixel chases from pixel 10 down to pixel 2 and locks on, then repeats sweeping down to pixel 3 with pixel 2 still lit, and so on, until all 9 are lit and it resets. To test the stale-pulse fallback without waiting the full 30 minutes, temporarily lower `kWatchdogTimeoutMs` (e.g. to `15000`), flash, confirm the slow red breathing pulse kicks in on pixels 8-10 after that shorter wait, then change it back to `1800000` and reflash.
 
-## Status: not yet flashed/tested on real hardware
+## Status: flashed and confirmed working (2026-07-11)
 
-Written against the same protocol and `LightColor` semantics as the validated bulb variant, but **`kDataPin` and the whole strip path are unconfirmed** — this needs a real flash-and-observe pass before being trusted, per this project's standing rule of validating hardware/timing assumptions against actual behavior rather than reasoning alone.
+`kDataPin = GPIO1` is correct against the real PCBA — `G`/`Y`/`R` all confirmed lighting the correct 3-pixel section on the physical strip, running through the breadboard wiring described above (resistor + capacitor, no level shifter needed). **Not yet exercised:** `C` (CompactFlash) and the watchdog `StalePulse` animation, and the exact brightness/dim-white values (`kBrightness`, `kDimWhiteLevel`) haven't been explicitly evaluated as "right," just observed as functional — see `../docs/Implementation-Summary.md` §5 "Open questions" for what's still outstanding.
 
 ## Wire protocol (identical to the bulb variant)
 
@@ -75,7 +75,7 @@ Written against the same protocol and `LightColor` semantics as the validated bu
 G\n   → pixels 2-4 solid green, rest dark (except status pixel)   (agent working)
 Y\n   → pixels 5-7 solid yellow, rest dark (except status pixel)  (waiting for human input / permission)
 R\n   → pixels 8-10 solid red, rest dark (except status pixel)    (idle / stopped / quota reached)
-C\n   → pixels 2-4 flashing green, rest dark (except status pixel) (compacting — internal maintenance, still alive)
+C\n   → chase-fill across pixels 2-10, one pixel locked on per pass until all 9 are lit, then resets (compacting — internal maintenance, still alive)
 H\n   → heartbeat (no color change, resets watchdog)
 ```
 

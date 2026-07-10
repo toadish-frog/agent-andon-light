@@ -95,4 +95,4 @@ Only one firmware variant can be flashed to the board at a time — see [`docs/F
 
 ## Status
 
-Breadboard MVP is fully working end-to-end on real hardware for the **led-bulb** variant: firmware, host CLI, and Claude Code hooks all validated. See `led-bulb/docs/Implementation-Summary.md` §4.1 for the up-to-date phase-by-phase status. The **led-strip** variant is new firmware written against the same protocol but not yet flashed/tested on physical hardware — see `led-strip/docs/Implementation-Summary.md` for its status.
+Breadboard MVP is fully working end-to-end on real hardware for the **led-bulb** variant: firmware, host CLI, and Claude Code hooks all validated. See `led-bulb/docs/Implementation-Summary.md` §4.1 for the up-to-date phase-by-phase status. The **led-strip** variant is flashed and confirmed working on physical hardware as of 2026-07-11 — core `G`/`Y`/`R` states verified on the real strip; `C`/compacting and the stale-pulse animation, plus host CLI/hooks integration, are still outstanding — see `led-strip/docs/Implementation-Summary.md` for its status.

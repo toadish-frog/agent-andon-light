@@ -23,15 +23,15 @@ The strip is addressable, so each state lights a dedicated sub-range instead of 
 ```txt
 pixel:   1           2   3   4     5   6   7      8   9   10
 role:    status       green section    yellow section    red section
-lit by:  always on    G / C (flash)    Y                  R / stale-pulse
+lit by:  always on    G                Y                  R / stale-pulse
 ```
 
 - **Pixel 1** is a dim white "board is powered and running" indicator — it's on in every state, including right after boot before any command has been sent.
 - **`G`** → pixels 2-4 solid green (pixels 5-10 dark, except pixel 1).
 - **`Y`** → pixels 5-7 solid yellow (pixels 2-4 and 8-10 dark, except pixel 1).
 - **`R`** → pixels 8-10 solid red (pixels 2-7 dark, except pixel 1).
-- **Compacting** → pixels 2-4 flash green (same section as `G`, blinking instead of solid).
 - **Stale/watchdog timeout** → pixels 8-10 breathe red (same section as `R`, pulsing instead of solid).
+- **Compacting** → not confined to the green section like the other states — a single lit pixel chases from pixel 10 down to pixel 2 and locks on, then the next pass sweeps down to pixel 3 (pixel 2 still lit) and locks pixel 3, and so on. Pixels fill in from pixel 2 upward, one per pass, until all 9 non-status pixels are lit, then it resets to empty and repeats — a "still working" progress feel rather than a flat blink.
 
 If you see all 10 pixels the same color at once, that's the old (pre-refinement) firmware behavior — reflash from the current `led-strip/firmware/` source to get the sectioned layout described above.
 

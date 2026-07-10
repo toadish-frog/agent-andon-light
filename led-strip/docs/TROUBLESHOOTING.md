@@ -132,7 +132,7 @@ This step is identical regardless of variant — the hook config has no idea whi
 andon-light set working    # pixels 2-4 solid green (rest dark except pixel 1)
 andon-light set waiting    # pixels 5-7 solid yellow (rest dark except pixel 1)
 andon-light set idle       # pixels 8-10 solid red (rest dark except pixel 1)
-andon-light set compacting # pixels 2-4 flashing green (rest dark except pixel 1)
+andon-light set compacting # chase-fill across pixels 2-10, filling in one pixel per pass until all 9 are lit, then resets
 ```
 
 If all four work correctly by hand but the light doesn't react during an actual Claude Code session, the problem is in the hook config (Step 4) or Claude Code not having picked it up yet — not in the hardware or CLI.
