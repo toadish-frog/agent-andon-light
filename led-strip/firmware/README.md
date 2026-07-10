@@ -28,6 +28,18 @@ Change the pin in `andon_light_firmware_strip.ino` by editing `kDataPin` if you 
 
 Pull `V` from the RP2040-Zero's `5V`/`VBUS` pin, not `3V3` — WS2812-style LEDs are rated for ~5V and 10 of them can draw meaningfully more current than the 3 discrete bulbs did. The data line itself runs at 3.3V logic from the RP2040, which most WS2812 clones tolerate fine at short (<~30cm) wire lengths; if you see flicker or wrong colors, the usual fix is a level shifter (e.g. 74HCT125) on the data line, or shortening the wire run. Firmware caps brightness at `kBrightness = 130/255` in `led_controller.cpp` (see the comment there) to keep both current draw and eye comfort reasonable — raise it if the strip is diffused behind a cover.
 
+### Breadboard wiring (as built, confirmed working 2026-07-11)
+
+The RP2040-Zero's pin spacing doesn't straddle the breadboard's center gap, so it sits beside the breadboard rather than seated in it, connected entirely by individual female-to-male Dupont jumpers:
+
+- **`GND`** and **`5V`/`VBUS`** each get their own Dupont jumper straight from the RP2040 into the breadboard's top two power rails (`−` and `+` respectively). These rails run the full length of the board, so anything downstream can tap either rail at whichever hole is most convenient — no need to route wires back to the RP2040's exact pin location.
+- **330–470 Ω resistor** (BOM item #8) sits in series on the data line only, entirely separate from the power rails: `GPIO1`'s Dupont jumper lands in one empty main-grid column, one resistor leg goes in that same column, the other resistor leg goes in a second, different empty column, and a final Dupont jumper runs from that second column out to the strip's `S` wire. The gap between the two columns is what forces current through the resistor.
+- **100–1000 µF electrolytic capacitor** (BOM item #9, rated ≥6.3V) bridges straight across the `+`/`−` rails, positioned near wherever the strip's own `V`/`G` wires plug in. **Mind polarity** — the leg next to the printed stripe is negative, goes to the `−` rail.
+- **No switch.** The only switch-like part on hand was a small 4-pin momentary tactile pushbutton (the clicky kind with hook-style legs) — unsuitable here since it only connects while physically held down, it doesn't latch on/off. Rather than force it into a role it's not built for, power control is just unplugging the strip's `V` Dupont from the `+` rail by hand when the light needs to be off. This is a deliberate choice, not a placeholder for a switch that's still needed.
+- The strip's own JST→Dupont cable ends plug in last: `V` → `+` rail, `G` → `−` rail, `S` → the resistor's strip-side column (not the `GPIO1`-side one).
+
+This wiring — RP2040 off-board via individual jumpers, resistor/capacitor added, no switch — is what's currently running and has been confirmed stable on real hardware; it replaced an earlier setup where the strip's Dupont-to-JST connection was just taped to a table and prone to working loose under physical movement.
+
 ## Pixel layout: addressable sections, not one solid color
 
 Unlike a first-pass version of this firmware (which used `strip.fill()` to set all 10 pixels to the same color — visually correct-ish, but not actually andon-light behavior, which communicates state by *which* lamp is lit), each color owns a dedicated sub-range of the strip:
