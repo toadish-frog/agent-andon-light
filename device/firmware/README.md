@@ -57,7 +57,7 @@ color:   dim white 0,255,0 (G)      255,255,0 (Y)      255,0,0 (R)
 - **`StalePulse`** (watchdog timeout) breathes the red section (8-10), same cosine curve as before, just confined to that section instead of the whole strip.
 - **`CompactFlash`** uses all 9 non-status pixels (2-10), not the green section — a chase-fill sequence: a single lit pixel sweeps from pixel 10 down to pixel 2, then locks pixel 2 on; the next sweep goes from 10 down to pixel 3 (skipping the now-locked pixel 2), locks pixel 3, and so on, so pixels accumulate lit from pixel 2 upward, one per pass, until all 9 are lit — then it resets to empty and repeats. See `led_controller.cpp`'s `kCompactPixelCount`/`kCompactStepMs` constants.
 
-See `led_controller.cpp`'s `kGreenStart`/`kYellowStart`/`kRedStart`/`kStatusPixel` constants and `led-strip/docs/Implementation-Summary.md` "Addressable pixel layout" for the full reasoning.
+See `led_controller.cpp`'s `kGreenStart`/`kYellowStart`/`kRedStart`/`kStatusPixel` constants and `device/docs/Implementation-Summary.md` "Addressable pixel layout" for the full reasoning.
 
 ## Flash & test
 

@@ -2,7 +2,7 @@
 
 Arduino sketch for the Waveshare RP2040-Zero, implementing the v2 wire protocol from `../docs/Implementation-Summary.md` (`G`/`Y`/`R`/`C`/`H`).
 
-This is the **3-discrete-bulb variant** (Red/Yellow/Green LEDs on a 4-pin connector). For the addressable LED strip variant, see `../../led-strip/firmware/`.
+This is the **3-discrete-bulb variant** (Red/Yellow/Green LEDs on a 4-pin connector). For the addressable LED strip variant, see `../../../device/firmware/`.
 
 ## Setup (once — see `../docs/USER-GUIDE.md` Phase 1 checklist)
 

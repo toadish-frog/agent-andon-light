@@ -2,7 +2,7 @@
 
 *Generated from `.prompt/arch/ARCH-prompt.md`. This is the living reference for the project's tech stack, architecture, structure, and roadmap. Update it as decisions change — treat it as project memory, not a one-time snapshot.*
 
-This is now the **sole** Implementation Summary for the project. Through 2026-07-14 the project carried two parallel hardware tracks — `led-bulb/` (3 discrete LED bulbs) and `led-strip/` (10-LED addressable WS2812 strip) — each with its own doc set. That framing is retired: **led-strip is the only ongoing hardware line**, and the bulb PCBA is preserved as a historical phase (see "Phase 1 — Breadboard MVP" below), archived under [`archive/led-bulb-mvp/`](../archive/led-bulb-mvp/) rather than kept as a second, competing deliverable.
+This is now the **sole** Implementation Summary for the project. Through 2026-07-14 the project carried two parallel hardware tracks — `led-bulb/` (3 discrete LED bulbs) and `led-strip/` (10-LED addressable WS2812 strip) — each with its own doc set. That framing is retired: **the addressable strip is the only ongoing hardware line**, now living at `device/` (renamed from `led-strip/` once "strip" stopped being a meaningful qualifier with no other variant left to disambiguate from), and the bulb PCBA is preserved as a historical phase (see "Phase 1 — Breadboard MVP" below), archived under [`../archive/led-bulb-mvp/`](../archive/led-bulb-mvp/) rather than kept as a second, competing deliverable.
 
 ---
 
@@ -109,7 +109,7 @@ agent-andon-light/
 ├── docs/                        # (retired 2026-07-14 — was cross-variant FLASHING-GUIDE, no longer needed with one firmware)
 ├── host/                        # Python driver package (andon-light CLI) — unmodified since the bulb MVP
 ├── hooks/                       # Claude Code integration (settings.snippet.json + README)
-└── led-strip/                   # the only hardware line
+└── device/                      # the only hardware line
     ├── firmware/
     │   ├── README.md
     │   └── andon_light_firmware_strip/
@@ -175,7 +175,7 @@ Not Scrum, not pure waterfall — a hybrid that fits a solo builder mixing hardw
 
 *Est. ~1 week · 5–8 hrs effort*
 
-**Historical note (2026-07-14):** this phase was completed against the 3-discrete-bulb PCBA, not the WS2812 strip — the strip's own breadboard validation happened later, under what used to be `led-strip/`'s own "companion" doc, and is summarized in Phase 5 below since the strip skipped straight to a custom PCB once the bulb MVP had already proven out firmware/host/hooks. The bulb PCBA's firmware, docs, and wiring notes are preserved at [`../archive/led-bulb-mvp/`](../archive/led-bulb-mvp/) for the full detail (soldering castellated pads, 4-pin wiring, pin confirmation, etc.) — not reproduced here since it's not part of the ongoing deliverable.
+**Historical note (2026-07-14):** this phase was completed against the 3-discrete-bulb PCBA, not the WS2812 strip — the strip's own breadboard validation happened later, under what used to be `led-strip/`'s own "companion" doc (now `device/`), and is summarized in Phase 5 below since the strip skipped straight to a custom PCB once the bulb MVP had already proven out firmware/host/hooks. The bulb PCBA's firmware, docs, and wiring notes are preserved at [`../archive/led-bulb-mvp/`](../archive/led-bulb-mvp/) for the full detail (soldering castellated pads, 4-pin wiring, pin confirmation, etc.) — not reproduced here since it's not part of the ongoing deliverable.
 
 - **Status: Done (2026-07-07).** Flashed to a real Waveshare RP2040-Zero via Arduino IDE. `G`/`Y`/`R` confirmed correct on the physical bulbs; watchdog stale-pulse confirmed (dropped to breathing red after ~15–18s with no heartbeat, before the timeout was later raised to 30 min).
 

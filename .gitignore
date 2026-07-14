@@ -4,21 +4,21 @@
 
 
 # Gerber files
-/led-strip/hardware/manufacturing
+/device/hardware/manufacturing
 
 # KiCAD backup files
-/led-strip/hardware/pcb/andon_light_strip-backups
+/device/hardware/pcb/andon_light_strip-backups
 
 # KiCAD temporary files and personal workspace preferences
-/led-strip/hardware/pcb/_wip*
-/led-strip/hardware/pcb/*.tmp
-/led-strip/hardware/pcb/*-bak
-/led-strip/hardware/pcb/*.bak
-/led-strip/hardware/pcb/*.lck
-/led-strip/hardware/pcb/*.kicad_prl
-/led-strip/hardware/pcb/*.kicad_user
-/led-strip/hardware/pcb/*cache
+/device/hardware/pcb/_wip*
+/device/hardware/pcb/*.tmp
+/device/hardware/pcb/*-bak
+/device/hardware/pcb/*.bak
+/device/hardware/pcb/*.lck
+/device/hardware/pcb/*.kicad_prl
+/device/hardware/pcb/*.kicad_user
+/device/hardware/pcb/*cache
 
 # Auto-save files
-/led-strip/hardware/pcb/_autosave-*
-/led-strip/hardware/pcb/*.autosave
+/device/hardware/pcb/_autosave-*
+/device/hardware/pcb/*.autosave

@@ -1,6 +1,6 @@
 # Host CLI — andon-light
 
-Python driver for the Agent Andon Light. Talks to the firmware (`../led-strip/firmware/`) over USB CDC serial via a simple text wire protocol.
+Python driver for the Agent Andon Light. Talks to the firmware (`../device/firmware/`) over USB CDC serial via a simple text wire protocol.
 
 ## Install
 

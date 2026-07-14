@@ -27,7 +27,7 @@ constexpr uint8_t kBrightness = 130;
 // Pixel layout (0-indexed; silkscreen/BOM label these 1-10). An andon light communicates
 // state by which lamp is lit, not by turning every lamp the same color at once — so each
 // color gets its own dedicated sub-range of the strip instead of using strip.fill() across
-// all 10 pixels. See led-strip/docs/Implementation-Summary.md "Addressable pixel layout".
+// all 10 pixels. See device/docs/Implementation-Summary.md "Addressable pixel layout".
 constexpr uint16_t kStatusPixel = 0;   // pixel 1 — dim white, "board is powered and running"
 constexpr uint16_t kGreenStart = 1;    // pixels 2-4
 constexpr uint16_t kGreenCount = 3;
@@ -53,7 +53,7 @@ void LedController::begin() {
   // Boot to Off (dim-white status pixel only, all sections dark) rather than a solid
   // section color — this is the strip variant's own "board is alive" signal, playing the
   // same role the bulb variant's boot-to-red does, just encoded as the always-on status
-  // pixel instead of a section color. See led-strip/docs/Implementation-Summary.md
+  // pixel instead of a section color. See device/docs/Implementation-Summary.md
   // "Addressable pixel layout" / "Boot behavior differs intentionally" for why.
   setColor(LightColor::Off);
 }

@@ -40,7 +40,7 @@ lit by:  always on    G                Y                  R / stale-pulse
 - **Stale/watchdog timeout** → pixels 8-10 breathe red (same section as `R`, pulsing instead of solid).
 - **Compacting** → not confined to the green section like the other states — a single lit pixel chases from pixel 10 down to pixel 2 and locks on, then the next pass sweeps down to pixel 3 (pixel 2 still lit) and locks pixel 3, and so on. Pixels fill in from pixel 2 upward, one per pass, until all 9 non-status pixels are lit, then it resets to empty and repeats.
 
-If you see all 10 pixels the same color at once, that's old (pre-refinement) firmware — reflash from the current `led-strip/firmware/` source to get the sectioned layout described above.
+If you see all 10 pixels the same color at once, that's old (pre-refinement) firmware — reflash from the current `device/firmware/` source to get the sectioned layout described above.
 
 ## Soldering Pins First
 

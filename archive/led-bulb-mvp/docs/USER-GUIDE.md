@@ -1,6 +1,6 @@
 # User Guide & Reminders: Agent Andon Light
 
-A companion doc for the "I've never built hardware before" part of this project — terminology, setup steps, and pitfalls to remember. Covers the **3-discrete-bulb variant** — for the addressable LED strip variant, see `../../led-strip/docs/USER-GUIDE.md`. See `Implementation-Summary.md` for the architecture/roadmap, and `BOM.md` for parts.
+A companion doc for the "I've never built hardware before" part of this project — terminology, setup steps, and pitfalls to remember. Covers the **3-discrete-bulb variant** — for the addressable LED strip variant, see `../../../device/docs/USER-GUIDE.md`. See `Implementation-Summary.md` for the architecture/roadmap, and `BOM.md` for parts.
 
 ## Glossary (hardware terms used across this project)
 
