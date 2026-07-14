@@ -692,7 +692,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Waveshare_RP2040_Zero:Waveshare-RP2040-Zero"
+		(symbol "Sean:Waveshare-RP2040-Zero"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -716,7 +716,7 @@
 					(justify left top)
 				)
 			)
-			(property "Footprint" "Library:Waveshare RP2040 Zero"
+			(property "Footprint" "Sean:Waveshare RP2040 Zero"
 				(at 30.48 -8.382 0)
 				(effects
 					(font
@@ -3364,7 +3364,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+		(property "Footprint" "Sean:worldsemi-WS2812B-2020-V6"
 			(at 153.67 105.41 0)
 			(effects
 				(font
@@ -3918,7 +3918,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+		(property "Footprint" "Sean:worldsemi-WS2812B-2020-V6"
 			(at 176.53 105.41 0)
 			(effects
 				(font
@@ -4028,7 +4028,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+		(property "Footprint" "Sean:worldsemi-WS2812B-2020-V6"
 			(at 313.69 105.41 0)
 			(effects
 				(font
@@ -4138,7 +4138,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+		(property "Footprint" "Sean:worldsemi-WS2812B-2020-V6"
 			(at 222.25 105.41 0)
 			(effects
 				(font
@@ -4248,7 +4248,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+		(property "Footprint" "Sean:worldsemi-WS2812B-2020-V6"
 			(at 290.83 105.41 0)
 			(effects
 				(font
@@ -4566,7 +4566,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+		(property "Footprint" "Sean:worldsemi-WS2812B-2020-V6"
 			(at 130.81 105.41 0)
 			(effects
 				(font
@@ -4884,7 +4884,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+		(property "Footprint" "Sean:worldsemi-WS2812B-2020-V6"
 			(at 267.97 105.41 0)
 			(effects
 				(font
@@ -4994,7 +4994,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+		(property "Footprint" "Sean:worldsemi-WS2812B-2020-V6"
 			(at 199.39 105.41 0)
 			(effects
 				(font
@@ -5208,7 +5208,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+		(property "Footprint" "Sean:worldsemi-WS2812B-2020-V6"
 			(at 245.11 105.41 0)
 			(effects
 				(font
@@ -5446,7 +5446,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+		(property "Footprint" "Sean:worldsemi-WS2812B-2020-V6"
 			(at 107.95 105.41 0)
 			(effects
 				(font
@@ -5531,7 +5531,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Waveshare_RP2040_Zero:Waveshare-RP2040-Zero")
+		(lib_id "Sean:Waveshare-RP2040-Zero")
 		(at 53.34 114.3 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5560,7 +5560,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Library:Waveshare RP2040 Zero"
+		(property "Footprint" "Sean:Waveshare RP2040 Zero"
 			(at 83.82 122.682 0)
 			(effects
 				(font

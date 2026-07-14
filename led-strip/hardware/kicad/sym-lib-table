@@ -3,6 +3,4 @@
   (lib (name "Device")(type "KiCad")(uri "${KICAD9_SYMBOL_DIR}/Device.kicad_sym")(options "")(descr "Basic devices"))
   (lib (name "LED")(type "KiCad")(uri "${KICAD9_SYMBOL_DIR}/LED.kicad_sym")(options "")(descr "LEDs"))
   (lib (name "power")(type "KiCad")(uri "${KICAD9_SYMBOL_DIR}/power.kicad_sym")(options "")(descr "Power symbols"))
-  (lib (name "andon_light_strip")(type "KiCad")(uri "${KIPRJMOD}/andon_light_strip.kicad_sym")(options "")(descr "Custom parts for the Agent Andon Light LED strip PCB"))
-  (lib (name "Waveshare_RP2040_Zero")(type "KiCad")(uri "${KIPRJMOD}/Waveshare_RP2040_Zero.kicad_sym")(options "")(descr ""))
 )
