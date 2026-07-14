@@ -1,16 +1,16 @@
-# Firmware — Agent Andon Light (LED Strip variant)
+# Firmware — Agent Andon Light
 
-Arduino sketch for the Waveshare RP2040-Zero, implementing the same v2 wire protocol as the bulb variant (`G`/`Y`/`R`/`C`/`H`) — see `../docs/Implementation-Summary.md`.
+Arduino sketch for the Waveshare RP2040-Zero, implementing the wire protocol (`G`/`Y`/`R`/`C`/`H`) documented in `../docs/Implementation-Summary.md`.
 
-This is the **addressable LED strip variant** (WS2812-style strip PCBA, 10 LEDs, 3-pin `S`/`V`/`G` connector). For the 3-discrete-bulb variant, see `../../led-bulb/firmware/`.
+Addressable WS2812-style strip PCBA, 10 LEDs, 3-pin `S`/`V`/`G` connector. An earlier, now-archived interim MVP used 3 discrete bulbs instead — see `../archive/led-bulb-mvp/firmware/` for that history, preserved but not maintained.
 
 ## Dependency: Adafruit_NeoPixel
 
-Unlike the bulb variant (plain `digitalWrite`/`analogWrite`, no library), an addressable WS2812-style strip needs sub-microsecond bit timing that the Arduino core can't produce with ordinary GPIO calls. This sketch uses the **Adafruit_NeoPixel** library (Arduino Library Manager → search "Adafruit NeoPixel" → Install) — the standard, widely-used driver for this exact chip family, with native RP2040/PIO support via `arduino-pico`. This is a deliberate, single new dependency, scoped only to this sketch folder — it does not touch the bulb variant's firmware, the host CLI, or the hooks config at all.
+An addressable WS2812-style strip needs sub-microsecond bit timing that the Arduino core can't produce with ordinary `digitalWrite`/`analogWrite` GPIO calls (which is all the archived bulb MVP needed, with no library at all). This sketch uses the **Adafruit_NeoPixel** library (Arduino Library Manager → search "Adafruit NeoPixel" → Install) — the standard, widely-used driver for this exact chip family, with native RP2040/PIO support via `arduino-pico`.
 
 ## Setup (once)
 
-1. Arduino IDE 2.x, with the `arduino-pico` board package installed (same as the bulb variant).
+1. Arduino IDE 2.x, with the `arduino-pico` board package installed.
 2. Install the **Adafruit NeoPixel** library via Library Manager (Tools → Manage Libraries...).
 3. Open `andon_light_firmware_strip/andon_light_firmware_strip.ino` — Arduino IDE will load `led_controller.h/.cpp` and `watchdog.h` alongside it as tabs.
 
@@ -22,7 +22,7 @@ The status light is a custom PCBA with a 10-LED addressable strip and a 3-pin co
 - PCBA `V` ← board `5V`/`VBUS` (**not** `3V3` — see Power note below)
 - PCBA `S` ← `GPIO1`
 
-Change the pin in `andon_light_firmware_strip.ino` by editing `kDataPin` if you wire it differently. **`GPIO1` is a placeholder, unconfirmed against real hardware** — confirm it against your PCBA's actual silkscreen labels before trusting it, same as the bulb variant's pins were before they were validated on real hardware.
+Change the pin in `andon_light_firmware_strip.ino` by editing `kDataPin` if you wire it differently. `GPIO1` is confirmed correct against the real breadboard-wired PCBA (see "Status" below) — still worth double-checking against your own board's silkscreen labels if you rewire it.
 
 ### Power note
 
@@ -69,7 +69,7 @@ See `led_controller.cpp`'s `kGreenStart`/`kYellowStart`/`kRedStart`/`kStatusPixe
 
 `kDataPin = GPIO1` is correct against the real PCBA — `G`/`Y`/`R` all confirmed lighting the correct 3-pixel section on the physical strip, running through the breadboard wiring described above (resistor + capacitor, no level shifter needed). **Not yet exercised:** `C` (CompactFlash) and the watchdog `StalePulse` animation, and the exact brightness/dim-white values (`kBrightness`, `kDimWhiteLevel`) haven't been explicitly evaluated as "right," just observed as functional — see `../docs/Implementation-Summary.md` §5 "Open questions" for what's still outstanding.
 
-## Wire protocol (identical to the bulb variant)
+## Wire protocol
 
 ```txt
 G\n   → pixels 2-4 solid green, rest dark (except status pixel)   (agent working)
@@ -79,4 +79,4 @@ C\n   → chase-fill across pixels 2-10, one pixel locked on per pass until all 
 H\n   → heartbeat (no color change, resets watchdog)
 ```
 
-Watchdog timeout: 30 minutes, same value and same reasoning as the bulb variant — see `../../led-bulb/firmware/README.md`.
+Watchdog timeout: 30 minutes — see `../docs/Implementation-Summary.md` §2 "Reliability design point" for the reasoning (raised from an initial 15s after real Claude Code sessions showed long tool-call-free thinking stretches false-triggering the stale state).

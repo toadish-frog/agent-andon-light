@@ -1,2 +1,24 @@
 # Prompt
 .prompt
+.claude
+
+
+# Gerber files
+/led-strip/hardware/manufacturing
+
+# KiCAD backup files
+/led-strip/hardware/kicad/andon_light_strip-backups
+
+# KiCAD temporary files and personal workspace preferences
+/led-strip/hardware/kicad/_wip*
+/led-strip/hardware/kicad/*.tmp
+/led-strip/hardware/kicad/*-bak
+/led-strip/hardware/kicad/*.bak
+/led-strip/hardware/kicad/*.lck
+/led-strip/hardware/kicad/*.kicad_prl
+/led-strip/hardware/kicad/*.kicad_user
+/led-strip/hardware/kicad/*cache
+
+# Auto-save files
+/led-strip/hardware/kicad/_autosave-*
+/led-strip/hardware/kicad/*.autosave

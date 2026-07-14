@@ -1,0 +1,6079 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "8a534799-7489-47d6-8065-afa00ac59ea9")
+	(paper "USLegal")
+	(title_block
+		(title "Agent Andon Light -- LED Strip variant, Integrated Board")
+		(date "2026-07-11")
+		(rev "A")
+		(company "Sean Yang")
+	)
+	(lib_symbols
+		(symbol "Device:C"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "C"
+				(at 0.635 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "C"
+				(at 0.635 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0.9652 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Unpolarized capacitor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "cap capacitor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "C_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "C_0_1"
+				(polyline
+					(pts
+						(xy -2.032 0.762) (xy 2.032 0.762)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.032 -0.762) (xy 2.032 -0.762)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "C_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 2.794)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 2.794)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Device:R"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "R"
+				(at 2.032 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "R"
+				(at 0 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at -1.778 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Resistor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "R res resistor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "R_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "R_0_1"
+				(rectangle
+					(start -1.016 -2.54)
+					(end 1.016 2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "R_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "LED:WS2812B"
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 5.08 5.715 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify right bottom)
+				)
+			)
+			(property "Value" "WS2812B"
+				(at 1.27 -5.715 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Footprint" "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm"
+				(at 1.27 -7.62 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf"
+				(at 2.54 -9.525 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(property "Description" "RGB LED with integrated controller"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "RGB LED NeoPixel addressable"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "WS2812B_0_0"
+				(text "RGB"
+					(at 2.286 -4.191 0)
+					(effects
+						(font
+							(size 0.762 0.762)
+						)
+					)
+				)
+			)
+			(symbol "WS2812B_0_1"
+				(polyline
+					(pts
+						(xy 1.27 -2.54) (xy 1.778 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -3.556) (xy 1.778 -3.556)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.286 -1.524) (xy 1.27 -2.54) (xy 1.27 -2.032)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.286 -2.54) (xy 1.27 -3.556) (xy 1.27 -3.048)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.683 -1.016) (xy 3.683 -3.556) (xy 3.683 -4.064)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 4.699 -1.524) (xy 2.667 -1.524) (xy 3.683 -3.556) (xy 4.699 -1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 4.699 -3.556) (xy 2.667 -3.556)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start 5.08 5.08)
+					(end -5.08 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "WS2812B_1_1"
+				(pin input line
+					(at -7.62 0 0)
+					(length 2.54)
+					(name "DIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 7.62 270)
+					(length 2.54)
+					(name "VDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 2.54)
+					(name "VSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 7.62 0 180)
+					(length 2.54)
+					(name "DOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Mechanical:Fiducial"
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "FID"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Fiducial"
+				(at 0 3.175 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Fiducial Marker"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "fiducial marker"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Fiducial*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Fiducial_0_1"
+				(circle
+					(center 0 0)
+					(radius 1.27)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Mechanical:MountingHole"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "H"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MountingHole"
+				(at 0 3.175 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Mounting Hole without connection"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "mounting hole"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "MountingHole*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "MountingHole_0_1"
+				(circle
+					(center 0 0)
+					(radius 1.27)
+					(stroke
+						(width 1.27)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Waveshare_RP2040_Zero:Waveshare-RP2040-Zero"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "WS-RP2040-Zero"
+				(at 30.48 -0.508 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(thickness 0.254)
+						(bold yes)
+					)
+					(justify left top)
+				)
+			)
+			(property "Value" "Waveshare RP2040 Zero"
+				(at -11.684 2.032 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Footprint" "Library:Waveshare RP2040 Zero"
+				(at 30.48 -8.382 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.waveshare.com/wiki/RP2040-Zero?srsltid=AfmBOorN1UXlSk3jXV3RZN3xFhp0tttk_Mw0BzZFhS5Jrp9axvfetlSL#Firmware_Download"
+				(at 30.48 -7.112 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+					(hide yes)
+				)
+			)
+			(property "Description" "Waveshare RP2040 Zero"
+				(at 30.48 -3.302 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+					(hide yes)
+				)
+			)
+			(property "Manufacturer" "Waveshare"
+				(at 30.48 -10.922 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+					(hide yes)
+				)
+			)
+			(property "Manufacturer Part Number" "20187"
+				(at 30.734 -5.334 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+					(hide yes)
+				)
+			)
+			(property "Distributor Link" "https://item.szlcsc.com/6136910.html?fromZone=s_s__%2522RP2040%2520zero%2522&spm=sc.gbn.xh1.zy.n___sc.hm.hst.1&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D&alichlgref=https%3A%2F%2Fso.szlcsc.com%2F"
+				(at 30.734 -14.732 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+					(hide yes)
+				)
+			)
+			(property "LCSC" "C5350143"
+				(at 30.48 -12.7 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+					(hide yes)
+				)
+			)
+			(symbol "Waveshare-RP2040-Zero_0_0"
+				(pin bidirectional line
+					(at -16.51 11.43 0)
+					(length 2.54)
+					(name "GP0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -16.51 8.89 0)
+					(length 2.54)
+					(name "GP1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -16.51 6.35 0)
+					(length 2.54)
+					(name "GP2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -16.51 3.81 0)
+					(length 2.54)
+					(name "GP3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -16.51 1.27 0)
+					(length 2.54)
+					(name "GP4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -16.51 -1.27 0)
+					(length 2.54)
+					(name "GP5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -16.51 -3.81 0)
+					(length 2.54)
+					(name "GP6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -16.51 -8.89 0)
+					(length 2.54)
+					(name "GP8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -1.27 15.24 270)
+					(length 2.54)
+					(name "3V3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "21"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 16.51 11.43 180)
+					(length 2.54)
+					(name "GP29"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "20"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 16.51 8.89 180)
+					(length 2.54)
+					(name "GP28"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 16.51 6.35 180)
+					(length 2.54)
+					(name "GP27"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 16.51 3.81 180)
+					(length 2.54)
+					(name "GP26"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 16.51 1.27 180)
+					(length 2.54)
+					(name "GP15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 16.51 -1.27 180)
+					(length 2.54)
+					(name "GP14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 16.51 -3.81 180)
+					(length 2.54)
+					(name "GP13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 16.51 -6.35 180)
+					(length 2.54)
+					(name "GP12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 16.51 -8.89 180)
+					(length 2.54)
+					(name "GP11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 16.51 -11.43 180)
+					(length 2.54)
+					(name "GP10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "Waveshare-RP2040-Zero_1_0"
+				(pin bidirectional line
+					(at -16.51 -6.35 0)
+					(length 2.54)
+					(name "GP7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -16.51 -11.43 0)
+					(length 2.54)
+					(name "GP9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -15.24 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "22"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 1.27 15.24 270)
+					(length 2.54)
+					(name "5V"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "23"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "Waveshare-RP2040-Zero_1_1"
+				(rectangle
+					(start -13.97 12.7)
+					(end 13.97 -12.7)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "power:PWR_FLAG"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#FLG"
+				(at 0 1.905 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "PWR_FLAG"
+				(at 0 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Special symbol for telling ERC where power comes from"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "flag power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "PWR_FLAG_0_0"
+				(pin power_out line
+					(at 0 0 90)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(text "LED Light Strip"
+		(exclude_from_sim no)
+		(at 204.216 65.532 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+				(bold yes)
+			)
+		)
+		(uuid "72dbd8a6-cd61-4816-9528-c74fbb90403f")
+	)
+	(text "Waveshare RP2040 Zero is powered by USB connector"
+		(exclude_from_sim no)
+		(at 28.956 82.804 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "78d45707-aac2-45f7-b176-6f09f8dbbe92")
+	)
+	(text "Waveshare RP2040 Zero"
+		(exclude_from_sim no)
+		(at 55.118 80.01 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+				(bold yes)
+			)
+		)
+		(uuid "c70d0181-3138-426e-b987-731d9ac3520c")
+	)
+	(junction
+		(at 186.69 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0211538f-2485-41a2-8e01-8b4dfaee0235")
+	)
+	(junction
+		(at 146.05 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "083ed41a-ed6c-4d17-b088-2e223bbfc05f")
+	)
+	(junction
+		(at 260.35 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "12344891-27f0-4ca2-8983-4654778f92fc")
+	)
+	(junction
+		(at 232.41 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1bd65af7-4ce2-400b-815e-8e297dfe33f5")
+	)
+	(junction
+		(at 214.63 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "23cb3b94-96d4-4792-93a7-ad65ed522253")
+	)
+	(junction
+		(at 313.69 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "271444b4-58dd-4fd3-b247-0e71feb90985")
+	)
+	(junction
+		(at 153.67 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2eff4bee-88f6-4d22-9313-a387a107fd40")
+	)
+	(junction
+		(at 255.27 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3596605f-5821-43a1-bc8f-835de1f5483c")
+	)
+	(junction
+		(at 245.11 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3637949f-3fa8-4831-92ce-6974d97461c8")
+	)
+	(junction
+		(at 209.55 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3a288ffb-8e72-4db1-9a02-a6a283646957")
+	)
+	(junction
+		(at 176.53 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4617d546-657e-4acd-bf5c-af9792c63b12")
+	)
+	(junction
+		(at 153.67 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4797c5b7-8563-4b0c-af59-fe73fd4c54fa")
+	)
+	(junction
+		(at 237.49 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4a05ae49-b436-4843-83f3-779e7a9b0db9")
+	)
+	(junction
+		(at 199.39 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4b139e04-7e8a-466d-aa98-af9b4c4c8360")
+	)
+	(junction
+		(at 191.77 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5351e309-c517-4444-9c32-2e2aae1bbb23")
+	)
+	(junction
+		(at 82.55 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "619f39f6-54b5-4dcb-b1f7-67abf099eddc")
+	)
+	(junction
+		(at 100.33 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "62e4b536-9382-4684-bfb5-d8965250a6e5")
+	)
+	(junction
+		(at 267.97 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "77444e29-e3b5-474d-841c-f5b07e67d2f5")
+	)
+	(junction
+		(at 278.13 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7800264d-559d-4f33-937d-30c446e17a09")
+	)
+	(junction
+		(at 118.11 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7a3a0c02-bdd6-43af-b7c9-4f64118d1922")
+	)
+	(junction
+		(at 245.11 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7a58515c-81b4-4e1b-b900-21aa9a0eca85")
+	)
+	(junction
+		(at 107.95 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7be2a361-af90-42e1-9076-5ff9f4e66e37")
+	)
+	(junction
+		(at 267.97 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7e3511b3-1357-4d00-adf0-f91e96a09e15")
+	)
+	(junction
+		(at 123.19 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "80e0df31-913b-412c-a35e-7a78d3efcb23")
+	)
+	(junction
+		(at 168.91 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8381845b-4fd6-4507-a1fe-7d351b654874")
+	)
+	(junction
+		(at 130.81 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "83f5d15a-31a7-4cab-896a-c3ef8c081e41")
+	)
+	(junction
+		(at 76.2 132.08)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8878314c-ef1a-4a80-96ad-8dc2b88abed7")
+	)
+	(junction
+		(at 140.97 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8ca2436e-4a2d-4e7d-8372-cfa8d7167a98")
+	)
+	(junction
+		(at 290.83 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8e47b2c3-597f-4131-9f6c-ed9aa9b20839")
+	)
+	(junction
+		(at 306.07 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8f4608d8-46da-4efe-a019-5a0d877d2ceb")
+	)
+	(junction
+		(at 82.55 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "923122cb-0dc3-4eaf-8e65-9a32950e452e")
+	)
+	(junction
+		(at 130.81 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9e44612e-f678-4e35-b1bd-d8e10b208917")
+	)
+	(junction
+		(at 290.83 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "aed0cfa0-e1a3-4349-b644-f05c2c8307d9")
+	)
+	(junction
+		(at 300.99 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "be21d485-63ae-46c3-be57-a8bbadd08cf6")
+	)
+	(junction
+		(at 222.25 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ce05cb31-f4da-4ab5-93cc-126319d68bf1")
+	)
+	(junction
+		(at 163.83 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d13986c2-1106-4860-859b-188614d613c6")
+	)
+	(junction
+		(at 107.95 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "da251820-7214-46d4-b15c-503161c40d56")
+	)
+	(junction
+		(at 199.39 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "db0c7ed4-645c-4705-b2c0-0ba74eab860a")
+	)
+	(junction
+		(at 283.21 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "de011b1c-dde8-42b0-bc93-40db3e8f4796")
+	)
+	(junction
+		(at 74.93 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e3f89195-e400-4120-ac41-2f60a73ea6ac")
+	)
+	(junction
+		(at 222.25 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f9756beb-b34a-4f57-bada-45afdb4babf2")
+	)
+	(junction
+		(at 176.53 118.11)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "fdccd94a-d219-4cf9-b89e-7b99d794968e")
+	)
+	(no_connect
+		(at 69.85 123.19)
+		(uuid "0cc53fec-fd8b-41e9-a2ab-630ed904978a")
+	)
+	(no_connect
+		(at 69.85 120.65)
+		(uuid "24ea66d8-e70e-47a9-8ca8-106a695d674f")
+	)
+	(no_connect
+		(at 36.83 102.87)
+		(uuid "29f48af1-dc05-496e-87a4-39c803ce9c68")
+	)
+	(no_connect
+		(at 36.83 123.19)
+		(uuid "2bd46e97-fa98-4fdf-9a22-8c1a82a74e80")
+	)
+	(no_connect
+		(at 36.83 125.73)
+		(uuid "3c03aecb-2b57-4034-8752-aa596cb4663b")
+	)
+	(no_connect
+		(at 36.83 115.57)
+		(uuid "40e20654-fa56-4659-a095-9291046b1936")
+	)
+	(no_connect
+		(at 36.83 120.65)
+		(uuid "43aa0540-ccbd-4ed2-8d4a-272e558d8ff5")
+	)
+	(no_connect
+		(at 69.85 110.49)
+		(uuid "44611c2f-876d-4bbb-8db5-4c04ad8b6706")
+	)
+	(no_connect
+		(at 69.85 125.73)
+		(uuid "44ac0039-f361-47a5-a478-59761da63928")
+	)
+	(no_connect
+		(at 69.85 105.41)
+		(uuid "5584ac95-c8c1-45f9-b684-cc77fae2c1df")
+	)
+	(no_connect
+		(at 52.07 99.06)
+		(uuid "5669d8c3-2b9e-46e5-8877-ba0d2be6e4a4")
+	)
+	(no_connect
+		(at 69.85 102.87)
+		(uuid "5bb841ac-c463-4b32-a064-ea5f7aad8293")
+	)
+	(no_connect
+		(at 36.83 107.95)
+		(uuid "61389e19-6b7b-4d0e-a320-c44a3aca241e")
+	)
+	(no_connect
+		(at 36.83 118.11)
+		(uuid "7ae21fe4-61ca-48db-b578-06baa157ba3e")
+	)
+	(no_connect
+		(at 69.85 115.57)
+		(uuid "88163dc0-0a00-4fc1-9ffe-4768c61cb88a")
+	)
+	(no_connect
+		(at 69.85 113.03)
+		(uuid "90dbefc9-b149-43da-979c-75162c0e765c")
+	)
+	(no_connect
+		(at 69.85 118.11)
+		(uuid "992c808e-acbb-4cd4-8bd6-afe24714de78")
+	)
+	(no_connect
+		(at 321.31 105.41)
+		(uuid "af6d81f3-e312-4fa4-aef0-542cdf62762c")
+	)
+	(no_connect
+		(at 36.83 110.49)
+		(uuid "bcceade2-91fc-479d-a1d3-e908939352c5")
+	)
+	(no_connect
+		(at 36.83 113.03)
+		(uuid "d65a80bc-f03b-4b4d-85ab-287398d96d67")
+	)
+	(no_connect
+		(at 69.85 107.95)
+		(uuid "dbe67f8b-17a0-4bd0-890f-a4cf5c7a3dc7")
+	)
+	(wire
+		(pts
+			(xy 163.83 80.01) (xy 163.83 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0269d0e4-24d2-4810-a288-4a7380501fba")
+	)
+	(wire
+		(pts
+			(xy 130.81 92.71) (xy 130.81 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "02facd1a-6f03-43e8-bddb-1f34107f7f14")
+	)
+	(wire
+		(pts
+			(xy 186.69 118.11) (xy 199.39 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "046b68c3-f054-4d4e-9454-3ff3188d04c1")
+	)
+	(wire
+		(pts
+			(xy 181.61 80.01) (xy 186.69 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0776255b-d196-47b3-9fcc-084f1e893542")
+	)
+	(wire
+		(pts
+			(xy 82.55 92.71) (xy 100.33 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "07b61a67-6f83-478f-b722-19c29358d845")
+	)
+	(wire
+		(pts
+			(xy 311.15 80.01) (xy 306.07 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0bf2edb3-bc22-4051-a2ae-12167446ec87")
+	)
+	(wire
+		(pts
+			(xy 118.11 80.01) (xy 118.11 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1173982d-1996-4a45-a189-3e77ac4e7b92")
+	)
+	(wire
+		(pts
+			(xy 313.69 113.03) (xy 313.69 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "117bd854-a4fa-480e-a649-e3cacbd85ba2")
+	)
+	(wire
+		(pts
+			(xy 53.34 129.54) (xy 53.34 132.08)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "11d69d1d-9343-49fb-96c7-bcfaf2e9f47c")
+	)
+	(wire
+		(pts
+			(xy 140.97 118.11) (xy 153.67 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "14a6959a-eafc-49d9-a35b-bf7de590dedb")
+	)
+	(wire
+		(pts
+			(xy 82.55 118.11) (xy 82.55 132.08)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "16bbca56-2530-4434-a697-31024940ff1c")
+	)
+	(wire
+		(pts
+			(xy 107.95 92.71) (xy 123.19 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "172c5991-107b-48f0-8414-cc29e5bab560")
+	)
+	(wire
+		(pts
+			(xy 168.91 80.01) (xy 168.91 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "18935fea-39ac-4b13-b0ad-1f783231c9a8")
+	)
+	(wire
+		(pts
+			(xy 232.41 118.11) (xy 245.11 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1c3d0cae-1787-479d-9ccb-f5a8d6db4827")
+	)
+	(wire
+		(pts
+			(xy 168.91 92.71) (xy 176.53 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "1d6fbdba-adaa-41bc-9b78-8781a24ba00c")
+	)
+	(wire
+		(pts
+			(xy 300.99 80.01) (xy 300.99 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1f01a0ce-3b32-40b8-9c65-1b04a86340d2")
+	)
+	(wire
+		(pts
+			(xy 313.69 118.11) (xy 323.85 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "20efbb96-2591-4af0-aaeb-588af6108864")
+	)
+	(wire
+		(pts
+			(xy 138.43 105.41) (xy 146.05 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "23ad4305-659a-4856-a342-9ba416297220")
+	)
+	(wire
+		(pts
+			(xy 199.39 92.71) (xy 199.39 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2dd85316-e2d7-4b5b-87d3-4cacf107d704")
+	)
+	(wire
+		(pts
+			(xy 82.55 109.22) (xy 82.55 118.11)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "3123ebff-061c-41ac-ad51-4324d0111667")
+	)
+	(wire
+		(pts
+			(xy 278.13 80.01) (xy 278.13 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3315463b-5779-4207-aac9-f30d75dfe1fa")
+	)
+	(wire
+		(pts
+			(xy 232.41 80.01) (xy 232.41 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "35e38b19-e3f0-45e2-bc95-2d8fedbdaf24")
+	)
+	(wire
+		(pts
+			(xy 214.63 92.71) (xy 222.25 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "39c6e1f3-704c-48e8-8899-9ff6b37b9aeb")
+	)
+	(wire
+		(pts
+			(xy 140.97 80.01) (xy 140.97 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3b22f451-1406-4167-8915-88deadf1a7cd")
+	)
+	(wire
+		(pts
+			(xy 207.01 105.41) (xy 214.63 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3baf8a65-7415-4e48-b77a-fc55272ac120")
+	)
+	(wire
+		(pts
+			(xy 275.59 105.41) (xy 283.21 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3bb4310f-5afd-4dac-a672-a526cef0bbf6")
+	)
+	(wire
+		(pts
+			(xy 107.95 118.11) (xy 118.11 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3ca7b4a5-00f5-4f19-90de-e987bba8f8b2")
+	)
+	(wire
+		(pts
+			(xy 267.97 113.03) (xy 267.97 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "404d297a-3bd7-4b5f-ad79-b3fe24308b94")
+	)
+	(wire
+		(pts
+			(xy 158.75 80.01) (xy 163.83 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "407189a8-a528-4deb-90a4-3a8cce9986ea")
+	)
+	(wire
+		(pts
+			(xy 267.97 92.71) (xy 283.21 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "42c76144-bd61-4d00-b19c-7b0fe5d660ad")
+	)
+	(wire
+		(pts
+			(xy 242.57 80.01) (xy 237.49 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "46c8f179-dbea-4bf0-8f1c-7c4de1193d60")
+	)
+	(wire
+		(pts
+			(xy 323.85 80.01) (xy 323.85 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "47439a8b-fcf3-4c4c-b9b9-938223e131db")
+	)
+	(wire
+		(pts
+			(xy 153.67 92.71) (xy 153.67 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4b20d713-9a5d-4133-a969-1e415859bd26")
+	)
+	(wire
+		(pts
+			(xy 219.71 80.01) (xy 214.63 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4d410ad2-f3fb-4d7b-82ee-455bcea858a4")
+	)
+	(wire
+		(pts
+			(xy 76.2 132.08) (xy 82.55 132.08)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "4d5ea9b1-edfc-40d8-821a-43bf3b735d4a")
+	)
+	(wire
+		(pts
+			(xy 209.55 80.01) (xy 209.55 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5175e270-8099-4bab-be43-aed6a4dc6955")
+	)
+	(wire
+		(pts
+			(xy 123.19 92.71) (xy 130.81 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "53796ba7-e711-45f3-a6b0-4e5edf2fdb42")
+	)
+	(wire
+		(pts
+			(xy 153.67 118.11) (xy 163.83 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "58105bc0-817e-4ccf-8b85-481e1c2d4405")
+	)
+	(wire
+		(pts
+			(xy 245.11 113.03) (xy 245.11 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5900345e-46cf-48fd-b475-31e3741832b0")
+	)
+	(wire
+		(pts
+			(xy 290.83 92.71) (xy 306.07 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "59a4ef21-6bd5-4e9b-a622-a9b7678b075f")
+	)
+	(wire
+		(pts
+			(xy 318.77 80.01) (xy 323.85 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b67b0b2-26b1-44aa-98fc-d2b11ac0e02f")
+	)
+	(wire
+		(pts
+			(xy 130.81 118.11) (xy 140.97 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5de547cd-7a86-4884-b677-9db1d4f2384a")
+	)
+	(wire
+		(pts
+			(xy 176.53 118.11) (xy 186.69 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5e73bb6f-4e05-46dd-97c1-0ece94ab2643")
+	)
+	(wire
+		(pts
+			(xy 295.91 80.01) (xy 300.99 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5fcfa032-6a0b-4a1d-b9db-49677862708f")
+	)
+	(wire
+		(pts
+			(xy 31.75 105.41) (xy 31.75 138.43)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "601a4374-7b38-4038-bb2d-90666fa108d7")
+	)
+	(wire
+		(pts
+			(xy 176.53 92.71) (xy 176.53 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "63f34c90-05e2-47f5-bf7a-ecc9656ca3bf")
+	)
+	(wire
+		(pts
+			(xy 191.77 92.71) (xy 199.39 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "648ffad4-a7d7-431c-a291-9875c31f2ae7")
+	)
+	(wire
+		(pts
+			(xy 196.85 80.01) (xy 191.77 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "67fcf95b-12d5-49f3-9648-e0d7892a41f3")
+	)
+	(wire
+		(pts
+			(xy 222.25 118.11) (xy 232.41 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "68d0dace-aaf2-4079-abd9-ede607d2a1ec")
+	)
+	(wire
+		(pts
+			(xy 237.49 80.01) (xy 237.49 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6dc1fc19-9856-4b12-a61c-f9d9cd9365f3")
+	)
+	(wire
+		(pts
+			(xy 199.39 113.03) (xy 199.39 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6ea9e414-e22c-4e15-997f-523f571ade44")
+	)
+	(wire
+		(pts
+			(xy 153.67 113.03) (xy 153.67 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "713b7af5-86ef-4511-ae29-f857a060bb08")
+	)
+	(wire
+		(pts
+			(xy 222.25 113.03) (xy 222.25 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7406c713-438f-4bfe-bc82-ab2271be1810")
+	)
+	(wire
+		(pts
+			(xy 184.15 105.41) (xy 191.77 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "76e628e1-912d-4bfc-be99-de6b8e896584")
+	)
+	(wire
+		(pts
+			(xy 204.47 80.01) (xy 209.55 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "77cce43f-e700-463e-827c-05ee0bd5c184")
+	)
+	(wire
+		(pts
+			(xy 260.35 92.71) (xy 267.97 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7a6fd1aa-769e-4040-a300-4ad77abb16cc")
+	)
+	(wire
+		(pts
+			(xy 199.39 92.71) (xy 214.63 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "7cc4930e-e1eb-45ec-9601-7c90a6f8e8f9")
+	)
+	(wire
+		(pts
+			(xy 161.29 105.41) (xy 168.91 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "808ebd2a-d379-481c-9ef2-2d2563139c4f")
+	)
+	(wire
+		(pts
+			(xy 54.61 92.71) (xy 74.93 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "817c48a9-d8d6-4319-b0e0-870429ebcf47")
+	)
+	(wire
+		(pts
+			(xy 128.27 80.01) (xy 123.19 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8609d07f-992c-4ae2-915d-d4b862153244")
+	)
+	(wire
+		(pts
+			(xy 92.71 105.41) (xy 92.71 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "878cc03f-91f6-4997-bb11-cc0e712d8545")
+	)
+	(wire
+		(pts
+			(xy 107.95 92.71) (xy 107.95 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "87aa1f01-8056-4f70-9620-234a2b9b3011")
+	)
+	(wire
+		(pts
+			(xy 54.61 92.71) (xy 54.61 99.06)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "87dfe8b0-753e-48c4-8b9d-b6ea07784c6e")
+	)
+	(wire
+		(pts
+			(xy 245.11 92.71) (xy 245.11 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "894c4247-fbf7-49b4-8d4d-daa260a604aa")
+	)
+	(wire
+		(pts
+			(xy 115.57 105.41) (xy 123.19 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8a52489a-8c8f-4695-b245-1a67e50caa9c")
+	)
+	(wire
+		(pts
+			(xy 146.05 92.71) (xy 153.67 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "8ae979e4-026b-435e-97d6-0c0444799e5c")
+	)
+	(wire
+		(pts
+			(xy 53.34 132.08) (xy 76.2 132.08)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "8b8d9d87-03f1-428b-84a1-f7a5a9df2f4d")
+	)
+	(wire
+		(pts
+			(xy 135.89 80.01) (xy 140.97 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8bf57175-67e5-45a0-81aa-d1098257277e")
+	)
+	(wire
+		(pts
+			(xy 130.81 92.71) (xy 146.05 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "8c3a6224-1c74-4f2a-8208-e6839e337231")
+	)
+	(wire
+		(pts
+			(xy 92.71 138.43) (xy 92.71 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8ebceef8-5c7b-4e96-b503-a314687d8e21")
+	)
+	(wire
+		(pts
+			(xy 222.25 92.71) (xy 237.49 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8ffca5dd-87b5-4952-a59e-e118e26b5199")
+	)
+	(wire
+		(pts
+			(xy 191.77 80.01) (xy 191.77 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "92346464-8989-4061-96f6-21fef7743a41")
+	)
+	(wire
+		(pts
+			(xy 306.07 80.01) (xy 306.07 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "94476acd-90dd-4f20-b834-e0983be3cb59")
+	)
+	(wire
+		(pts
+			(xy 107.95 113.03) (xy 107.95 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "96d90e39-b132-4731-b1f2-0b7793762879")
+	)
+	(wire
+		(pts
+			(xy 265.43 80.01) (xy 260.35 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9742d24e-1ff5-46b4-94e7-9beeef0593b8")
+	)
+	(wire
+		(pts
+			(xy 176.53 113.03) (xy 176.53 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "98b9c4df-f407-4c17-89dc-a9c887f9593d")
+	)
+	(wire
+		(pts
+			(xy 245.11 118.11) (xy 255.27 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "98ec2e71-8c94-4def-9bc4-bf957f2b0065")
+	)
+	(wire
+		(pts
+			(xy 255.27 118.11) (xy 267.97 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9903fa18-c161-4e17-9a11-682365bb4f1a")
+	)
+	(wire
+		(pts
+			(xy 313.69 92.71) (xy 313.69 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9a5c9a6f-ddd2-4be4-a7e9-94c5b5d366d9")
+	)
+	(wire
+		(pts
+			(xy 100.33 80.01) (xy 100.33 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9aef83e2-85a8-4a21-b897-b7c2b4ea60d8")
+	)
+	(wire
+		(pts
+			(xy 105.41 80.01) (xy 100.33 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9e654a26-43cf-43ee-93d2-f96d22f5a24a")
+	)
+	(wire
+		(pts
+			(xy 237.49 92.71) (xy 245.11 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a3d4698d-c54d-4d64-814b-12a9c0541519")
+	)
+	(wire
+		(pts
+			(xy 118.11 118.11) (xy 130.81 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a74cdbd4-6a37-4967-b319-590bd7c2987f")
+	)
+	(wire
+		(pts
+			(xy 255.27 80.01) (xy 255.27 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aa5b78a1-1b0a-4c75-8dde-23298478737b")
+	)
+	(wire
+		(pts
+			(xy 82.55 118.11) (xy 107.95 118.11)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "aaa54409-5bea-4d4c-8220-fa77cbe4c2c3")
+	)
+	(wire
+		(pts
+			(xy 31.75 138.43) (xy 92.71 138.43)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ac72c90b-fd09-4ac0-991b-cc8469b4ef29")
+	)
+	(wire
+		(pts
+			(xy 222.25 92.71) (xy 222.25 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ad187771-5495-4cbb-bd5f-7cc6669d0131")
+	)
+	(wire
+		(pts
+			(xy 245.11 92.71) (xy 260.35 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ad5a135b-3003-468a-9fc7-23f35665460f")
+	)
+	(wire
+		(pts
+			(xy 290.83 92.71) (xy 290.83 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ad6b059f-8bac-4233-b830-5f7e71ea45ad")
+	)
+	(wire
+		(pts
+			(xy 290.83 113.03) (xy 290.83 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "af5d1a8a-da93-4207-a2db-68e93e1e94db")
+	)
+	(wire
+		(pts
+			(xy 273.05 80.01) (xy 278.13 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "af7b5e0c-f3b9-405a-a313-2ef053034942")
+	)
+	(wire
+		(pts
+			(xy 227.33 80.01) (xy 232.41 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b1c697c8-237e-4f1f-aa85-09fc8c4b7d80")
+	)
+	(wire
+		(pts
+			(xy 92.71 105.41) (xy 100.33 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b2bb9bf1-902d-434d-87dd-71689f07f9b9")
+	)
+	(wire
+		(pts
+			(xy 186.69 80.01) (xy 186.69 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b78d4599-d464-468f-9ec8-c1d15fd3ba97")
+	)
+	(wire
+		(pts
+			(xy 176.53 92.71) (xy 191.77 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "b94541d1-b562-4bd7-b3a9-99cb66b896b6")
+	)
+	(wire
+		(pts
+			(xy 199.39 118.11) (xy 209.55 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bea79e9b-5e46-4c8a-a8ff-416fbb51b220")
+	)
+	(wire
+		(pts
+			(xy 163.83 118.11) (xy 176.53 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1b83a11-33b7-4393-8beb-de01e73c30b7")
+	)
+	(wire
+		(pts
+			(xy 290.83 118.11) (xy 300.99 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c3536861-bd60-464d-ba6a-4bf3b463c46a")
+	)
+	(wire
+		(pts
+			(xy 283.21 80.01) (xy 283.21 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c5230968-cb29-4199-84c1-efee44f585d5")
+	)
+	(wire
+		(pts
+			(xy 146.05 80.01) (xy 146.05 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c64f22d1-9f35-47d3-a4fc-597041bf3f66")
+	)
+	(wire
+		(pts
+			(xy 252.73 105.41) (xy 260.35 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cbc60597-933a-45bc-aa1b-8db810d2d109")
+	)
+	(wire
+		(pts
+			(xy 123.19 80.01) (xy 123.19 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cc9f42d6-813e-4791-a3c5-de8b64519b05")
+	)
+	(wire
+		(pts
+			(xy 113.03 80.01) (xy 118.11 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d16b1ff0-9afa-4d82-8c74-04360d53012e")
+	)
+	(wire
+		(pts
+			(xy 214.63 80.01) (xy 214.63 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d16f9afe-7630-4de0-bb51-bc23aff1edeb")
+	)
+	(wire
+		(pts
+			(xy 74.93 92.71) (xy 82.55 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "d38356bf-5553-4a32-be83-51afd47dd105")
+	)
+	(wire
+		(pts
+			(xy 130.81 113.03) (xy 130.81 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d6ad46cf-720b-4719-b44b-b35c3efa143d")
+	)
+	(wire
+		(pts
+			(xy 82.55 92.71) (xy 82.55 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dae9f532-4ab4-4435-8c8a-4976925b25fc")
+	)
+	(wire
+		(pts
+			(xy 250.19 80.01) (xy 255.27 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dc17346d-2863-4982-ac50-60b6b5402273")
+	)
+	(wire
+		(pts
+			(xy 267.97 118.11) (xy 278.13 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dca3a615-a28d-4911-acf9-c26337e331f1")
+	)
+	(wire
+		(pts
+			(xy 31.75 105.41) (xy 36.83 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "def8115d-29f3-413e-bf32-dbec0dfe15cd")
+	)
+	(wire
+		(pts
+			(xy 298.45 105.41) (xy 306.07 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e16a0b67-503c-48fc-9961-d7ba019b8464")
+	)
+	(wire
+		(pts
+			(xy 151.13 80.01) (xy 146.05 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e37359b1-1df0-4b86-b724-2afcc1e02a4d")
+	)
+	(wire
+		(pts
+			(xy 306.07 92.71) (xy 313.69 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e4bac97f-15c5-403d-90e4-9402deb5d22d")
+	)
+	(wire
+		(pts
+			(xy 100.33 92.71) (xy 107.95 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "e74353cf-14eb-4a75-8d5b-a8a32dda2a33")
+	)
+	(wire
+		(pts
+			(xy 300.99 118.11) (xy 313.69 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e78f3c86-245d-4796-b363-876503e8cc70")
+	)
+	(wire
+		(pts
+			(xy 209.55 118.11) (xy 222.25 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec0884ef-07a3-47b4-aae8-fe23822d94ae")
+	)
+	(wire
+		(pts
+			(xy 260.35 80.01) (xy 260.35 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec5c7d46-6e1a-41ab-932e-6868dab9ab61")
+	)
+	(wire
+		(pts
+			(xy 173.99 80.01) (xy 168.91 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ecc36aa5-3e84-413b-ba71-3a4ee98b77b2")
+	)
+	(wire
+		(pts
+			(xy 288.29 80.01) (xy 283.21 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eded7c6c-685c-4894-9318-ae42e191b384")
+	)
+	(wire
+		(pts
+			(xy 229.87 105.41) (xy 237.49 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f4cb8db4-a91d-4c92-8904-6fb1dfefbf3f")
+	)
+	(wire
+		(pts
+			(xy 283.21 92.71) (xy 290.83 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f5785c78-6549-4e1f-b4de-6a4997bc8c3f")
+	)
+	(wire
+		(pts
+			(xy 153.67 92.71) (xy 168.91 92.71)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "fa35c1ec-484a-4b06-83f8-a179d03afb7c")
+	)
+	(wire
+		(pts
+			(xy 278.13 118.11) (xy 290.83 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fe4e6b4c-978b-49f4-bb85-75a535936db3")
+	)
+	(wire
+		(pts
+			(xy 267.97 92.71) (xy 267.97 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "feab20c9-bf78-43d4-ac3f-c3b3f2afc552")
+	)
+	(label "GND"
+		(at 59.69 132.08 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "29b6df84-162e-4556-ac28-a4ffedbb94cd")
+	)
+	(label "+5V_LED"
+		(at 59.69 92.71 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "67fcadc3-7bc9-4cce-97bd-6a15f061f91f")
+	)
+	(label "LED SIGNAL"
+		(at 59.69 138.43 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "875744e5-77dc-4fd2-b13f-3efb5b00e089")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 109.22 80.01 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "03c1829d-3521-432d-be2e-cbf036faab85")
+		(property "Reference" "C2"
+			(at 109.22 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100nF"
+			(at 109.22 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 109.22 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://item.szlcsc.com/291005.html?fromZone=s_s__%25220402%2522&spm=sc.gbn.xh23.zy.n___sc.gbn.hd.ss&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D"
+			(at 109.22 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "100nF ±10% 50V  X7R MLCC 0402 RoHS"
+			(at 109.22 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung"
+			(at 109.22 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "CL05B104KB54PNC"
+			(at 109.22 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C307331"
+			(at 109.22 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "CL05B104KB54PNC"
+			(at 109.22 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7c13e875-eaac-4eaf-a1e6-71b85902a4ab")
+		)
+		(pin "2"
+			(uuid "a9fe6098-be16-4824-860b-d50677b9b6d5")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "C2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 39.37 187.96 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "081fe6c2-3062-49f0-9b54-568c809a00a9")
+		(property "Reference" "MH2"
+			(at 41.91 186.6899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "M3"
+			(at 41.91 189.2299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_ISO7380"
+			(at 39.37 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 39.37 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 39.37 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "MH2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 177.8 80.01 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0c308caf-4026-459a-ab53-42b04c0e3960")
+		(property "Reference" "C5"
+			(at 177.8 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100nF"
+			(at 177.8 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 177.8 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://item.szlcsc.com/291005.html?fromZone=s_s__%25220402%2522&spm=sc.gbn.xh23.zy.n___sc.gbn.hd.ss&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D"
+			(at 177.8 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "100nF ±10% 50V  X7R MLCC 0402 RoHS"
+			(at 177.8 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung"
+			(at 177.8 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "CL05B104KB54PNC"
+			(at 177.8 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C307331"
+			(at 177.8 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "CL05B104KB54PNC"
+			(at 177.8 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8805f927-d999-4aec-8989-6631a1532c52")
+		)
+		(pin "2"
+			(uuid "59c09035-648b-49e8-b59a-49e5c30efb5f")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "C5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 154.94 80.01 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0d95b7e1-46ee-4e46-a3b2-8bcd700919b7")
+		(property "Reference" "C4"
+			(at 154.94 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100nF"
+			(at 154.94 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://item.szlcsc.com/291005.html?fromZone=s_s__%25220402%2522&spm=sc.gbn.xh23.zy.n___sc.gbn.hd.ss&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D"
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "100nF ±10% 50V  X7R MLCC 0402 RoHS"
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung"
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "CL05B104KB54PNC"
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C307331"
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "CL05B104KB54PNC"
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "de3d9dba-fefb-44e3-bc86-d0668c2a3395")
+		)
+		(pin "2"
+			(uuid "b5d18155-f343-4ab5-875a-e1bd7cd0360d")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "C4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "LED:WS2812B")
+		(at 153.67 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "13108ec6-7b92-4e88-9ac6-4488773ebf6c")
+		(property "Reference" "D3"
+			(at 153.67 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WS2812B-2020"
+			(at 153.67 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+			(at 153.67 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf"
+			(at 153.67 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "WS2812B-2020-V6 RGB LED (IC) 300ns 120us"
+			(at 153.67 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "worldsemi"
+			(at 153.67 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "WS2812B-2020-V6"
+			(at 153.67 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C52917434"
+			(at 153.67 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "WS2812B-2020-V6"
+			(at 153.67 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7f8e4ce8-6e48-42a8-bbf0-3d3c3849d523")
+		)
+		(pin "2"
+			(uuid "a6ede606-7672-435b-81cf-15da32a06e64")
+		)
+		(pin "3"
+			(uuid "9af0750d-29f4-4daf-a66d-8f56a2ba926c")
+		)
+		(pin "4"
+			(uuid "2f1b5b2e-d298-4efc-8b6e-309be466d628")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "D3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 200.66 80.01 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3316b21f-1b73-48e9-b25e-af1fb6e9dfd8")
+		(property "Reference" "C6"
+			(at 200.66 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100nF"
+			(at 200.66 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 200.66 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://item.szlcsc.com/291005.html?fromZone=s_s__%25220402%2522&spm=sc.gbn.xh23.zy.n___sc.gbn.hd.ss&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D"
+			(at 200.66 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "100nF ±10% 50V  X7R MLCC 0402 RoHS"
+			(at 200.66 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung"
+			(at 200.66 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "CL05B104KB54PNC"
+			(at 200.66 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C307331"
+			(at 200.66 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "CL05B104KB54PNC"
+			(at 200.66 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f5c62c51-04d2-49d6-94d6-b7a5dd3d1aaa")
+		)
+		(pin "2"
+			(uuid "23827acd-080e-4849-a9a5-5ff86528e096")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "C6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 50.8 187.96 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "335c6ccc-1225-439c-890c-2697c50b0fc7")
+		(property "Reference" "MH3"
+			(at 53.34 186.6899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "M3"
+			(at 53.34 189.2299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_ISO7380"
+			(at 50.8 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 50.8 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 50.8 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "MH3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 92.71 128.27 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "346c879a-837a-4dc6-b4a3-9d7ad49cf9d0")
+		(property "Reference" "R1"
+			(at 95.25 126.9999 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "330"
+			(at 95.25 129.5399 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 92.71 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://item.szlcsc.com/107093.html?fromZone=s_s__%2522330ohm%2522&spm=sc.gbn.xh9.zy.n___sc.gbn.hd.ss&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D&alichlgref=https%3A%2F%2Fso.szlcsc.com%2F"
+			(at 92.71 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "0805 330Ω ±1% 125mW 150V RoHS"
+			(at 92.71 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "YAGEO"
+			(at 92.71 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "RC0805FR-07330RL"
+			(at 92.71 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C105878"
+			(at 92.71 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "RC0805FR-07330RL"
+			(at 92.71 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "21730076-72d1-4bf0-8cb4-2fd131701dd0")
+		)
+		(pin "2"
+			(uuid "2d8000ef-905f-42bf-a022-dbb5faafe1ca")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "R1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 76.2 132.08 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4cc6a8a9-6023-4ad8-82fc-f92e2dfbed5f")
+		(property "Reference" "#FLG02"
+			(at 76.2 130.175 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 76.2 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 76.2 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 76.2 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 76.2 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "880d53fa-33e3-4797-95a3-55a27fd766e3")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "#FLG02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 314.96 80.01 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "51adb176-c202-4e6c-8e83-83f665a61080")
+		(property "Reference" "C11"
+			(at 314.96 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100nF"
+			(at 314.96 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 314.96 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://item.szlcsc.com/291005.html?fromZone=s_s__%25220402%2522&spm=sc.gbn.xh23.zy.n___sc.gbn.hd.ss&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D"
+			(at 314.96 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "100nF ±10% 50V  X7R MLCC 0402 RoHS"
+			(at 314.96 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung"
+			(at 314.96 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "CL05B104KB54PNC"
+			(at 314.96 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C307331"
+			(at 314.96 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "CL05B104KB54PNC"
+			(at 314.96 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8d40d5c4-0113-403a-bc85-6c8d3f287434")
+		)
+		(pin "2"
+			(uuid "f490d71d-7f62-4498-b2c7-6fca7a1e1c36")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "C11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "LED:WS2812B")
+		(at 176.53 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "545cfe5c-1ab6-413a-86ab-675b636e0915")
+		(property "Reference" "D4"
+			(at 176.53 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WS2812B-2020"
+			(at 176.53 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+			(at 176.53 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf"
+			(at 176.53 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "WS2812B-2020-V6 RGB LED (IC) 300ns 120us"
+			(at 176.53 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "worldsemi"
+			(at 176.53 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "WS2812B-2020-V6"
+			(at 176.53 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C52917434"
+			(at 176.53 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "WS2812B-2020-V6"
+			(at 176.53 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ea4e268b-e35b-4615-889d-54d265729600")
+		)
+		(pin "2"
+			(uuid "2fd4b6cb-9902-4935-bea2-354952d3c7a8")
+		)
+		(pin "3"
+			(uuid "cfbe8ddc-ce18-4309-8277-418933f4ca29")
+		)
+		(pin "4"
+			(uuid "926b030a-586d-4df6-b7f9-ddfba79ddb28")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "D4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "LED:WS2812B")
+		(at 313.69 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "57cdb85e-55e6-4412-aaa6-5fa77e8be43e")
+		(property "Reference" "D10"
+			(at 313.69 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WS2812B-2020"
+			(at 313.69 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+			(at 313.69 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf"
+			(at 313.69 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "WS2812B-2020-V6 RGB LED (IC) 300ns 120us"
+			(at 313.69 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "worldsemi"
+			(at 313.69 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "WS2812B-2020-V6"
+			(at 313.69 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C52917434"
+			(at 313.69 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "WS2812B-2020-V6"
+			(at 313.69 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6d76a208-f084-4214-9c14-be191e798d42")
+		)
+		(pin "2"
+			(uuid "cb198cc9-9b2a-491b-b8ba-58d3651d3207")
+		)
+		(pin "3"
+			(uuid "d1aa8c52-5f8a-4cfc-bb21-effc8359fd81")
+		)
+		(pin "4"
+			(uuid "48b24b96-4e8c-447b-afad-e23247655f40")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "D10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "LED:WS2812B")
+		(at 222.25 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "592b8244-a987-48d8-b2dd-00adb59d4d43")
+		(property "Reference" "D6"
+			(at 222.25 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WS2812B-2020"
+			(at 222.25 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+			(at 222.25 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf"
+			(at 222.25 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "WS2812B-2020-V6 RGB LED (IC) 300ns 120us"
+			(at 222.25 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "worldsemi"
+			(at 222.25 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "WS2812B-2020-V6"
+			(at 222.25 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C52917434"
+			(at 222.25 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "WS2812B-2020-V6"
+			(at 222.25 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5e16a4b3-fd1a-425f-aeb2-c9a0c8c1eb9a")
+		)
+		(pin "2"
+			(uuid "031f5bb5-67fe-4460-8bf7-56a8d23a0bb8")
+		)
+		(pin "3"
+			(uuid "f69f1429-8b24-4f3c-b829-9bc590f66f37")
+		)
+		(pin "4"
+			(uuid "4764ef96-74a3-473b-9130-3b0dea5540d6")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "D6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "LED:WS2812B")
+		(at 290.83 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5c338c5b-aea1-408c-8814-993f75743e71")
+		(property "Reference" "D9"
+			(at 290.83 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WS2812B-2020"
+			(at 290.83 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+			(at 290.83 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf"
+			(at 290.83 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "WS2812B-2020-V6 RGB LED (IC) 300ns 120us"
+			(at 290.83 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "worldsemi"
+			(at 290.83 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "WS2812B-2020-V6"
+			(at 290.83 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C52917434"
+			(at 290.83 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "WS2812B-2020-V6"
+			(at 290.83 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6919216f-9978-42bd-a2e6-58666f1fb4a6")
+		)
+		(pin "2"
+			(uuid "8d64cfe2-0d6b-4351-a676-e909aeb7de31")
+		)
+		(pin "3"
+			(uuid "715ff3f2-718e-4692-b524-1710b4a509ac")
+		)
+		(pin "4"
+			(uuid "4ad52bb1-fdd2-4581-9928-eec240631cc0")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "D9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 132.08 80.01 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5c6b554a-5293-4a93-8139-5f11e120d919")
+		(property "Reference" "C3"
+			(at 132.08 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100nF"
+			(at 132.08 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 132.08 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://item.szlcsc.com/291005.html?fromZone=s_s__%25220402%2522&spm=sc.gbn.xh23.zy.n___sc.gbn.hd.ss&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D"
+			(at 132.08 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "100nF ±10% 50V  X7R MLCC 0402 RoHS"
+			(at 132.08 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung"
+			(at 132.08 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "CL05B104KB54PNC"
+			(at 132.08 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C307331"
+			(at 132.08 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "CL05B104KB54PNC"
+			(at 132.08 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c03fdc23-dfcd-4531-b93f-f97d1db478ff")
+		)
+		(pin "2"
+			(uuid "a1101c1f-0dd7-4046-9421-b75f44149189")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "C3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 82.55 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "61f81475-6196-41ab-aeae-c57e3aeb2f5e")
+		(property "Reference" "C1"
+			(at 82.55 100.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "470uF"
+			(at 82.55 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:CP_Elec_6.3x5.4"
+			(at 82.55 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://item.szlcsc.com/48680094.html?fromZone=s_s__%2522%25E7%2594%25B5%25E5%25AE%25B9%2520470%2522&spm=sc.gbn.xh2.zy.n___sc.gbn.hd.ss&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D"
+			(at 82.55 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "470uF ±20% 16V 105°C 2000H RoHS"
+			(at 82.55 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "JIERR"
+			(at 82.55 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "JVJ16V470M6x8"
+			(at 82.55 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C46550400"
+			(at 82.55 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "JVJ16V470M6x8"
+			(at 82.55 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9b196e69-090b-4807-a44d-a587d0ca872a")
+		)
+		(pin "2"
+			(uuid "92b67b51-dd42-4b03-89bd-9d71ba434d3b")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "C1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "LED:WS2812B")
+		(at 130.81 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "67acb0bd-2a5c-4af5-8eec-bc389a044923")
+		(property "Reference" "D2"
+			(at 130.81 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WS2812B-2020"
+			(at 130.81 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+			(at 130.81 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf"
+			(at 130.81 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "WS2812B-2020-V6 RGB LED (IC) 300ns 120us"
+			(at 130.81 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "worldsemi"
+			(at 130.81 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "WS2812B-2020-V6"
+			(at 130.81 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C52917434"
+			(at 130.81 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "WS2812B-2020-V6"
+			(at 130.81 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "77aa316c-3f16-4269-b6c7-ba979e626b62")
+		)
+		(pin "2"
+			(uuid "ed798d02-06ce-4590-8cd5-9a543071637f")
+		)
+		(pin "3"
+			(uuid "dead83d3-a250-4f74-8cb6-295f7b081a5b")
+		)
+		(pin "4"
+			(uuid "5f5869cb-7476-47a6-acfe-45ee445dc5db")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "D2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 223.52 80.01 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "75c9d4dd-2f90-4117-9463-934b8ab45a1a")
+		(property "Reference" "C7"
+			(at 223.52 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100nF"
+			(at 223.52 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 223.52 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://item.szlcsc.com/291005.html?fromZone=s_s__%25220402%2522&spm=sc.gbn.xh23.zy.n___sc.gbn.hd.ss&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D"
+			(at 223.52 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "100nF ±10% 50V  X7R MLCC 0402 RoHS"
+			(at 223.52 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung"
+			(at 223.52 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "CL05B104KB54PNC"
+			(at 223.52 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C307331"
+			(at 223.52 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "CL05B104KB54PNC"
+			(at 223.52 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "70fbb66d-15b9-4528-9a44-cafd714dd022")
+		)
+		(pin "2"
+			(uuid "e9a005d6-769a-447d-b806-9fa828d9461f")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "C7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 246.38 80.01 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7fc1dd33-8bf7-4f24-b31b-ba8ed942b9c3")
+		(property "Reference" "C8"
+			(at 246.38 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100nF"
+			(at 246.38 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 246.38 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://item.szlcsc.com/291005.html?fromZone=s_s__%25220402%2522&spm=sc.gbn.xh23.zy.n___sc.gbn.hd.ss&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D"
+			(at 246.38 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "100nF ±10% 50V  X7R MLCC 0402 RoHS"
+			(at 246.38 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung"
+			(at 246.38 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "CL05B104KB54PNC"
+			(at 246.38 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C307331"
+			(at 246.38 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "CL05B104KB54PNC"
+			(at 246.38 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e8d35aa9-bb04-4cb9-88ed-c0702f3a60a9")
+		)
+		(pin "2"
+			(uuid "cd4606cb-25aa-486f-8d47-444f7057beb3")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "C8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "LED:WS2812B")
+		(at 267.97 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "85aaf9e7-4630-4d0d-9971-daea9aa19743")
+		(property "Reference" "D8"
+			(at 267.97 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WS2812B-2020"
+			(at 267.97 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+			(at 267.97 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf"
+			(at 267.97 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "WS2812B-2020-V6 RGB LED (IC) 300ns 120us"
+			(at 267.97 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "worldsemi"
+			(at 267.97 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "WS2812B-2020-V6"
+			(at 267.97 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C52917434"
+			(at 267.97 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "WS2812B-2020-V6"
+			(at 267.97 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "fa4ab041-6e45-47ce-ac82-50ed72acfb92")
+		)
+		(pin "2"
+			(uuid "fb738d8a-9746-4a05-9838-a938967f4ca6")
+		)
+		(pin "3"
+			(uuid "94442c5d-cfc7-4f8e-a999-30ec93aa9a88")
+		)
+		(pin "4"
+			(uuid "2297975a-b735-40d9-9c1c-48668f678598")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "D8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "LED:WS2812B")
+		(at 199.39 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8637dce5-1f7b-41cb-9bb9-9f3c0af57e58")
+		(property "Reference" "D5"
+			(at 199.39 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WS2812B-2020"
+			(at 199.39 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+			(at 199.39 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf"
+			(at 199.39 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "WS2812B-2020-V6 RGB LED (IC) 300ns 120us"
+			(at 199.39 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "worldsemi"
+			(at 199.39 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "WS2812B-2020-V6"
+			(at 199.39 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C52917434"
+			(at 199.39 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "WS2812B-2020-V6"
+			(at 199.39 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "efa0154d-c227-428e-a1f5-df0460ab917f")
+		)
+		(pin "2"
+			(uuid "e98f125d-668b-490f-90a4-abcf75e4479e")
+		)
+		(pin "3"
+			(uuid "b0df136c-015f-49d5-94b2-915bb60dd288")
+		)
+		(pin "4"
+			(uuid "ae330b34-020e-48bc-b8c4-7a84516f8c00")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "D5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 292.1 80.01 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8929cebe-008c-459c-b2cd-8beb935bbd2b")
+		(property "Reference" "C10"
+			(at 292.1 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100nF"
+			(at 292.1 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 292.1 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://item.szlcsc.com/291005.html?fromZone=s_s__%25220402%2522&spm=sc.gbn.xh23.zy.n___sc.gbn.hd.ss&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D"
+			(at 292.1 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "100nF ±10% 50V  X7R MLCC 0402 RoHS"
+			(at 292.1 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung"
+			(at 292.1 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "CL05B104KB54PNC"
+			(at 292.1 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C307331"
+			(at 292.1 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "CL05B104KB54PNC"
+			(at 292.1 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1d26e6cf-f6bb-4b65-90fc-c511e05202b1")
+		)
+		(pin "2"
+			(uuid "79d75349-6b63-4f8b-867f-3f95bb2e5a13")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "C10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "LED:WS2812B")
+		(at 245.11 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8a339122-c293-4c17-a56e-cba353155dc2")
+		(property "Reference" "D7"
+			(at 245.11 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WS2812B-2020"
+			(at 245.11 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+			(at 245.11 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf"
+			(at 245.11 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "WS2812B-2020-V6 RGB LED (IC) 300ns 120us"
+			(at 245.11 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "worldsemi"
+			(at 245.11 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "WS2812B-2020-V6"
+			(at 245.11 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C52917434"
+			(at 245.11 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "WS2812B-2020-V6"
+			(at 245.11 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9dc6a7c1-a317-47ac-913e-b71037fc75b7")
+		)
+		(pin "2"
+			(uuid "5144bf67-1c71-42ae-bd64-8ba2734c23a6")
+		)
+		(pin "3"
+			(uuid "67a64e1f-ff93-4227-b0d5-38d4b9058764")
+		)
+		(pin "4"
+			(uuid "e08c9498-4ad5-4eea-b493-4ced7791c63d")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "D7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:Fiducial")
+		(at 106.68 187.96 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "954c24e0-b2d4-4b9a-a202-e6417ab46ca4")
+		(property "Reference" "FID3"
+			(at 109.22 186.6899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Fiducial"
+			(at 109.22 189.2299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Fiducial:Fiducial_1mm_Mask2mm"
+			(at 106.68 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 106.68 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Fiducial Marker"
+			(at 106.68 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "FID3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:Fiducial")
+		(at 91.44 187.96 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "973a0c4a-7fc9-48c3-ac52-8d26830aae77")
+		(property "Reference" "FID2"
+			(at 93.98 186.6899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Fiducial"
+			(at 93.98 189.2299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Fiducial:Fiducial_1mm_Mask2mm"
+			(at 91.44 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 91.44 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Fiducial Marker"
+			(at 91.44 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "FID2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "LED:WS2812B")
+		(at 107.95 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "bf4b29d5-5adb-4208-9a5a-181b5de426f7")
+		(property "Reference" "D1"
+			(at 107.95 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WS2812B-2020"
+			(at 107.95 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Library:worldsemi-WS2812B-2020-V6"
+			(at 107.95 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf"
+			(at 107.95 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "WS2812B-2020-V6 RGB LED (IC) 300ns 120us"
+			(at 107.95 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "worldsemi"
+			(at 107.95 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "WS2812B-2020-V6"
+			(at 107.95 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C52917434"
+			(at 107.95 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "WS2812B-2020-V6"
+			(at 107.95 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1423f2bd-2a81-49ed-bbe9-96417bb2c8b8")
+		)
+		(pin "2"
+			(uuid "e70fba7a-f0da-4029-96e4-8699385ff1db")
+		)
+		(pin "3"
+			(uuid "4a4c56ef-34a8-4447-8d07-7d3aecd80791")
+		)
+		(pin "4"
+			(uuid "c1821fe4-8e00-4aea-84a7-afd012e14101")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "D1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Waveshare_RP2040_Zero:Waveshare-RP2040-Zero")
+		(at 53.34 114.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d5e56dbe-4526-4815-a4ca-f689b600cfb0")
+		(property "Reference" "WS-RP2040-Zero1"
+			(at 55.4833 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.254)
+					(bold yes)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Waveshare RP2040 Zero"
+			(at 55.4833 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Library:Waveshare RP2040 Zero"
+			(at 83.82 122.682 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.waveshare.com/wiki/RP2040-Zero?srsltid=AfmBOorN1UXlSk3jXV3RZN3xFhp0tttk_Mw0BzZFhS5Jrp9axvfetlSL#Firmware_Download"
+			(at 83.82 121.412 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Description" "Waveshare RP2040 Zero"
+			(at 83.82 117.602 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Waveshare"
+			(at 83.82 125.222 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "20187"
+			(at 84.074 119.634 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Distributor Link" "https://item.szlcsc.com/6136910.html?fromZone=s_s__%2522RP2040%2520zero%2522&spm=sc.gbn.xh1.zy.n___sc.hm.hst.1&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D&alichlgref=https%3A%2F%2Fso.szlcsc.com%2F"
+			(at 84.074 129.032 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C5350143"
+			(at 83.82 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(pin "12"
+			(uuid "261cae70-48be-4ec7-bdd3-b5900b6cad20")
+		)
+		(pin "13"
+			(uuid "942000cd-52cc-42f3-b40f-a1c7effb561d")
+		)
+		(pin "11"
+			(uuid "7e5b0d95-a0e0-4198-94ca-c005e0ed0826")
+		)
+		(pin "8"
+			(uuid "6849b15c-ddd3-4926-924c-ec3c46f8338a")
+		)
+		(pin "23"
+			(uuid "519e036c-d744-495c-afc5-060c25b13545")
+		)
+		(pin "15"
+			(uuid "282825ac-6576-42d6-b756-6d08d1653ea4")
+		)
+		(pin "16"
+			(uuid "e056647d-58ec-4372-919e-2227fb6ab635")
+		)
+		(pin "17"
+			(uuid "497988e6-a1eb-43fd-a2cd-452cb8ebc805")
+		)
+		(pin "18"
+			(uuid "bc99344e-b0d4-4353-bf89-9d71091fd00c")
+		)
+		(pin "19"
+			(uuid "e9002159-dbf2-4804-a40c-925f1797b216")
+		)
+		(pin "20"
+			(uuid "b0d5abe2-11a1-47b9-b0eb-9592aa1b9e22")
+		)
+		(pin "21"
+			(uuid "f689c7e9-15bf-435e-acf3-7aa3a1a7b990")
+		)
+		(pin "14"
+			(uuid "27f4b410-3c9f-47a7-9067-4d6e0734706c")
+		)
+		(pin "10"
+			(uuid "0cd05b1a-9965-4c78-b6ee-819b370ff209")
+		)
+		(pin "22"
+			(uuid "eba8312f-979c-47a6-a9ec-1a7523041dd7")
+		)
+		(pin "1"
+			(uuid "b53ade20-2a04-43a7-902d-8e7fd8d7a1df")
+		)
+		(pin "9"
+			(uuid "4033f8f0-3d8f-43ce-836a-3703a924126d")
+		)
+		(pin "7"
+			(uuid "80ec3b67-e791-4866-89bc-30dce556454e")
+		)
+		(pin "6"
+			(uuid "1b4af14c-ef33-44ac-a0f7-3c2a7dbdece1")
+		)
+		(pin "5"
+			(uuid "ddb814ec-585a-481e-9e5d-1b4b0ebd56a1")
+		)
+		(pin "4"
+			(uuid "8b4695ba-b20f-4f19-8e90-23069b6f219e")
+		)
+		(pin "3"
+			(uuid "bbc3638e-d3ce-44d5-a4c3-e165eeb1fa90")
+		)
+		(pin "2"
+			(uuid "68965dff-beb6-4199-8469-ad6e61c03b10")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "WS-RP2040-Zero1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:Fiducial")
+		(at 76.2 187.96 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d7d418cc-6a0c-4278-842e-665b255d8831")
+		(property "Reference" "FID1"
+			(at 78.74 186.6899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Fiducial"
+			(at 78.74 189.2299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Fiducial:Fiducial_1mm_Mask2mm"
+			(at 76.2 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 76.2 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Fiducial Marker"
+			(at 76.2 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "FID1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 269.24 80.01 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e7378ff6-8b4b-4b4e-952a-9a754c69268e")
+		(property "Reference" "C9"
+			(at 269.24 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100nF"
+			(at 269.24 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 269.24 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://item.szlcsc.com/291005.html?fromZone=s_s__%25220402%2522&spm=sc.gbn.xh23.zy.n___sc.gbn.hd.ss&lcsc_vid=EwBYBVJfEwILVlBQRgReAlZWEVleA1ZVElUKVQEHFFkxVlNeRFZYXlBRT1BYUTsOAxUeFF5JWBYZEEoMGwJABAsLWA%3D%3D"
+			(at 269.24 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "100nF ±10% 50V  X7R MLCC 0402 RoHS"
+			(at 269.24 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Samsung"
+			(at 269.24 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "CL05B104KB54PNC"
+			(at 269.24 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C307331"
+			(at 269.24 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part Number" "CL05B104KB54PNC"
+			(at 269.24 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c439a4b5-5a91-472e-8a91-95fc903146e0")
+		)
+		(pin "2"
+			(uuid "6fe2d849-34aa-4d9c-a1d7-6ce5803c321c")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "C9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 29.21 187.96 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f1eb0266-fe71-44a8-af7e-d38aa008ea93")
+		(property "Reference" "MH1"
+			(at 31.75 186.6899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "M3"
+			(at 31.75 189.2299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_ISO7380"
+			(at 29.21 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 29.21 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 29.21 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "MH1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 60.96 187.96 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "fb1a24a4-7f90-4f14-b99f-9ad1751637de")
+		(property "Reference" "MH4"
+			(at 63.5 186.6899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "M3"
+			(at 63.5 189.2299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_ISO7380"
+			(at 60.96 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 60.96 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 60.96 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "MH4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 74.93 92.71 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "fdbbeeb9-4e63-4b01-a36b-f804550637d4")
+		(property "Reference" "#FLG01"
+			(at 74.93 90.805 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 74.93 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 74.93 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 74.93 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 74.93 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "12552a51-1f33-4c87-965d-90287e30ff07")
+		)
+		(instances
+			(project "andon_light_strip"
+				(path "/8a534799-7489-47d6-8065-afa00ac59ea9"
+					(reference "#FLG01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

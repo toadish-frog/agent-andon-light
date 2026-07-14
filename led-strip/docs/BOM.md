@@ -1,6 +1,4 @@
-# Bill of Materials: Agent Andon Light (LED Strip variant)
-
-Companion to `../../led-bulb/docs/BOM.md` — same MCU, different LED board. See that doc for the general parts-buying notes; this doc only calls out what differs for the strip variant.
+# Bill of Materials: Agent Andon Light
 
 Every part below is a standard, unrestricted commodity electronic component (microcontroller dev board + addressable LEDs + passives). Nothing here is export-controlled, encryption-related, or radio-emitting beyond the board's native USB.
 
@@ -8,7 +6,7 @@ Every part below is a standard, unrestricted commodity electronic component (mic
 
 | # | Part | Qty | Approx. Cost | Notes |
 | --- | --- | --- | --- | --- |
-| 1 | Waveshare RP2040-Zero | 1 | ¥30 | The MCU dev board |
+| 1 | Waveshare RP2040-Zero | 1 | ¥30 | The MCU dev board — see `Implementation-Summary.md` §1 for why this board was chosen |
 | 2 | Custom PCBA, WS2812-style addressable strip (10 LEDs) | 1 | — (already in hand) | — |
 | 3 | Half-size breadboard | 1 | ¥10 | — |
 | 4 | Jumper wire set (M-M, M-F) | 1 set | ¥10 | — |
@@ -20,13 +18,17 @@ Every part below is a standard, unrestricted commodity electronic component (mic
 
 **Phase 1 total: ~¥60 (~$8), plus whatever the PCBA itself cost.** No soldering strictly required beyond the MCU's header pins — everything else plugs together.
 
-> **Difference from the bulb variant:** this variant's LED PCBA (item #2) is an addressable WS2812-style strip with 10 LEDs on a 3-pin connector (`S`/`V`/`G`), not 3 discrete bulbs on a 4-pin connector. It draws meaningfully more current than the bulb PCBA (10 LEDs vs. 3), so `V` must come from the MCU's 5V/`VBUS` pin, not 3V3 — see `../firmware/README.md` for the full power reasoning.
+## Phase 2 — Custom PCB (manufacturing, 2026-07-14)
 
-## Phase 2 — Custom PCB
+RP2040-Zero + 390Ω 0805 series resistor + bulk electrolytic cap + one 100nF decoupling cap per LED + 10x WS2812B LEDs, all consolidated onto a single hand-routed KiCad board. The RP2040-Zero is hand-soldered directly to the board (unused castellated pins soldered for mechanical anchoring only) rather than connected via a separate connector.
 
-Same fab path as the bulb variant (`../../led-bulb/docs/BOM.md` Phase 2) if you later consolidate MCU + LED strip onto one board — not detailed separately here since it depends on the final KiCad layout, which hasn't been designed yet for either variant.
+The authoritative parts list for the fabricated board is `../hardware/manufacturing/send-to-jlc/andon_light_strip-RevA-BOM.csv` (JLC assembly BOM) and its accompanying CPL (component placement) file, not a hand-maintained table here — those are generated directly from the KiCad project and are what was actually sent to the fab, so they won't drift out of sync the way a duplicated table here could.
+
+- Custom PCB (2-layer), Rev A: sent to JLC (`../hardware/manufacturing/send-to-jlc/`, contract on file) — boards not yet in hand.
+- No level shifter footprint populated by default (item #7 above resolved as unnecessary on real hardware) — see `Implementation-Summary.md` §6 Open Questions if this needs revisiting for a longer run or a different WS2812 clone batch.
 
 ## Notes
 
-- The LED strip PCBA (item #2) is already in hand — not something to source for Phase 1.
-- Buy a spare strip PCBA if redesigning in Phase 2 — cheap insurance, same reasoning as spare bulbs in the bulb variant's BOM.
+- If you want an assembly service to place and solder the SMD parts for you rather than hand-soldering, the parts you list in the BOM need to be in that assembler's own stock — check before finalizing the KiCad BOM. Hand-soldering has no such constraint.
+- Buy a spare strip PCBA if redesigning — cheap insurance against a dead LED or a reversed-polarity mistake during hand-soldering.
+- **Earlier interim hardware (archived, not part of the current BOM):** Phase 1 of this project originally validated firmware/host/hooks against a different LED board — a custom PCBA with 3 discrete LED bulbs (Red/Yellow/Green) on a 4-pin connector, ¥3-ish per bulb + a 220–330 Ω current-limiting resistor per bulb. That hardware and its own BOM are preserved at `../archive/led-bulb-mvp/docs/BOM.md` for historical reference — it's not part of the ongoing deliverable and nothing here depends on it.
