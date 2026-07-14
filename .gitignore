@@ -7,18 +7,18 @@
 /led-strip/hardware/manufacturing
 
 # KiCAD backup files
-/led-strip/hardware/kicad/andon_light_strip-backups
+/led-strip/hardware/pcb/andon_light_strip-backups
 
 # KiCAD temporary files and personal workspace preferences
-/led-strip/hardware/kicad/_wip*
-/led-strip/hardware/kicad/*.tmp
-/led-strip/hardware/kicad/*-bak
-/led-strip/hardware/kicad/*.bak
-/led-strip/hardware/kicad/*.lck
-/led-strip/hardware/kicad/*.kicad_prl
-/led-strip/hardware/kicad/*.kicad_user
-/led-strip/hardware/kicad/*cache
+/led-strip/hardware/pcb/_wip*
+/led-strip/hardware/pcb/*.tmp
+/led-strip/hardware/pcb/*-bak
+/led-strip/hardware/pcb/*.bak
+/led-strip/hardware/pcb/*.lck
+/led-strip/hardware/pcb/*.kicad_prl
+/led-strip/hardware/pcb/*.kicad_user
+/led-strip/hardware/pcb/*cache
 
 # Auto-save files
-/led-strip/hardware/kicad/_autosave-*
-/led-strip/hardware/kicad/*.autosave
+/led-strip/hardware/pcb/_autosave-*
+/led-strip/hardware/pcb/*.autosave
