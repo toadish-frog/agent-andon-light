@@ -22,3 +22,12 @@
 # Auto-save files
 /device/hardware/pcb/_autosave-*
 /device/hardware/pcb/*.autosave
+
+
+# Python script to build the chassis CAD
+/device/hardware/cad/*.py
+/device/hardware/cad/__pycache__
+
+# FreeCAD backup
+/device/hardware/cad/*.FCBak
+/device/hardware/cad/*.brep
