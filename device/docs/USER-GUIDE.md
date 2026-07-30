@@ -4,16 +4,16 @@ A companion doc for the "I've never built hardware before" part of this project 
 
 ## Glossary (hardware terms used across this project)
 
-- **MCU (microcontroller)** — the small computer chip on your dev board. The Waveshare RP2040-Zero has one (the RP2040 chip itself). It runs the firmware you write.
+- **MCU (microcontroller)** — the small computer chip on your dev board. The Waveshare RP2040-Zero has one (the RP2040 chip itself), and it runs the firmware you write.
 - **Firmware** — the program that runs *on* the MCU, as opposed to on your laptop. Written in C++ here, using the Arduino framework.
 - **Dev board** — a small ready-made PCB with the MCU plus USB, power regulation, etc. already wired up, so you don't need to design that part yourself. The RP2040-Zero is a dev board.
-- **Addressable LED / WS2812** — unlike a plain on/off LED, an addressable LED is controlled over a single data wire using a precise timed protocol, and many can be daisy-chained on that one wire, each individually settable to its own color. This project uses that per-pixel control to split the 10-pixel strip into dedicated sections — see "Pixel layout" below — rather than setting every pixel to the same color at once.
-- **NeoPixel** — Adafruit's name for WS2812-family addressable LEDs, and the name of the Arduino library (`Adafruit_NeoPixel`) used to drive them — see `../firmware/README.md`.
-- **Data line / signal timing** — WS2812 LEDs read color data as a sequence of precisely-timed pulses (roughly 800kHz). Too fast and too precise for plain `digitalWrite` loops, which is why this project needs the NeoPixel library.
-- **Serial / USB CDC** — a way for the dev board to show up on your computer as a plain "serial port" (like an old-school COM port) over USB, so your Python code can just open it and write/read text, no custom USB driver needed on Linux/macOS.
-- **Watchdog** — a safety timer in the firmware that resets to a known-safe state if it doesn't hear from the host software for too long, so the device fails safely instead of freezing on stale data.
-- **KiCad** — free, open-source software for designing PCBs. This project's schematic/PCB were hand-drawn in KiCad's GUI (see `Implementation-Summary.md` §5 Phase 5) — see `../hardware/`.
-- **PCBA** — "PCB Assembly": a bare PCB with all the components soldered onto it. A PCB fab/assembly service can do this for you from your KiCad files, or you can hand-solder it yourself.
+- **Addressable LED / WS2812** — unlike a plain on/off LED, an addressable LED is controlled over a single data wire using a precise timed protocol, and many can be daisy-chained on that one wire, each individually settable to its own color. This project uses that per-pixel control to split the 10-pixel strip into dedicated sections (see "Pixel layout" below) rather than setting every pixel to the same color at once.
+- **NeoPixel** — Adafruit's name for WS2812-family addressable LEDs, and the Arduino library (`Adafruit_NeoPixel`) used to drive them — see `../firmware/README.md`.
+- **Data line / signal timing** — WS2812 LEDs read color data as a sequence of precisely-timed pulses (roughly 800kHz), too fast and precise for plain `digitalWrite` loops — why this project needs the NeoPixel library.
+- **Serial / USB CDC** — lets the dev board show up on your computer as a plain "serial port" (like an old-school COM port) over USB, so Python can just open it and write/read text, no custom driver needed on Linux/macOS.
+- **Watchdog** — a firmware safety timer that resets to a known-safe state if it hasn't heard from the host software in too long, so the device fails safely instead of freezing on stale data.
+- **KiCad** — free, open-source PCB design software. This project's schematic/PCB were hand-drawn in KiCad's GUI (see `Implementation-Summary.md` §5 Phase 5) — see `../hardware/`.
+- **PCBA** — "PCB Assembly": a bare PCB with all components soldered on. A fab/assembly service can do this from your KiCad files, or you can hand-solder it yourself.
 
 ## Phase 1 Setup Checklist (Breadboard MVP)
 
@@ -33,7 +33,7 @@ role:    status       green section    yellow section    red section
 lit by:  always on    G                Y                  R / stale-pulse
 ```
 
-- **Pixel 1** is a dim white "board is powered and running" indicator — it's on in every state, including right after boot before any command has been sent.
+- **Pixel 1** is a dim white "board is powered and running" indicator — on in every state, including right after boot before any command has been sent.
 - **`G`** → pixels 2-4 solid green (pixels 5-10 dark, except pixel 1).
 - **`Y`** → pixels 5-7 solid yellow (pixels 2-4 and 8-10 dark, except pixel 1).
 - **`R`** → pixels 8-10 solid red (pixels 2-7 dark, except pixel 1).

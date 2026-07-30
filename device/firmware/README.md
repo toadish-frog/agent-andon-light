@@ -6,13 +6,13 @@ Addressable WS2812-style strip PCBA, 10 LEDs, 3-pin `S`/`V`/`G` connector. An ea
 
 ## Dependency: Adafruit_NeoPixel
 
-An addressable WS2812-style strip needs sub-microsecond bit timing that the Arduino core can't produce with ordinary `digitalWrite`/`analogWrite` GPIO calls (which is all the archived bulb MVP needed, with no library at all). This sketch uses the **Adafruit_NeoPixel** library (Arduino Library Manager → search "Adafruit NeoPixel" → Install) — the standard, widely-used driver for this exact chip family, with native RP2040/PIO support via `arduino-pico`.
+An addressable WS2812-style strip needs sub-microsecond bit timing that the Arduino core can't produce with ordinary `digitalWrite`/`analogWrite` GPIO calls (which is all the archived bulb MVP needed, with no library at all). This sketch uses the **Adafruit_NeoPixel** library (Arduino Library Manager → search "Adafruit NeoPixel" → Install) — the standard driver for this chip family, with native RP2040/PIO support via `arduino-pico`.
 
 ## Setup (once)
 
 1. Arduino IDE 2.x, with the `arduino-pico` board package installed.
 2. Install the **Adafruit NeoPixel** library via Library Manager (Tools → Manage Libraries...).
-3. Open `andon_light_firmware_strip/andon_light_firmware_strip.ino` — Arduino IDE will load `led_controller.h/.cpp` and `watchdog.h` alongside it as tabs.
+3. Open `andon_light_firmware_strip/andon_light_firmware_strip.ino` — Arduino IDE loads `led_controller.h/.cpp` and `watchdog.h` alongside it as tabs.
 
 ## Wiring
 
@@ -26,7 +26,7 @@ Change the pin in `andon_light_firmware_strip.ino` by editing `kDataPin` if you 
 
 ### Power note
 
-Pull `V` from the RP2040-Zero's `5V`/`VBUS` pin, not `3V3` — WS2812-style LEDs are rated for ~5V and 10 of them can draw meaningfully more current than the 3 discrete bulbs did. The data line itself runs at 3.3V logic from the RP2040, which most WS2812 clones tolerate fine at short (<~30cm) wire lengths; if you see flicker or wrong colors, the usual fix is a level shifter (e.g. 74HCT125) on the data line, or shortening the wire run. Firmware caps brightness at `kBrightness = 130/255` in `led_controller.cpp` (see the comment there) to keep both current draw and eye comfort reasonable — raise it if the strip is diffused behind a cover.
+Pull `V` from the RP2040-Zero's `5V`/`VBUS` pin, not `3V3` — WS2812-style LEDs are rated for ~5V, and 10 of them can draw meaningfully more current than the 3 discrete bulbs did. The data line itself runs at 3.3V logic from the RP2040, which most WS2812 clones tolerate fine at short (<~30cm) wire lengths; if you see flicker or wrong colors, the usual fix is a level shifter (e.g. 74HCT125) on the data line, or shortening the wire run. Firmware caps brightness at `kBrightness = 130/255` in `led_controller.cpp` (see the comment there) to keep both current draw and eye comfort reasonable — raise it if the strip is diffused behind a cover.
 
 ### Breadboard wiring (as built, confirmed working 2026-07-11)
 
@@ -50,7 +50,7 @@ role:    status    green section    yellow section    red section
 color:   dim white 0,255,0 (G)      255,255,0 (Y)      255,0,0 (R)
 ```
 
-- **Pixel 1 is always dim white**, regardless of state — it's a "board is powered and firmware is running" indicator, separate from the G/Y/R state color. It stays lit through every state, including `Off`.
+- **Pixel 1 is always dim white**, regardless of state — a "board is powered and firmware is running" indicator, separate from the G/Y/R state color. It stays lit through every state, including `Off`.
 - **`G`** lights pixels 2-4 green; pixels 5-10 go dark.
 - **`Y`** lights pixels 5-7 yellow; pixels 2-4 and 8-10 go dark.
 - **`R`** lights pixels 8-10 red; pixels 2-7 go dark.
@@ -67,7 +67,7 @@ See `led_controller.cpp`'s `kGreenStart`/`kYellowStart`/`kRedStart`/`kStatusPixe
 
 ## Status: flashed and confirmed working (2026-07-11)
 
-`kDataPin = GPIO1` is correct against the real PCBA — `G`/`Y`/`R` all confirmed lighting the correct 3-pixel section on the physical strip, running through the breadboard wiring described above (resistor + capacitor, no level shifter needed). **Not yet exercised:** `C` (CompactFlash) and the watchdog `StalePulse` animation, and the exact brightness/dim-white values (`kBrightness`, `kDimWhiteLevel`) haven't been explicitly evaluated as "right," just observed as functional — see `../docs/Implementation-Summary.md` §5 "Open questions" for what's still outstanding.
+`kDataPin = GPIO1` is correct against the real PCBA — `G`/`Y`/`R` all confirmed lighting the correct 3-pixel section on the physical strip, running through the breadboard wiring described above (resistor + capacitor, no level shifter needed). **Not yet exercised at this milestone:** `C` (CompactFlash) and the watchdog `StalePulse` animation, and the exact brightness/dim-white values (`kBrightness`, `kDimWhiteLevel`) hadn't been explicitly evaluated as "right," just observed as functional. Both were later confirmed on the fabricated PCB — see `../docs/Implementation-Summary.md` §5 Phase 5 and §6 Open Questions.
 
 ## Wire protocol
 

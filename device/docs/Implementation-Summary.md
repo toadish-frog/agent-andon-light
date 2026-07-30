@@ -2,7 +2,7 @@
 
 *Generated from `.prompt/arch/ARCH-prompt.md`. This is the living reference for the project's tech stack, architecture, structure, and roadmap. Update it as decisions change — treat it as project memory, not a one-time snapshot.*
 
-This is now the **sole** Implementation Summary for the project. Through 2026-07-14 the project carried two parallel hardware tracks — `led-bulb/` (3 discrete LED bulbs) and `led-strip/` (10-LED addressable WS2812 strip) — each with its own doc set. That framing is retired: **the addressable strip is the only ongoing hardware line**, now living at `device/` (renamed from `led-strip/` once "strip" stopped being a meaningful qualifier with no other variant left to disambiguate from), and the bulb PCBA is preserved as a historical phase (see "Phase 1 — Breadboard MVP" below), archived under [`../archive/led-bulb-mvp/`](../archive/led-bulb-mvp/) rather than kept as a second, competing deliverable.
+This is now the **sole** Implementation Summary for the project. Through 2026-07-14 the project carried two parallel hardware tracks — `led-bulb/` (3 discrete LED bulbs) and `led-strip/` (10-LED addressable WS2812 strip) — each with its own doc set. That's retired: **the addressable strip is the only ongoing hardware line**, now living at `device/` (renamed from `led-strip/`, since "strip" no longer needs to disambiguate from anything). The bulb PCBA is preserved as history at [`../archive/led-bulb-mvp/`](../archive/led-bulb-mvp/) — see "Phase 1 — Breadboard MVP" below — not kept as a second deliverable.
 
 ---
 
@@ -13,17 +13,17 @@ This is now the **sole** Implementation Summary for the project. Through 2026-07
 | Part | Recommendation | Why |
 | --- | --- | --- |
 | MCU board | **Waveshare RP2040-Zero** | Native USB (no separate USB-UART chip), thumbnail-sized (23.5×18mm) with castellated pads (hand-solderable onto a custom PCB), USB-C, ~¥30. Fully supported by Arduino IDE via the `arduino-pico` board package. Has its own onboard WS2812 RGB LED (GPIO16), so firmware/toolchain can be smoke-tested before wiring anything external. |
-| Status LEDs (final) | **Custom PCBA, WS2812-style addressable strip, 10 LEDs**, wired to the MCU via a 3-pin connector (`S`/`V`/`G`) | The project's final, only status-light hardware. Each pixel is individually addressable over one data wire (`Adafruit_NeoPixel`), which lets each agent state own a dedicated 3-pixel section of the strip instead of one shared color across a fixed number of discrete bulbs — see "Addressable pixel layout" below. |
-| Status LEDs (Phase 1 interim, archived) | Custom PCBA, 3x discrete LED bulbs (Red/Yellow/Green), 4-pin connector (`GND`+3 signal) | Used to validate firmware/host-CLI/hooks end-to-end before the strip's custom PCB existed — see "Phase 1 — Breadboard MVP" below and [`archive/led-bulb-mvp/`](../archive/led-bulb-mvp/). Each bulb was a plain on/off GPIO output (`digitalWrite`/`analogWrite`, no addressable protocol) — simpler to drive, at the cost of the strip's per-pixel flexibility. Retired once the strip PCB was designed and sent to fab. |
-| Cable / connector | 3-conductor wire or JST-style connector matching the strip PCBA's header, plus USB-C to USB-A cable (data-capable) to the host | 3 wires (`S`/`V`/`G`) from MCU to the strip PCBA; USB-C carries power+serial to the host computer. |
-| Enclosure (Phase 6) | 3D-printed or laser-cut diffuser + base | Cheap to iterate on locally or via a print-on-demand service. Needs to pass light through 9 individually visible segments, not 3 discrete bulb positions — see Phase 6 below. |
+| Status LEDs (final) | **Custom PCBA, WS2812-style addressable strip, 10 LEDs**, wired to the MCU via a 3-pin connector (`S`/`V`/`G`) | The project's only status-light hardware. Individually addressable per pixel over one data wire (`Adafruit_NeoPixel`), letting each agent state own a dedicated 3-pixel section instead of one shared color across fixed bulbs — see "Addressable pixel layout" below. |
+| Status LEDs (Phase 1 interim, archived) | Custom PCBA, 3x discrete LED bulbs (Red/Yellow/Green), 4-pin connector (`GND`+3 signal) | Validated firmware/host-CLI/hooks end-to-end before the strip's custom PCB existed — see "Phase 1 — Breadboard MVP" below and [`archive/led-bulb-mvp/`](../archive/led-bulb-mvp/). Each bulb was a plain on/off GPIO output (`digitalWrite`/`analogWrite`, no addressable protocol) — simpler to drive, at the cost of the strip's per-pixel flexibility. Retired once the strip PCB was designed and sent to fab. |
+| Cable / connector | 3-conductor wire or JST-style connector matching the strip PCBA's header, plus a data-capable USB-C to USB-A cable to the host | 3 wires (`S`/`V`/`G`) from MCU to the strip PCBA; USB-C carries power + serial to the host computer. |
+| Enclosure | 3D-printed diffuser + base | Passes light through 9 individually visible segments, not 3 discrete bulb positions — see Phase 6 below. |
 
 No part on this list is export-restricted or unusual — it's a commodity microcontroller and commodity LEDs, the same components used in countless hobbyist keyboards and lamps.
 
 ### Firmware
 
 - **Language:** C++ (Arduino framework).
-- **Library:** **Adafruit_NeoPixel** — required for the WS2812 strip; timing can't be bit-banged reliably with plain GPIO calls. (The archived bulb MVP needed no LED library at all — plain `digitalWrite`/`analogWrite` sufficed for 3 discrete on/off bulbs.)
+- **Library:** **Adafruit_NeoPixel** — required for the WS2812 strip; timing can't be bit-banged reliably with plain GPIO calls. (The archived bulb MVP needed no LED library — plain `digitalWrite`/`analogWrite` sufficed for 3 discrete on/off bulbs.)
 - **Toolchain:** Arduino IDE (or Arduino CLI) with the `arduino-pico` board package.
 - **Interface:** USB CDC serial — enumerates as a plain serial port on every OS, no custom driver needed on Linux/macOS; Windows may auto-install a CDC driver or need the one-time `arduino-pico` INF.
 - **Power:** must be 5V/`VBUS`, not 3.3V — 10 addressable LEDs draw meaningfully more current than the bulb MVP's 3 discrete LEDs did. Firmware caps brightness (`kBrightness = 130/255`) to keep draw and eye comfort reasonable.
@@ -33,7 +33,7 @@ No part on this list is export-restricted or unusual — it's a commodity microc
 - **Language: Python 3.** Deliberate deviation from C (firmware stays C++): the host needs to run identically on Linux/Windows/macOS with minimal setup, and `pyserial` + `pipx install andon-light` is far less friction than distributing compiled C binaries for three OSes.
 - **Key library:** `pyserial` for the serial link.
 - **Packaging:** a small pip-installable package (`andon-light`) exposing a CLI.
-- **Integration point:** Claude Code [Hooks](https://docs.claude.com/) — `SessionStart` → `andon-light set idle` (default state), `UserPromptSubmit`/`PreToolUse` → `andon-light set working`, `Notification`/`PermissionRequest` → `andon-light set waiting`, `PostCompact` → `andon-light set compacting` (chase-fill on the strip), `Stop`/`SessionEnd` → `andon-light set idle`. Commands run synchronously (not `async`) — each call is only ~40-50ms, and `async` was found to cause an ordering race (see `../../hooks/README.md` "Why not async").
+- **Integration point:** Claude Code [Hooks](https://docs.claude.com/) — `SessionStart` → `andon-light set idle` (default state), `UserPromptSubmit`/`PreToolUse` → `andon-light set working`, `Notification`/`PermissionRequest` → `andon-light set waiting`, `PostCompact` → `andon-light set compacting` (chase-fill on the strip), `Stop`/`SessionEnd` → `andon-light set idle`. Commands run synchronously, not `async` — each call is only ~40-50ms, and `async` was found to cause an ordering race (see `../../hooks/README.md` "Why not async").
 - **Known gap:** no hook fires on a user-initiated Esc/interrupt — not currently exposed by Claude Code's hook system. The light holds its last color through an Esc interrupt.
 - **Planned: one-click cross-platform installer** — see Phase 7 below.
 - **Unaffected by which firmware is flashed.** `host/andon_light/cli.py` maps each state to a single ASCII byte (`G`/`Y`/`R`/`C`) and writes it to whatever serial port `device_discovery.py` found — it has no idea how many LEDs are on the other end or how they're wired. That logic lives entirely in firmware, on the far side of the serial link. This is why `host/` and `hooks/` needed zero changes when the project moved from the bulb MVP to the strip.
@@ -79,7 +79,7 @@ C\n   → compacting: chase-fill sequence (internal maintenance, still "alive")
 H\n   → heartbeat (no color change, resets watchdog)
 ```
 
-**Reliability design point:** the whole premise of this device is that the user *walks away and trusts it*. The firmware runs a watchdog timer — if no heartbeat or command arrives within **30 minutes** of the last one, it falls back to a distinct slow-pulse red on the red section ("stale/disconnected"), rather than silently freezing on a stale color if the host driver crashes. Originally 15s, raised to 30 minutes (2026-07-07) after real Claude Code sessions showed it false-triggering during long tool-call-free thinking stretches; a `PreToolUse` hook was added so any tool-heavy stretch keeps kicking the watchdog continuously.
+**Reliability design point:** the premise of this device is that the user *walks away and trusts it*. The firmware runs a watchdog timer — if no heartbeat or command arrives within **30 minutes** of the last one, it falls back to a distinct slow-pulse red on the red section ("stale/disconnected") rather than silently freezing on a stale color if the host driver crashes. Originally 15s, raised to 30 minutes (2026-07-07) after real Claude Code sessions showed it false-triggering during long tool-call-free thinking stretches; a `PreToolUse` hook was added so any tool-heavy stretch keeps kicking the watchdog continuously.
 
 ### Addressable pixel layout
 
@@ -155,9 +155,9 @@ Not Scrum, not pure waterfall — a hybrid that fits a solo builder mixing hardw
 | 2 | Host CLI MVP | **Done (2026-07-07)** |
 | 3 | Claude Code Hook Integration | **Done (2026-07-07)** |
 | 4 | Reliability Pass | **Mostly done (2026-07-07)** — live unplug/replug + long-turn stress test still outstanding |
-| 5 | Custom PCB (strip) | **Manufacturing (2026-07-14)** — schematic/PCB hand-drawn and DRC/ERC-clean in KiCad, Gerbers/BOM/CPL generated, Rev A sent to JLC (`hardware/manufacturing/send-to-jlc/`, contract on file). Boards not yet in hand. |
-| 6 | Enclosure | Not Started — blocked by Phase 5 boards arriving |
-| 7 | Packaging & Distribution | Not Started |
+| 5 | Custom PCB (strip) | **Done (2026-07-30)** — Rev A back from JLC, assembled, reflashed, and electrically verified across all 5 units |
+| 6 | Enclosure | **Done (2026-07-30)** — chassis base + lid 3D-printed via JLC, fit confirmed first-try on all 5 units, no rework needed |
+| 7 | Packaging & Distribution | Not Started — no longer blocked; ready to begin |
 | 8 | Stretch Goals | Backlog |
 
 ---
@@ -175,7 +175,7 @@ Not Scrum, not pure waterfall — a hybrid that fits a solo builder mixing hardw
 
 *Est. ~1 week · 5–8 hrs effort*
 
-**Historical note (2026-07-14):** this phase was completed against the 3-discrete-bulb PCBA, not the WS2812 strip — the strip's own breadboard validation happened later, under what used to be `led-strip/`'s own "companion" doc (now `device/`), and is summarized in Phase 5 below since the strip skipped straight to a custom PCB once the bulb MVP had already proven out firmware/host/hooks. The bulb PCBA's firmware, docs, and wiring notes are preserved at [`../archive/led-bulb-mvp/`](../archive/led-bulb-mvp/) for the full detail (soldering castellated pads, 4-pin wiring, pin confirmation, etc.) — not reproduced here since it's not part of the ongoing deliverable.
+**Historical note (2026-07-14):** this phase was completed against the 3-discrete-bulb PCBA, not the WS2812 strip — the strip's own breadboard validation happened later (now summarized in Phase 5 below) since the strip skipped straight to a custom PCB once the bulb MVP had already proven out firmware/host/hooks. Full detail (soldering castellated pads, 4-pin wiring, pin confirmation) is preserved at [`../archive/led-bulb-mvp/`](../archive/led-bulb-mvp/), not reproduced here since it's not part of the ongoing deliverable.
 
 - **Status: Done (2026-07-07).** Flashed to a real Waveshare RP2040-Zero via Arduino IDE. `G`/`Y`/`R` confirmed correct on the physical bulbs; watchdog stale-pulse confirmed (dropped to breathing red after ~15–18s with no heartbeat, before the timeout was later raised to 30 min).
 
@@ -204,33 +204,35 @@ Not Scrum, not pure waterfall — a hybrid that fits a solo builder mixing hardw
 
 ### Phase 5 — Custom PCB (LED Strip)
 
-**Status: Manufacturing (2026-07-14).** This is the project's one and only ongoing hardware line — the earlier framing of "led-bulb variant Phase 5 on hold in favor of led-strip variant" is retired along with the variant split itself; there is no other Phase 5 to reconcile against.
+**Status: Done (2026-07-30).** This is the project's one and only ongoing hardware line — there is no other Phase 5 to reconcile against.
 
 *Est. 1–2 weeks (design + fab/ship) · 10–15 hrs effort*
 
 - Breadboard-validated the strip circuit first (10-LED WS2812 PCBA, `S`/`V`/`G` wiring, `Adafruit_NeoPixel`, addressable per-state pixel sections — see §2 above) before committing to a PCB layout.
-- Schematic and PCB **hand-drawn in KiCad's GUI** (placement, routing, and footprint choices made directly by hand rather than scripted — an earlier scripted `pcbnew` layout attempt was rejected as too large and not matching commercial WS2812-strip form factor, so the board was rebuilt from scratch by hand). RP2040-Zero soldered directly to the board (unused pins soldered for mechanical anchoring only); 10 daisy-chained WS2812B LEDs, one 390Ω 0805 resistor on the data line, one bulk electrolytic cap, and one 100nF decoupling cap per LED.
+- Schematic and PCB **hand-drawn in KiCad's GUI** — placement, routing, and footprint choices made directly by hand rather than scripted; an earlier scripted `pcbnew` layout attempt was rejected as too large and not matching commercial WS2812-strip form factor, so the board was rebuilt from scratch by hand. RP2040-Zero soldered directly to the board (unused pins soldered for mechanical anchoring only); 10 daisy-chained WS2812B LEDs, one 390Ω 0805 resistor on the data line, one bulk electrolytic cap, and one 100nF decoupling cap per LED.
 - ERC/DRC-clean; Gerbers, drill files, BOM, and CPL exported (`hardware/manufacturing/`).
-- **Rev A sent to JLC for fabrication** (`hardware/manufacturing/send-to-jlc/`, contract on file) — boards ordered, not yet in hand.
+- **Rev A sent to JLC for fabrication** (`hardware/manufacturing/send-to-jlc/`, contract on file) — 5 boards ordered as a small sample run, not an MOQ bulk order, so per-unit cost ran well above what a larger production order would cost (see `BOM.md`).
 - **Deliverable:** first real integrated PCBA — RP2040-Zero + resistor + capacitors + 10 LEDs consolidated onto one board.
-- **Remaining before this phase closes:** boards arrive from JLC, get soldered/inspected, and firmware gets reflashed + re-verified against the actual fabricated board (the breadboard version was already confirmed working — see §2 above — but the PCB's own traces/pads haven't been electrically tested yet).
+- **Closed out (2026-07-30):** all 5 boards arrived from JLC, assembled, and reflashed with the current firmware. Every unit individually confirmed working end-to-end: `G`/`Y`/`R`/`C` all correct on the fabricated PCB's own traces/pads (not just the earlier breadboard version), and the watchdog `StalePulse` breathing-red fallback was triggered and confirmed on real hardware for the first time (previously validated by code inspection only).
 
 ### Phase 6 — Enclosure
 
 *Est. ~1 week · 4–6 hrs effort*
 
-Not started — blocked by Phase 5 boards arriving and dimensions being final. Needs to pass light through 9 individually visible segments rather than 3 discrete bulb positions, which may push toward a continuous frosted channel rather than separate bulb-shaped cutouts.
+**Status: Done (2026-07-30).** Chassis base + lid (`device/hardware/models/andon_light_chassis_base.step`, `andon_light_chassis_lid.step`) 3D-printed via JLC alongside the PCB order. Fit was correct first-try on all 5 units — no redesign or reprint needed. Light passes through the 9-segment strip as intended, with no light-leak or diffusion issues reported.
 
 ### Phase 7 — Packaging & Distribution
 
 *Est. 3–5 days · 4–5 hrs effort*
+
+**Status: Not Started (2026-07-30) — no longer blocked.** Phases 5 and 6 are both done: 5 fully assembled units (PCB + enclosure) exist, flashed and individually verified, so this phase can start whenever it's prioritized.
 
 - Publish the `andon-light` pip package.
 - Write install docs; test on Windows and macOS (CDC driver quirks are the most likely surprise).
 - **One-click installer, one per OS** — package `andon-light` as a standalone executable via **PyInstaller** (no separate Python/pip/pipx needed by the end user).
   - **Linux:** AppImage or tarball + install script.
   - **Windows:** installer (e.g. Inno Setup) wrapping the PyInstaller `.exe`, adding it to `PATH`.
-  - **macOS:** unsigned binaries get blocked by Gatekeeper by default — "one-click" may mean "one right-click → Open" unless code-signing/notarization (paid Apple Developer account) is set up; a real scope decision to make explicitly.
+  - **macOS:** unsigned binaries are blocked by Gatekeeper by default — "one-click" may mean "one right-click → Open" unless code-signing/notarization (paid Apple Developer account) is set up; a real scope decision to make explicitly.
 - **Hooks merge, bundled into the same installer, with explicit permission — required, not optional.** Never silently edit `~/.claude/settings.json` — show the exact `hooks` block, ask for explicit confirmation, let the user pick global vs. project scope, only write after an explicit yes. A "no" is a supported outcome — the CLI stays fully usable via manual `andon-light set ...` calls without hooks.
 - **Deliverable:** someone with zero Python/Arduino/CLI experience downloads one file, runs it, answers one permission prompt, plugs in a pre-flashed device, and it works.
 
@@ -251,10 +253,11 @@ Not started — blocked by Phase 5 boards arriving and dimensions being final. N
 - ~~Data-line signal integrity at 3.3V logic~~ — resolved 2026-07-11: no flicker or wrong colors observed with the series resistor added; a level shifter remains available (unpopulated footprint candidate) if this regresses.
 - ~~Section boundaries (1 status + 3 green + 3 yellow + 3 red)~~ — resolved 2026-07-11, confirmed against the physical 10-pixel strip.
 - ~~`C` (CompactFlash) chase-fill~~ — resolved 2026-07-11, flashed and confirmed working.
+- ~~`StalePulse` animation~~ — resolved 2026-07-30: triggered and confirmed on real fabricated hardware (breathing red on pixels 8-10 after the watchdog timeout), not just validated by code inspection.
+- ~~Fabricated PCB electrical verification~~ — resolved 2026-07-30: all 5 Rev A boards back from JLC, assembled, reflashed, and individually confirmed working (`kDataPin`, power, all 10 pixels, all four states plus `StalePulse`).
 - **Installer tooling choice** — PyInstaller recommended in §1/Phase 7, not yet built or tested on any platform. Worth deciding early whether macOS code-signing/notarization is in scope.
-- **Final brightness value** — `130/255` is a reasoned starting point (current draw + eye comfort), not explicitly evaluated as "the right brightness" yet. Revisit once behind a diffuser (Phase 6).
+- **Final brightness value** — `130/255` is a reasoned starting point (current draw + eye comfort), confirmed workable behind the actual diffuser now that the enclosure is built (Phase 6), but not formally re-tuned against it.
 - **Dim-white status pixel level** — `kDimWhiteLevel = 25` (pre-`kBrightness`-scaling) is a reasoned guess, not explicitly confirmed as the right dimness.
-- **`StalePulse` animation** — written against validated logic but not yet triggered and observed on the physical strip. Needs either a real 30-minute idle wait or temporarily lowering `kWatchdogTimeoutMs`.
-- **Fabricated PCB electrical verification** — the Rev A board sent to JLC hasn't come back yet; firmware/wiring were validated on the breadboard version only. Re-verify `kDataPin`, power, and all 10 pixels once boards are in hand.
+- **Per-unit cost of this fab run** — the 5-board sample order (PCB + assembly + 3D-printed enclosure) was priced well above what a larger MOQ production run would cost; no clean per-unit figure was logged. Worth getting a real quote at a larger quantity before Phase 7 distribution makes per-unit cost a real question.
 
-Next step: boards arrive from JLC → solder/inspect → reflash and re-verify on the real PCB → close out Phase 5.
+Next step: begin Phase 7 (packaging & distribution) — decide the installer tooling approach (PyInstaller) and whether macOS notarization is in scope, then build the one-click installers.

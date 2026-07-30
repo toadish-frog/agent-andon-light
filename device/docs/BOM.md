@@ -24,8 +24,16 @@ RP2040-Zero + 390Ω 0805 series resistor + bulk electrolytic cap + one 100nF dec
 
 The authoritative parts list for the fabricated board is `../hardware/manufacturing/send-to-jlc/andon_light_strip-RevA-BOM.csv` (JLC assembly BOM) and its accompanying CPL (component placement) file, not a hand-maintained table here — those are generated directly from the KiCad project and are what was actually sent to the fab, so they won't drift out of sync the way a duplicated table here could.
 
-- Custom PCB (2-layer), Rev A: sent to JLC (`../hardware/manufacturing/send-to-jlc/`, contract on file) — boards not yet in hand.
+- Custom PCB (2-layer), Rev A: ordered from JLC as a 5-board sample run (`../hardware/manufacturing/send-to-jlc/`, contract on file) — all 5 back in hand, assembled, and confirmed working (2026-07-30).
 - No level shifter footprint populated by default (item #7 above resolved as unnecessary on real hardware) — see `Implementation-Summary.md` §6 Open Questions if this needs revisiting for a longer run or a different WS2812 clone batch.
+
+## Phase 3 — Enclosure (manufacturing, 2026-07-30)
+
+3D-printed chassis, base + lid, ordered alongside the PCB run via JLC's 3D printing service. STEP files: `../hardware/models/andon_light_chassis_base.step`, `../hardware/models/andon_light_chassis_lid.step` (strip reference model: `andon_light_strip.step`).
+
+5 base + 5 lid units printed, assembled onto all 5 PCBAs — fit confirmed correct first-try, no reprint or redesign needed.
+
+**Per-unit cost note (Phases 2 & 3):** both were small sample orders (5 units), not MOQ production runs, so per-unit pricing ran noticeably above what a larger batch would cost — no clean per-unit figure logged. Get a real quote at production quantity before treating this run's cost as representative.
 
 ## Notes
 
