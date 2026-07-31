@@ -1,5 +1,9 @@
 # Agent Andon Light
 
+[![PyPI](https://img.shields.io/pypi/v/andon-light)](https://pypi.org/project/andon-light/)
+[![Python](https://img.shields.io/pypi/pyversions/andon-light)](https://pypi.org/project/andon-light/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 A physical desktop status light and vibe coding companion for Claude Code / CLI coding agents — so you can walk away while an agent works and still know its state at a glance, instead of staring at a terminal.
 
 | | | | |
