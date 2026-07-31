@@ -9,7 +9,7 @@
 | `PreToolUse` | working (green) | Fires on every tool call — keeps the light green through tool-heavy stretches |
 | `Notification` | waiting (yellow) | General "needs your attention" |
 | `PermissionRequest` | waiting (yellow) | Specifically waiting on a permission decision (e.g. approve a `Bash`/`npm install` call) |
-| `PostCompact` | flashing green (compacting) | Internal context compaction — still "alive," distinct from ordinary working |
+| `PreCompact` | flashing green (compacting) | Internal context compaction — still "alive," distinct from ordinary working |
 | `Stop` | idle (red) | Turn/session ended normally |
 | `SessionEnd` | idle (red) | Session terminated for any reason, including abrupt ones `Stop` doesn't cover |
 
@@ -21,7 +21,7 @@ Commands run **synchronously** (not `async`) — see "Why not `async`" below.
 
 **Why `PermissionRequest` was added:** more precise than `Notification` alone for the specific "waiting on a permission approval" moment (e.g. approving a `Bash(npm install)` call). Both map to the same yellow action, so there's no harm in the overlap when `Notification` also fires for the same event.
 
-**Why `PostCompact` gets its own color:** without it, a compaction pass would either stay on whatever color was last set (misleading if it was red/idle) or require another hook just to flip back afterward. A distinct flashing-green state reads as "still alive, doing upkeep" at a glance, and naturally reverts to solid green (or whatever's next) once the following hook fires — no extra "compaction done" hook needed.
+**Why `PreCompact` gets its own color:** without it, a compaction pass would either stay on whatever color was last set (misleading if it was red/idle) or require another hook just to flip back afterward. A distinct flashing-green state reads as "still alive, doing upkeep" at a glance, and naturally reverts to solid green (or whatever's next) once the following hook fires — no extra "compaction done" hook needed.
 
 **Why `SessionStart` was added:** without it, a new session inherits whatever color the previous session left behind — usually fine, since `Stop` already leaves it on idle/red, but not guaranteed if a prior session crashed mid-turn without a clean `Stop`. Setting idle explicitly on `SessionStart` makes the default deterministic regardless of history.
 

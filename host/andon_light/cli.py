@@ -8,6 +8,7 @@ import sys
 import serial
 
 from .device_discovery import find_device_port
+from .hooks_install import run as run_install_hooks
 from .serial_link import SerialLink
 
 COLOR_COMMANDS = {
@@ -55,6 +56,10 @@ def cmd_doctor(_args: argparse.Namespace) -> None:
         print("No device found.")
 
 
+def cmd_install_hooks(args: argparse.Namespace) -> int:
+    return run_install_hooks(scope=args.scope, assume_yes=args.yes)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="andon-light")
     parser.add_argument("--port", help="Explicit serial port, overrides auto-detection")
@@ -74,6 +79,22 @@ def build_parser() -> argparse.ArgumentParser:
     )
     doctor_parser.set_defaults(func=cmd_doctor)
 
+    install_hooks_parser = subparsers.add_parser(
+        "install-hooks", help="Merge the Claude Code hooks into settings.json"
+    )
+    install_hooks_parser.add_argument(
+        "--scope",
+        choices=["global", "project"],
+        default=None,
+        help="global (~/.claude/settings.json) or project (./.claude/settings.json)",
+    )
+    install_hooks_parser.add_argument(
+        "--yes",
+        action="store_true",
+        help="Skip confirmation prompts (requires --scope)",
+    )
+    install_hooks_parser.set_defaults(func=cmd_install_hooks)
+
     return parser
 
 
@@ -81,11 +102,11 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        args.func(args)
+        result = args.func(args)
     except serial.SerialException as exc:
         print(f"andon-light: serial error: {exc}", file=sys.stderr)
         return 1
-    return 0
+    return result if isinstance(result, int) else 0
 
 
 if __name__ == "__main__":

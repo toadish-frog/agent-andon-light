@@ -1,2 +1,0 @@
-[console_scripts]
-andon-light = andon_light.cli:main

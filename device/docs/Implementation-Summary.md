@@ -33,7 +33,7 @@ No part on this list is export-restricted or unusual — it's a commodity microc
 - **Language: Python 3.** Deliberate deviation from C (firmware stays C++): the host needs to run identically on Linux/Windows/macOS with minimal setup, and `pyserial` + `pipx install andon-light` is far less friction than distributing compiled C binaries for three OSes.
 - **Key library:** `pyserial` for the serial link.
 - **Packaging:** a small pip-installable package (`andon-light`) exposing a CLI.
-- **Integration point:** Claude Code [Hooks](https://docs.claude.com/) — `SessionStart` → `andon-light set idle` (default state), `UserPromptSubmit`/`PreToolUse` → `andon-light set working`, `Notification`/`PermissionRequest` → `andon-light set waiting`, `PostCompact` → `andon-light set compacting` (chase-fill on the strip), `Stop`/`SessionEnd` → `andon-light set idle`. Commands run synchronously, not `async` — each call is only ~40-50ms, and `async` was found to cause an ordering race (see `../../hooks/README.md` "Why not async").
+- **Integration point:** Claude Code [Hooks](https://docs.claude.com/) — `SessionStart` → `andon-light set idle` (default state), `UserPromptSubmit`/`PreToolUse` → `andon-light set working`, `Notification`/`PermissionRequest` → `andon-light set waiting`, `PreCompact` → `andon-light set compacting` (chase-fill on the strip), `Stop`/`SessionEnd` → `andon-light set idle`. Commands run synchronously, not `async` — each call is only ~40-50ms, and `async` was found to cause an ordering race (see `../../hooks/README.md` "Why not async").
 - **Known gap:** no hook fires on a user-initiated Esc/interrupt — not currently exposed by Claude Code's hook system. The light holds its last color through an Esc interrupt.
 - **Planned: one-click cross-platform installer** — see Phase 7 below.
 - **Unaffected by which firmware is flashed.** `host/andon_light/cli.py` maps each state to a single ASCII byte (`G`/`Y`/`R`/`C`) and writes it to whatever serial port `device_discovery.py` found — it has no idea how many LEDs are on the other end or how they're wired. That logic lives entirely in firmware, on the far side of the serial link. This is why `host/` and `hooks/` needed zero changes when the project moved from the bulb MVP to the strip.
@@ -157,7 +157,7 @@ Not Scrum, not pure waterfall — a hybrid that fits a solo builder mixing hardw
 | 4 | Reliability Pass | **Mostly done (2026-07-07)** — live unplug/replug + long-turn stress test still outstanding |
 | 5 | Custom PCB (strip) | **Done (2026-07-30)** — Rev A back from JLC, assembled, reflashed, and electrically verified across all 5 units |
 | 6 | Enclosure | **Done (2026-07-30)** — chassis base + lid 3D-printed via JLC, fit confirmed first-try on all 5 units, no rework needed |
-| 7 | Packaging & Distribution | Not Started — no longer blocked; ready to begin |
+| 7 | Packaging & Distribution | **In Progress (2026-07-30)** — PyPI published, `install-hooks` shipped; Windows installer built but untested, Linux is docs-only by design, macOS deferred |
 | 8 | Stretch Goals | Backlog |
 
 ---
@@ -191,7 +191,7 @@ Not Scrum, not pure waterfall — a hybrid that fits a solo builder mixing hardw
 *Est. 2–3 days · 3–4 hrs effort*
 
 - Write `hooks/settings.snippet.json`; merge into a real `settings.json`; run a live Claude Code session against the device.
-- **Status: Done (2026-07-07).** `andon-light` installed globally via `pipx install --editable .`, confirmed on `PATH`. Merged into `~/.claude/settings.json` (global scope). Fine-tuned to 7 hook events (`SessionStart`, `UserPromptSubmit`, `PreToolUse`, `Notification`, `PermissionRequest`, `PostCompact`, `Stop`) plus `SessionEnd` (added 2026-07-08, `Stop` alone doesn't fire on interrupts) after real-session testing exposed gaps and an `async`-induced ordering race — see `../../hooks/README.md`.
+- **Status: Done (2026-07-07).** `andon-light` installed globally via `pipx install --editable .`, confirmed on `PATH`. Merged into `~/.claude/settings.json` (global scope). Fine-tuned to 7 hook events (`SessionStart`, `UserPromptSubmit`, `PreToolUse`, `Notification`, `PermissionRequest`, `PreCompact`, `Stop`) plus `SessionEnd` (added 2026-07-08, `Stop` alone doesn't fire on interrupts) after real-session testing exposed gaps and an `async`-induced ordering race — see `../../hooks/README.md`.
 
 ### Phase 4 — Reliability Pass
 
@@ -225,16 +225,14 @@ Not Scrum, not pure waterfall — a hybrid that fits a solo builder mixing hardw
 
 *Est. 3–5 days · 4–5 hrs effort*
 
-**Status: Not Started (2026-07-30) — no longer blocked.** Phases 5 and 6 are both done: 5 fully assembled units (PCB + enclosure) exist, flashed and individually verified, so this phase can start whenever it's prioritized.
+**Status: In Progress (2026-07-30).** Scope was refined after the initial write-up below: not every OS needs the same treatment, since the actual audience splits by platform, not just by technical skill.
 
-- Publish the `andon-light` pip package.
-- Write install docs; test on Windows and macOS (CDC driver quirks are the most likely surprise).
-- **One-click installer, one per OS** — package `andon-light` as a standalone executable via **PyInstaller** (no separate Python/pip/pipx needed by the end user).
-  - **Linux:** AppImage or tarball + install script.
-  - **Windows:** installer (e.g. Inno Setup) wrapping the PyInstaller `.exe`, adding it to `PATH`.
-  - **macOS:** unsigned binaries are blocked by Gatekeeper by default — "one-click" may mean "one right-click → Open" unless code-signing/notarization (paid Apple Developer account) is set up; a real scope decision to make explicitly.
-- **Hooks merge, bundled into the same installer, with explicit permission — required, not optional.** Never silently edit `~/.claude/settings.json` — show the exact `hooks` block, ask for explicit confirmation, let the user pick global vs. project scope, only write after an explicit yes. A "no" is a supported outcome — the CLI stays fully usable via manual `andon-light set ...` calls without hooks.
-- **Deliverable:** someone with zero Python/Arduino/CLI experience downloads one file, runs it, answers one permission prompt, plugs in a pre-flashed device, and it works.
+- **Published `andon-light` to PyPI (2026-07-30, v0.1.0, MIT licensed).** `pipx install andon-light` now works with no repo clone — see `../../host/README.md` and top-level `README.md`. Package is intentionally tiny (~8KB wheel/sdist).
+- **`andon-light install-hooks` subcommand shipped** — the single implementation of "merge hooks with explicit permission," used both by manual CLI use and by the Windows installer's finish-page checkbox (see below). Prints the exact `hooks` block, asks for confirmation, lets the user pick global vs. project scope, and warns before overwriting an already-customized hook event. Never edits silently — a "no" is a supported outcome, the CLI stays fully usable via manual `andon-light set ...` calls without it. See `../../hooks/README.md`.
+- **Linux: no installer, by design.** Linux users are assumed comfortable with a terminal and willing to read docs — `pipx install andon-light` (or `pipx install --editable .` from source, for development) is the whole story. No AppImage, no `.deb`, no install script — building one would be solving a problem this audience doesn't have.
+- **Windows: real one-click installer, in progress.** PyInstaller `--onefile` build (`windows/build.ps1`, dependency-analysis-based — not "bundle everything," expected size is low tens of MB) wrapped in a per-user Inno Setup installer (`windows/andon-light.iss`, no admin/UAC prompt, adds itself to `PATH`, finish-page checkbox runs `install-hooks`). Windows users are assumed non-technical, unlike the Linux audience — hand-holding is the point here. **Not yet built or tested** — needs to actually run on Windows hardware; see `windows/README.md` for the build steps and what to verify (CDC driver behavior is the main open question).
+- **macOS: still deferred**, no Apple hardware available to build, sign, or test on.
+- **Deliverable (Windows):** someone with zero Python/Arduino/CLI experience downloads one file, runs it, answers one permission prompt, plugs in a pre-flashed device, and it works.
 
 ### Phase 8 — Stretch Goals
 

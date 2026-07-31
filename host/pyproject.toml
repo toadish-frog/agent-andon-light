@@ -2,15 +2,30 @@
 name = "andon-light"
 version = "0.1.0"
 description = "Host-side driver CLI for the Agent Andon Light desktop status device"
+readme = "README.md"
 requires-python = ">=3.9"
+license = "MIT"
+authors = [{ name = "Commando Spaghetto" }]
 dependencies = ["pyserial>=3.5"]
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+Repository = "https://github.com/toadish-frog/agent-andon-light"
 
 [project.scripts]
 andon-light = "andon_light.cli:main"
 
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=77.0.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["andon_light"]
+packages = ["andon_light", "andon_light.data"]
+
+[tool.setuptools.package-data]
+andon_light = ["data/*.json"]

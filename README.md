@@ -23,11 +23,10 @@ This doc covers "I already have the hardware, how do I get it running." Building
 
 **1. Flash the firmware.** Open `device/firmware/andon_light_firmware_strip/andon_light_firmware_strip.ino` in Arduino IDE, select board "Waveshare RP2040-Zero," and upload. Full steps (board-package setup, first-flash BOOTSEL quirk) are in [`device/firmware/README.md`](device/firmware/README.md).
 
-**2. Install the host CLI.**
+**2. Install the host CLI.** Published on PyPI — no repo clone needed for this step:
 
 ```txt
-cd host
-pipx install --editable .
+pipx install andon-light
 ```
 
 Confirm it can see the board:
@@ -36,7 +35,7 @@ Confirm it can see the board:
 andon-light doctor
 ```
 
-Full details in [`host/README.md`](host/README.md).
+Developing this repo instead? Install from source in editable mode — full details in [`host/README.md`](host/README.md).
 
 **3. Wire up the Claude Code hooks.** Merge the `hooks` object from [`hooks/settings.snippet.json`](hooks/settings.snippet.json) into `~/.claude/settings.json` (every session on this machine) or a project's `.claude/settings.json` (that project only). Rationale for each hook mapping is in [`hooks/README.md`](hooks/README.md).
 

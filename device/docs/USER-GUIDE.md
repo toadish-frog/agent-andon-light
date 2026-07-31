@@ -119,4 +119,4 @@ H\n   heartbeat      → no color change, resets the watchdog timer
 
 Watchdog timeout: **30 minutes** (raised from an initial 15s once real Claude Code sessions showed long thinking-only stretches falsely triggering the stale state).
 
-Hook mapping (fine-tuned 2026-07-07/08 from real usage — see `../../hooks/README.md`): `SessionStart`→idle, `UserPromptSubmit`/`PreToolUse`→working, `Notification`/`PermissionRequest`→waiting, `PostCompact`→compacting, `Stop`/`SessionEnd`→idle.
+Hook mapping (fine-tuned 2026-07-07/08 from real usage — see `../../hooks/README.md`): `SessionStart`→idle, `UserPromptSubmit`/`PreToolUse`→working, `Notification`/`PermissionRequest`→waiting, `PreCompact`→compacting, `Stop`/`SessionEnd`→idle.

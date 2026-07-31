@@ -3,6 +3,22 @@
 .claude
 
 
+# Python build/packaging artifacts (host/ CLI)
+__pycache__/
+*.pyc
+*.egg-info/
+/host/dist/
+/host/build/
+/host/.venv/
+
+# Windows installer build output (PyInstaller / Inno Setup)
+/windows/.build-venv/
+/windows/build/
+/windows/dist/
+/windows/*.exe
+/windows/Output/
+
+
 # Gerber files
 /device/hardware/manufacturing
 

@@ -4,29 +4,28 @@ Python driver for the Agent Andon Light. Talks to the firmware (`../device/firmw
 
 ## Install
 
-For local development/testing (isolated venv, not on `PATH` outside it):
+Published on PyPI — for real use (e.g. so Claude Code hooks can call `andon-light`), install it globally on `PATH` via `pipx` (`sudo apt install -y pipx` if you don't have it):
 
 ```txt
-cd host
-python3 -m venv .venv
-.venv/bin/pip install -e .
+pipx install andon-light
 ```
 
-For real use — e.g. so Claude Code hooks can call `andon-light` — install it globally on `PATH` via `pipx` (`sudo apt install -y pipx` if you don't have it):
+No repo clone needed for this path.
+
+If you're actively developing this repo instead, install from source in editable mode — it symlinks back to the source, so edits show up immediately without reinstalling:
 
 ```txt
 cd host
 pipx install --editable .
 ```
 
-`--editable` is right if you're actively developing this repo — it symlinks back to the source, so edits show up immediately without reinstalling. If you're setting this up for someone who just wants a working device, not editing the code, drop `--editable`:
+For local development/testing in an isolated venv (not on `PATH` outside it):
 
 ```txt
 cd host
-pipx install .
+python3 -m venv .venv
+.venv/bin/pip install -e .
 ```
-
-A plain install copies the package into pipx's own store, so it keeps working even if the source folder is later moved or deleted. `--editable` would silently break in that case, since it only points back at the original path.
 
 ## Usage
 
@@ -38,7 +37,11 @@ andon-light set idle                           # solid red
 andon-light set compacting                      # flashing green
 andon-light heartbeat                           # keepalive, no color change
 andon-light --port /dev/ttyACM0 set working     # override auto-detection
+andon-light install-hooks                       # merge Claude Code hooks into settings.json
+andon-light install-hooks --yes --scope global  # same, non-interactive (used by the Windows installer)
 ```
+
+`install-hooks` prints the exact `hooks` block before touching anything, asks for confirmation, lets you pick global (`~/.claude/settings.json`) vs project (`./.claude/settings.json`) scope, and warns before overwriting any hook event you've already customized. It never edits silently — see `../hooks/README.md`.
 
 ## Notes
 

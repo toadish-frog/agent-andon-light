@@ -83,7 +83,7 @@ If `id` is missing `dialout`:
 
   Resets on every replug — a stopgap, not a fix.
 
-**Gotcha: `|| true` hides this failure.** Every hook command ends in `|| true` (see `../../hooks/README.md`), so a disconnected device doesn't spam errors during normal use. That means Claude Code's own hook log (e.g. `PostCompact [andon-light set compacting || true] completed successfully`) reports "completed successfully" **even when the underlying `andon-light` call failed with exactly this permission error** — the hook process itself still exits 0. Don't trust that log line as proof the light actually changed; if you suspect this, run the `andon-light` command directly, without `|| true`, and check its real exit code.
+**Gotcha: `|| true` hides this failure.** Every hook command ends in `|| true` (see `../../hooks/README.md`), so a disconnected device doesn't spam errors during normal use. That means Claude Code's own hook log (e.g. `PreCompact [andon-light set compacting || true] completed successfully`) reports "completed successfully" **even when the underlying `andon-light` call failed with exactly this permission error** — the hook process itself still exits 0. Don't trust that log line as proof the light actually changed; if you suspect this, run the `andon-light` command directly, without `|| true`, and check its real exit code.
 
 ## Step 3: is something else holding the port open?
 

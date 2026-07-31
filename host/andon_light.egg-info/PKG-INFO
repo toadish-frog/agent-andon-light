@@ -1,6 +1,0 @@
-Metadata-Version: 2.4
-Name: andon-light
-Version: 0.1.0
-Summary: Host-side driver CLI for the Agent Andon Light desktop status device
-Requires-Python: >=3.9
-Requires-Dist: pyserial>=3.5
