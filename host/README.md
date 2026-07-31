@@ -20,7 +20,7 @@ host/
 
 ## Install (development)
 
-For actually using the CLI (Claude Code hooks, manual `andon-light` calls), install the published package instead — see [`../packaging/linux/README.md`](../packaging/linux/README.md) (Linux/macOS) or [`../packaging/windows/README.md`](../packaging/windows/README.md) (Windows).
+For actually using the CLI (Claude Code hooks, manual `andon-light` calls), install the published package instead — see [`../packaging/linux/README.md`](../packaging/linux/README.md) (Linux) or [`../packaging/windows/README.md`](../packaging/windows/README.md) (Windows). macOS isn't tested or supported yet.
 
 To develop this repo, install in editable mode — symlinks back to source, so edits show up immediately without reinstalling:
 

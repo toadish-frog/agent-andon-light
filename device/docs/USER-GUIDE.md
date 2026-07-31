@@ -1,19 +1,103 @@
 # User Guide: Agent Andon Light
 
-Building the hardware — terminology, setup, wiring, and pitfalls to know before you start. Parts list: [`BOM.md`](BOM.md).
+Building and running the hardware, start to finish. Parts list: [`BOM.md`](BOM.md).
 
 ## Contents
 
-- [Glossary](#glossary)
-- [Setup Checklist](#setup-checklist)
-- [Pixel Layout](#pixel-layout)
-- [Soldering the Pins](#soldering-the-pins)
-- [Wiring the LED Strip](#wiring-the-led-strip)
-- [Pitfalls to Avoid](#pitfalls-to-avoid)
-- [OS-Specific Notes](#os-specific-notes)
-- [Wire Protocol Reference](#wire-protocol-reference)
+- [User Guide: Agent Andon Light](#user-guide-agent-andon-light)
+  - [Contents](#contents)
+  - [1. Software Setup](#1-software-setup)
+  - [2. Build the Hardware](#2-build-the-hardware)
+    - [2a. Fabricated PCB](#2a-fabricated-pcb)
+    - [2b. Breadboard Prototype (Optional)](#2b-breadboard-prototype-optional)
+  - [3. Flash \& Verify](#3-flash--verify)
+  - [Reference](#reference)
+    - [Glossary](#glossary)
+    - [Pixel Layout](#pixel-layout)
+    - [Pitfalls to Avoid](#pitfalls-to-avoid)
+    - [OS-Specific Notes](#os-specific-notes)
+    - [Wire Protocol Reference](#wire-protocol-reference)
 
-## Glossary
+## 1. Software Setup
+
+1. Install the Arduino IDE (2.x).
+2. Add the RP2040 board package:
+   - Arduino IDE → Preferences → "Additional Board Manager URLs" → add the `arduino-pico` URL.
+   - Boards Manager → install "Raspberry Pi Pico/RP2040."
+   - Select **"Waveshare RP2040-Zero"** as the board when flashing.
+3. Install the NeoPixel library — Tools → Manage Libraries → search "Adafruit NeoPixel" → Install.
+
+## 2. Build the Hardware
+
+Pick the section that matches what you have — do one, not both.
+
+### 2a. Fabricated PCB
+
+Start here if you have the fabricated PCB. The fab's assembly service already placed the LEDs and passives; the RP2040-Zero is the one part you solder on yourself.
+
+The fabricated PCB is a single board — MCU and LED strip together, not two boards joined by wires.
+
+1. Solder the RP2040-Zero's castellated edge pads directly onto the board's matching pads. Solder every pad — the ones carrying signal/power connect the MCU to the board's traces, and any unused ones are purely mechanical.
+
+```txt
+   top of board
+        |
+        v
+   ______________
+  |              |
+  |   PCB body   |___
+  |  (green)     |   \___ castellated half-hole
+  |______________|       (plated copper inside)
+        |
+        | <- solder fills the gap between the MCU's
+        |    pad and the board's matching pad
+        v
+     ( o )  <- solder joint
+```
+
+**Caution:** let each joint cool a few seconds before touching it, and never bridge two adjacent pads with one solder blob.
+
+That's the whole build — no connector, no cable, no wiring step. The `GPIO1` (`kDataPin`) trace between MCU and LEDs is etched into the PCB itself, fixed by the board layout. Continue to [3. Flash & Verify](#3-flash--verify).
+
+### 2b. Breadboard Prototype (Optional)
+
+Skip this if you have the fabricated PCB — you're already done above. This path validates the firmware against a standalone RP2040-Zero dev board wired by hand to a separate LED strip PCBA — the setup used during development before the custom PCB existed.
+
+1. **Solder header pins onto the RP2040-Zero.** It ships bare — the edge holes are castellated pads, not header pins. Solder at least **5V**, **GND**, and one **GPIO** pin (firmware default `GPIO1`). A male header strip (recommended) lets it plug into a breadboard like any module; soldering wires directly works too but hard-wires it to those specific wires. Let each joint cool before touching it, and never bridge two adjacent pads with one solder blob.
+
+2. **Wire it to the LED strip PCBA:**
+
+   ```txt
+    [RP2040-Zero]                    [LED Strip PCBA, 3-pin connector]
+      GND o---------------------------o G  (ground)
+      5V  o---------------------------o V  (power — NOT 3V3, see below)
+      GP1 o---------------------------o S  (signal/data)
+
+      USB-C port -----> cable -----> your computer
+   ```
+
+   - Seat the MCU on a breadboard, if you have one.
+   - Connect `G` (ground) first.
+   - Connect `V` to `5V`/`VBUS`, not `3V3` — 10 addressable LEDs draw more current than `3V3` is meant to supply.
+   - Connect `S` to a free GPIO pin, matching `kDataPin` in `andon_light_firmware.ino` (or edit the sketch to match your wiring).
+   - Plug in USB-C last, once all 3 wires are connected — powering a half-wired setup risks a short.
+   - Optional resistor/capacitor: see [`BOM.md`](BOM.md) items #8–9.
+
+Continue to [3. Flash & Verify](#3-flash--verify).
+
+## 3. Flash & Verify
+
+1. Open `device/firmware/andon_light_firmware/andon_light_firmware.ino` in the Arduino IDE.
+2. Select **"Waveshare RP2040-Zero"** as the board, then flash.
+3. Open the Serial Monitor (115200 baud, line ending "Newline").
+4. Confirm pixel 1 alone lights dim white on boot, and pixels 2-10 are dark.
+5. Send `G`, `Y`, `R` — confirm each lights only its own 3-pixel section (2-4 / 5-7 / 8-10), not the whole strip.
+
+You now have a working device. Next: install the host CLI and Claude Code hooks — see the top-level [`README.md`](../../README.md) Quick Start.
+
+## Reference
+
+### Glossary
 
 | Term | Meaning |
 | --- | --- |
@@ -28,24 +112,7 @@ Building the hardware — terminology, setup, wiring, and pitfalls to know befor
 | KiCad | Free, open-source PCB design software — see [`../hardware/`](../hardware/). |
 | PCBA | "PCB Assembly": a bare PCB with all components soldered on. |
 
-## Setup Checklist
-
-1. **Install the Arduino IDE** (2.x).
-2. **Add the RP2040 board package:**
-   - Arduino IDE → Preferences → "Additional Board Manager URLs" → add the `arduino-pico` URL.
-   - Boards Manager → install "Raspberry Pi Pico/RP2040."
-   - Select **"Waveshare RP2040-Zero"** as the board when flashing.
-3. **Install the NeoPixel library** — Tools → Manage Libraries → search "Adafruit NeoPixel" → Install.
-4. **Wire the PCBA** (full walkthrough in [Wiring the LED Strip](#wiring-the-led-strip)):
-   - PCBA `G` → board `GND`
-   - PCBA `V` → board `5V`/`VBUS` (not `3V3`)
-   - PCBA `S` → one GPIO pin (firmware default: `GPIO1`)
-5. **Flash and verify:**
-   - Flash the sketch, open the Serial Monitor.
-   - Pixel 1 alone should light dim white on boot.
-   - Send `G`, `Y`, `R` — each should light only its own 3-pixel section (2-4 / 5-7 / 8-10), not the whole strip.
-
-## Pixel Layout
+### Pixel Layout
 
 | Pixels | Section | Lit by |
 | --- | --- | --- |
@@ -66,77 +133,27 @@ Pixel 1 stays dim white through every state, including right after boot.
 
 If all 10 pixels light the same color at once, that's pre-refinement firmware — reflash from the current `device/firmware/` source.
 
-## Soldering the Pins
-
-The Waveshare RP2040-Zero ships bare — the edge holes are **castellated pads** (plated half-holes), not header pins. Nothing plugs into a breadboard until something is soldered into them.
-
-```txt
-   top of board
-        |
-        v
-   ______________
-  |              |
-  |   PCB body   |___
-  |  (green)     |   \___ castellated half-hole
-  |______________|       (plated copper inside)
-        |
-        | <- header pin inserted through the hole,
-        |    then soldered so solder fills the gap
-        v
-     ( o )  <- solder joint
-```
-
-Solder at least **5V**, **GND**, and one **GPIO** pin (firmware default: `GPIO1`). Read the label printed on your board next to each pad — don't guess positions from a diagram.
-
-| Method | Trade-off |
-| --- | --- |
-| Solder a male header strip (recommended) | Board plugs into a breadboard like any other module — reusable |
-| Solder wires directly into the pads | No header stock needed, but hard-wires the board to those specific wires |
-
-**Caution:** let each joint cool a few seconds before touching it, and solder 5V and GND on separate pins — never bridge two adjacent pads with one solder blob.
-
-The fabricated PCB has the RP2040-Zero soldered directly onto it — this section covers the breadboard/prototype stage only.
-
-## Wiring the LED Strip
-
-```txt
- [RP2040-Zero]                    [LED Strip PCBA, 3-pin connector]
-   GND o---------------------------o G  (ground)
-   5V  o---------------------------o V  (power — NOT 3V3, see below)
-   GP1 o---------------------------o S  (signal/data)
-
-   USB-C port -----> cable -----> your computer
-```
-
-3 wires total on the breadboard version. Optional resistor/capacitor: see [`BOM.md`](BOM.md) items #8–9.
-
-1. Seat the MCU on a breadboard, if you have one.
-2. Connect `G` (ground) first.
-3. Connect `V` to `5V`/`VBUS`, not `3V3` — 10 addressable LEDs draw more current than `3V3` is meant to supply. See the Power section in [`../firmware/README.md`](../firmware/README.md).
-4. Connect `S` to a free GPIO pin, matching `kDataPin` in `andon_light_firmware.ino` (or edit the sketch to match your wiring).
-5. Plug in USB-C last, once all 3 wires are connected — powering a half-wired setup risks a short.
-
-## Pitfalls to Avoid
+### Pitfalls to Avoid
 
 | Pitfall | What to know |
 | --- | --- |
-| `V` wired to `3V3` instead of `5V` | The most common wiring mistake — 10 addressable LEDs need the extra current headroom. |
-| Flicker or wrong colors on power-up | Usually a data-line signal integrity issue (3.3V logic driving a 5V-rated strip), not a firmware bug. See the level-shifter fallback in [`../firmware/README.md`](../firmware/README.md). |
-| Wrong connector pinout | Read the PCBA's silkscreen labels directly — don't assume pin order from this doc or a photo. |
+| `V` wired to `3V3` instead of `5V` | Breadboard build only. The most common wiring mistake — 10 addressable LEDs need the extra current headroom. |
+| Flicker or wrong colors on power-up | Usually a data-line signal integrity issue, not a firmware bug. **Fabricated PCB:** check for a cold solder joint on the MCU's pads. **Breadboard:** see the level-shifter fallback in [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) Step 3.5. |
+| Wrong connector pinout | Breadboard build only. Read the PCBA's silkscreen labels directly — don't assume pin order from this doc or a photo. |
 | Charge-only USB-C cable | Board won't enumerate as a serial port. Try a different cable first. |
 | Skipping the Serial Monitor check | It isolates firmware bugs from host-CLI bugs before you add the Python CLI on top. |
 | Hooks not resetting the watchdog | Claude Code hooks fire only at discrete moments, not continuously — a long thinking-only stretch with no tool calls can leave the watchdog unfed. `PreToolUse` resets it on every tool call. |
 
 Heartbeat/watchdog isn't optional polish — it's what makes this device trustworthy to walk away from.
 
-## OS-Specific Notes
+### OS-Specific Notes
 
 | OS | CDC driver behavior |
 | --- | --- |
 | Windows | Enumerates as a COM port with no extra driver install. |
 | Linux | Enumerates as `/dev/ttyACM0`; your user needs `dialout` group membership — see [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md). |
 
-## Wire Protocol Reference
+### Wire Protocol Reference
 
 | Command | Effect | Meaning |
 | --- | --- | --- |

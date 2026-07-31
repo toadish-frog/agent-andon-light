@@ -22,23 +22,22 @@ This doc covers "I already have the hardware, how do I get it running." Building
 
 ## What You Need
 
-- A Waveshare RP2040-Zero, hand-soldered directly onto the custom PCB (`device/hardware/`).
+- The assembled device — a Waveshare RP2040-Zero hand-soldered onto the custom PCB, **pre-flashed with firmware.** Building one from scratch instead? Start at [`device/docs/USER-GUIDE.md`](device/docs/USER-GUIDE.md), not here.
 - A data-capable USB-C cable.
-- Arduino IDE (one-time, to flash the firmware).
-- Python 3 (one-time, to install the host CLI — Windows users can skip this, see below).
+- Python 3 — Linux only. Windows doesn't need it; the installer is self-contained.
 
 ## Quick Start
 
-**1. Flash the firmware.** Open `device/firmware/andon_light_firmware/andon_light_firmware.ino` in Arduino IDE, select board "Waveshare RP2040-Zero," and upload. Full steps: [`device/firmware/README.md`](device/firmware/README.md).
+**1. Plug in the device** with a data-capable USB-C cable.
 
 **2. Install the host CLI.**
 
 | OS | How |
 | --- | --- |
 | Linux | `pipx install andon-light` — see [`packaging/linux/README.md`](packaging/linux/README.md) |
-| Windows | Download and run the installer — see [`packaging/windows/README.md`](packaging/windows/README.md) |
+| Windows | Download `andon-light-setup.exe` from [Releases](https://github.com/toadish-frog/agent-andon-light/releases) and run it — see [`packaging/windows/README.md`](packaging/windows/README.md) |
 
-Confirm it can see the board:
+Confirm it can see the device:
 
 ```txt
 andon-light doctor

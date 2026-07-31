@@ -28,7 +28,7 @@ For prototyping without the fabricated PCB:
 | 4 | Jumper wire set (M-M, M-F) | 1 set | — |
 | 5 | 3-pin connector matching the PCBA's header (`S`/`V`/`G`) | 1 | Match the PCBA's header type (JST or pin header) |
 | 6 | USB-C to USB-A cable, data-capable | 1 | Many cheap cables are charge-only and won't enumerate as serial |
-| 7 | 74HCT125 level shifter (optional) | 1 | Only if data-line glitches appear — see [`../firmware/README.md`](../firmware/README.md) |
+| 7 | 74HCT125 level shifter (optional) | 1 | Only if data-line glitches appear — see [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) Step 3.5 |
 | 8 | 330–470 Ω resistor (optional, recommended) | 1 | Series on data line (`GPIO1` → strip `S`), close to strip end |
 | 9 | Electrolytic capacitor, 100–1000 µF ≥6.3V (optional, recommended) | 1 | Across `V`/`G`, close to strip end. Polarized. |
 
