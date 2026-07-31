@@ -1,18 +1,18 @@
 # Agent Andon Light
 
-A physical desktop status light for Claude Code / CLI coding agents — so you can walk away while an agent works and still know its state at a glance, instead of staring at a terminal.
+A physical desktop status light and vibe coding companion for Claude Code / CLI coding agents — so you can walk away while an agent works and still know its state at a glance, instead of staring at a terminal.
 
 | | | | |
 | :---: | :---: | :---: | :---: |
 | ![Top view](device/docs/images/top.png) | ![Side view](device/docs/images/side.png) | ![Angle view](device/docs/images/angle-1.png) | ![Angle view](device/docs/images/angle-2.png) |
 
-| Color | Meaning |
-| --- | --- |
-| Green | Agent working |
-| Yellow | Waiting on you (permission or input) |
-| Red | Idle / stopped / session ended |
-| Flashing green | Compacting (internal maintenance, still alive) |
-| Slow pulsing red | Stale / disconnected (device hasn't heard from the host in 30 min) |
+| | Color | Meaning |
+| --- | --- | --- |
+| 🟩 | Green | Agent working |
+| 🟨 | Yellow | Waiting on you (permission or input) |
+| 🟥 | Red | Idle / stopped / session ended |
+| 🟩💫 | Flashing green | Compacting (internal maintenance, still alive) |
+| 🟥〜 | Slow pulsing red | Stale / disconnected (device hasn't heard from the host in 30 min) |
 
 This doc covers "I already have the hardware, how do I get it running." Building the hardware from scratch starts at [`device/docs/USER-GUIDE.md`](device/docs/USER-GUIDE.md).
 
@@ -58,10 +58,10 @@ Useful for testing, or to set the light by hand:
 
 | Command | Effect |
 | --- | --- |
-| `andon-light set working` | Solid green |
-| `andon-light set waiting` | Solid yellow |
-| `andon-light set idle` | Solid red |
-| `andon-light set compacting` | Chase-fill (compacting) |
+| `andon-light set working` | 🟩 Solid green |
+| `andon-light set waiting` | 🟨 Solid yellow |
+| `andon-light set idle` | 🟥 Solid red |
+| `andon-light set compacting` | 🟩💫 Chase-fill (compacting) |
 | `andon-light heartbeat` | Keepalive, no color change |
 | `andon-light doctor` | Detect the device and report its port |
 
@@ -71,22 +71,47 @@ See [`device/docs/TROUBLESHOOTING.md`](device/docs/TROUBLESHOOTING.md) for the f
 
 ## Documentation
 
+### Building & Hardware
+
+- [User Guide](device/docs/USER-GUIDE.md) — build guide: soldering, wiring, glossary
+- [Bill of Materials](device/docs/BOM.md) — parts list
+- [Firmware](device/firmware/README.md) — firmware setup & wire protocol
+
+### Software
+
+- [Host CLI](host/README.md) — CLI development & usage
+- [Claude Code Hooks](hooks/README.md) — hook mapping & rationale
+
+### Installing
+
+- [Linux Install](packaging/linux/README.md)
+- [Windows Install](packaging/windows/README.md)
+
+### Troubleshooting
+
+- [Diagnostic Playbook](device/docs/TROUBLESHOOTING.md) — Windows + Linux
+
+### Archive
+
+- [3-Bulb MVP](archive/led-bulb-mvp/README.md) — earlier hardware iteration, not part of the current build
+
+## Project Structure
+
 ```txt
 agent-andon-light/
-├── device/
-│   ├── docs/
-│   │   ├── BOM.md               parts list
-│   │   ├── USER-GUIDE.md        build guide — soldering, wiring, glossary
-│   │   └── TROUBLESHOOTING.md   diagnostic playbook
-│   └── firmware/README.md       firmware setup & wire protocol
-├── host/README.md               CLI development & usage
-├── hooks/README.md              Claude Code hook mapping & rationale
-└── packaging/
-    ├── linux/README.md          Linux install
-    └── windows/README.md        Windows installer build & test
+├── device/                 the only ongoing hardware line
+│   ├── firmware/            Arduino sketch (C++) — drives the LED strip
+│   ├── hardware/             KiCad schematic, PCB, manufacturing files
+│   └── docs/                  BOM, user guide, troubleshooting, images
+├── host/                   Python CLI (`andon-light`) — talks to the firmware over USB serial
+├── hooks/                  Claude Code hook config that drives the CLI automatically
+├── packaging/              OS-specific install/build tooling
+│   ├── linux/                docs-only install path (pipx, no build step)
+│   └── windows/               PyInstaller build + Inno Setup installer
+├── scripts/                misc dev/demo scripts
+└── archive/                retired hardware iterations, frozen history
+    └── led-bulb-mvp/          3-discrete-bulb MVP, superseded by the strip
 ```
-
-An earlier hardware iteration (3 discrete LED bulbs instead of an addressable strip) is preserved for reference at [`archive/led-bulb-mvp/README.md`](archive/led-bulb-mvp/README.md) — not part of the current build.
 
 ## Status
 
