@@ -1,6 +1,8 @@
-# Claude Code Hook Integration — Agent Andon Light
+# Claude Code Hook Integration: Agent Andon Light
 
-`settings.snippet.json` maps agent events to `andon-light` CLI calls:
+`settings.snippet.json` maps agent events to `andon-light` CLI calls.
+
+## Hook → Color Mapping
 
 | Hook event | Color | Meaning |
 | --- | --- | --- |
@@ -13,24 +15,36 @@
 | `Stop` | idle (red) | Turn/session ended normally |
 | `SessionEnd` | idle (red) | Session terminated for any reason, including abrupt ones `Stop` doesn't cover |
 
-Commands run **synchronously** (not `async`) — see "Why not `async`" below.
+Commands run synchronously, not `async` — see [Why Not `async`](#why-not-async) below. The `hooks` object from `settings.snippet.json` merges into `~/.claude/settings.json` (global) or a project's `.claude/settings.json`. This config has no visibility into what's wired up on the far side of the serial link — it just runs `andon-light` commands, and firmware ([`../device/firmware/`](../device/firmware/)) does the rest. Restart Claude Code (or start a new session) to pick up a config change.
 
-**Status: merged and live (2026-07-07, fine-tuned same day after real-session testing).** The `hooks` object from `settings.snippet.json` is merged into `~/.claude/settings.json` (global scope), and `andon-light` is installed globally via `pipx install --editable .` from `../host/`. This config has no visibility into what's wired up on the far side of the serial link — it just runs `andon-light` commands, and firmware (`../device/firmware/`) does the rest. Requires restarting Claude Code (or starting a new session) to pick up a config change.
+## Design Notes
 
-**Why `PreToolUse` was added:** real-world testing showed the light falling back to the stale/disconnected pulse mid-turn, because `UserPromptSubmit`/`Notification`/`Stop` only fire at 3 discrete moments — nothing reset the firmware watchdog during a long stretch of tool calls in between. `PreToolUse` fires on every tool invocation (reads, edits, bash commands) and sends `working`, so any tool-heavy turn keeps kicking the watchdog continuously. This doesn't cover a turn that's pure extended thinking with zero tool calls — there's no Claude Code hook event for "still generating text" — so that gap is instead covered by a much longer firmware watchdog timeout (30 minutes); see `../device/firmware/README.md`.
+### `PreToolUse` Keeps the Watchdog Fed
 
-**Why `PermissionRequest` was added:** more precise than `Notification` alone for the specific "waiting on a permission approval" moment (e.g. approving a `Bash(npm install)` call). Both map to the same yellow action, so there's no harm in the overlap when `Notification` also fires for the same event.
+`UserPromptSubmit`/`Notification`/`Stop` only fire at 3 discrete moments — nothing resets the firmware watchdog during a long stretch of tool calls in between, so the light can fall back to the stale/disconnected pulse mid-turn. `PreToolUse` fires on every tool invocation (reads, edits, bash commands) and sends `working`, so any tool-heavy turn keeps kicking the watchdog continuously. It doesn't cover a turn that's pure extended thinking with zero tool calls — there's no hook event for "still generating text" — so that gap is instead covered by a much longer firmware watchdog timeout (30 minutes); see [`../device/firmware/README.md`](../device/firmware/README.md).
 
-**Why `PreCompact` gets its own color:** without it, a compaction pass would either stay on whatever color was last set (misleading if it was red/idle) or require another hook just to flip back afterward. A distinct flashing-green state reads as "still alive, doing upkeep" at a glance, and naturally reverts to solid green (or whatever's next) once the following hook fires — no extra "compaction done" hook needed.
+### `PermissionRequest` vs. `Notification`
 
-**Why `SessionStart` was added:** without it, a new session inherits whatever color the previous session left behind — usually fine, since `Stop` already leaves it on idle/red, but not guaranteed if a prior session crashed mid-turn without a clean `Stop`. Setting idle explicitly on `SessionStart` makes the default deterministic regardless of history.
+`PermissionRequest` is more precise than `Notification` alone for the specific "waiting on a permission approval" moment (e.g. approving a `Bash(npm install)` call). Both map to the same yellow action, so there's no harm in the overlap when `Notification` also fires for the same event.
 
-**Why `SessionEnd` was added:** bug report (2026-07-08) — killing an active `claude` process with Ctrl+C (not just interrupting a turn) left the light stuck on green forever. Claude Code's docs state `Stop` hooks "don't fire on user interrupts," and `SessionEnd` ("when a session terminates") wasn't documented as covering abrupt SIGINT either, so this was unverified until tested against real hardware, per the standing rule of not trusting a timeout/protocol behavior on reasoning alone. Added `SessionEnd` → idle (red) with no matcher (covers all termination reasons); confirmed empirically that Ctrl+C now correctly turns the light red. `Stop` is kept alongside it since normal turn/session ends should still resolve as fast as possible, without waiting on session teardown.
+### `PreCompact` Gets Its Own Color
 
-## Why not `async`
+Without a distinct color, a compaction pass would either stay on whatever color was last set (misleading if it was red/idle) or require another hook just to flip back afterward. Flashing green reads as "still alive, doing upkeep" at a glance, and naturally reverts to solid green (or whatever's next) once the following hook fires — no extra "compaction done" hook needed.
 
-Every command was originally `async: true` to guarantee zero latency on real tool calls. **Removed on 2026-07-07** after a real bug: `async` gives no ordering guarantee between hook invocations, only that each one is *launched* in order. Each `andon-light set ...` call is a fresh Python process (spawn + import + open/close the serial port), measured at ~40-50ms — cheap, but not zero, and under load (e.g. a busy tool-heavy turn) that's enough jitter for a later-launched command to finish before an earlier one. Observed symptom: a session correctly ended on red (`Stop`), then later flipped to yellow and stuck — a `Notification`/`PermissionRequest` command fired earlier in the session had been delayed and completed only after `Stop`'s `idle` command had already landed, silently overwriting it. Removing `async` makes Claude Code wait for each hook to finish before continuing, guaranteeing true event order. At ~40-50ms per call this isn't perceptible against real tool-call durations, so the latency `async` was meant to buy wasn't actually worth much.
+### `SessionStart` Makes the Default Deterministic
 
-## Why every command ends in `|| true`
+Without it, a new session inherits whatever color the previous session left behind — usually fine, since `Stop` already leaves it on idle/red, but not guaranteed if a prior session crashed mid-turn without a clean `Stop`. Setting idle explicitly on `SessionStart` removes that dependency on history.
 
-Even though the device is now confirmed working, `|| true` is kept: if the board is ever unplugged or on a different machine, every hook invocation would otherwise fail loudly in Claude Code's hook output on every single prompt — noisy and disruptive for something meant to be a passive status indicator. Revisit removing it once Phase 4 (reliability pass — auto-reconnect, graceful handling of a missing device) is done and a genuinely broken connection is worth surfacing instead of silently swallowing.
+### `SessionEnd` Catches Interrupts `Stop` Doesn't
+
+Killing an active `claude` process with Ctrl+C (not just interrupting a turn) leaves the light stuck on whatever color was last set if only `Stop` is configured — `Stop` doesn't fire on user interrupts. `SessionEnd` fires on any termination reason (no matcher needed) and resets to idle (red). `Stop` stays alongside it so normal turn/session ends still resolve as fast as possible, without waiting on session teardown.
+
+## Why Not `async`
+
+Every command was originally `async: true`, to guarantee zero latency on real tool calls. `async` gives no ordering guarantee between hook invocations — only that each one is *launched* in order, not that it *finishes* in order. Each `andon-light set ...` call is a fresh Python process (spawn + import + open/close the serial port), measured at ~40-50ms — cheap, but not zero, and under load (e.g. a busy tool-heavy turn) that's enough jitter for a later-launched command to finish before an earlier one. Concretely: a session ends correctly on red (`Stop`), but a `Notification`/`PermissionRequest` command that fired earlier in the session had been delayed, and completes only after `Stop`'s `idle` command already landed — silently overwriting it with stale yellow.
+
+Removing `async` makes Claude Code wait for each hook to finish before continuing, guaranteeing true event order. At ~40-50ms per call this isn't perceptible against real tool-call durations, so the latency `async` was meant to buy wasn't worth the ordering risk.
+
+## Why Every Command Ends in `|| true`
+
+If the board is ever unplugged or the CLI is run on a machine without it, every hook invocation would otherwise fail loudly in Claude Code's hook output on every single prompt — noisy and disruptive for something meant to be a passive status indicator. Revisit removing it once the host CLI has auto-reconnect / graceful missing-device handling, and a genuinely broken connection becomes worth surfacing instead of silently swallowing.

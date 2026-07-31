@@ -1,16 +1,16 @@
 # Builds a minimal andon-light.exe via PyInstaller. Run from PowerShell on
 # Windows, from anywhere — paths below are resolved relative to this script:
 #
-#   .\windows\build.ps1
+#   .\packaging\windows\build.ps1
 #
 # Requires Python 3.9+ on PATH. Everything else (the build venv, PyInstaller)
-# is created fresh in windows\.build-venv so this never touches any Python
-# environment you already have.
+# is created fresh in packaging\windows\.build-venv so this never touches any
+# Python environment you already have.
 
 $ErrorActionPreference = "Stop"
 
 $WindowsDir = $PSScriptRoot
-$RepoRoot = Split-Path -Parent $WindowsDir
+$RepoRoot = Split-Path -Parent (Split-Path -Parent $WindowsDir)
 $HostDir = Join-Path $RepoRoot "host"
 $BuildVenv = Join-Path $WindowsDir ".build-venv"
 $DistDir = Join-Path $WindowsDir "dist"

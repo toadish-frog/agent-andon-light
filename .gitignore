@@ -12,15 +12,15 @@ __pycache__/
 /host/.venv/
 
 # Windows installer build output (PyInstaller / Inno Setup)
-/windows/.build-venv/
-/windows/build/
-/windows/dist/
-/windows/*.exe
-/windows/Output/
+/packaging/windows/.build-venv/
+/packaging/windows/build/
+/packaging/windows/dist/
+/packaging/windows/*.exe
+/packaging/windows/Output/
 
 
-# Gerber files
-/device/hardware/manufacturing
+# Send to manufacturer files
+/device/hardware/manufacturing/
 
 # KiCAD backup files
 /device/hardware/pcb/andon_light_strip-backups

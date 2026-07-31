@@ -1,52 +1,74 @@
-# User Guide & Reminders: Agent Andon Light
+# User Guide: Agent Andon Light
 
-A companion doc for the "I've never built hardware before" part of this project — terminology, setup steps, and pitfalls to remember. See `Implementation-Summary.md` for the architecture/roadmap, and `BOM.md` for parts.
+Building the hardware — terminology, setup, wiring, and pitfalls to know before you start. Parts list: [`BOM.md`](BOM.md).
 
-## Glossary (hardware terms used across this project)
+## Contents
 
-- **MCU (microcontroller)** — the small computer chip on your dev board. The Waveshare RP2040-Zero has one (the RP2040 chip itself), and it runs the firmware you write.
-- **Firmware** — the program that runs *on* the MCU, as opposed to on your laptop. Written in C++ here, using the Arduino framework.
-- **Dev board** — a small ready-made PCB with the MCU plus USB, power regulation, etc. already wired up, so you don't need to design that part yourself. The RP2040-Zero is a dev board.
-- **Addressable LED / WS2812** — unlike a plain on/off LED, an addressable LED is controlled over a single data wire using a precise timed protocol, and many can be daisy-chained on that one wire, each individually settable to its own color. This project uses that per-pixel control to split the 10-pixel strip into dedicated sections (see "Pixel layout" below) rather than setting every pixel to the same color at once.
-- **NeoPixel** — Adafruit's name for WS2812-family addressable LEDs, and the Arduino library (`Adafruit_NeoPixel`) used to drive them — see `../firmware/README.md`.
-- **Data line / signal timing** — WS2812 LEDs read color data as a sequence of precisely-timed pulses (roughly 800kHz), too fast and precise for plain `digitalWrite` loops — why this project needs the NeoPixel library.
-- **Serial / USB CDC** — lets the dev board show up on your computer as a plain "serial port" (like an old-school COM port) over USB, so Python can just open it and write/read text, no custom driver needed on Linux/macOS.
-- **Watchdog** — a firmware safety timer that resets to a known-safe state if it hasn't heard from the host software in too long, so the device fails safely instead of freezing on stale data.
-- **KiCad** — free, open-source PCB design software. This project's schematic/PCB were hand-drawn in KiCad's GUI (see `Implementation-Summary.md` §5 Phase 5) — see `../hardware/`.
-- **PCBA** — "PCB Assembly": a bare PCB with all components soldered on. A fab/assembly service can do this from your KiCad files, or you can hand-solder it yourself.
+- [Glossary](#glossary)
+- [Setup Checklist](#setup-checklist)
+- [Pixel Layout](#pixel-layout)
+- [Soldering the Pins](#soldering-the-pins)
+- [Wiring the LED Strip](#wiring-the-led-strip)
+- [Pitfalls to Avoid](#pitfalls-to-avoid)
+- [OS-Specific Notes](#os-specific-notes)
+- [Wire Protocol Reference](#wire-protocol-reference)
 
-## Phase 1 Setup Checklist (Breadboard MVP)
+## Glossary
 
-1. Install the Arduino IDE (2.x).
-2. In Arduino IDE → Preferences → "Additional Board Manager URLs", add the `arduino-pico` board package URL, then install "Raspberry Pi Pico/RP2040" boards via the Boards Manager — select "Waveshare RP2040-Zero" as the board when flashing.
-3. **Install the Adafruit NeoPixel library** (Tools → Manage Libraries... → search "Adafruit NeoPixel" → Install).
-4. Wire the PCBA (see "Soldering Pins First" and "Wiring the LED Strip PCBA" below for the full walkthrough if this is your first time): PCBA `G` → board `GND`, PCBA `V` → board `5V`/`VBUS` (not `3V3`), PCBA `S` → one board GPIO pin (note it in the sketch — the firmware defaults to `GPIO1`, a placeholder to confirm against your actual wiring).
-5. Flash the sketch, open the Serial Monitor. Before sending anything, confirm pixel 1 alone is lit dim white (boot state — see "Pixel layout" below). Then send `G`, `Y`, `R` as single characters — confirm each one lights only its own 3-pixel section (2-4 / 5-7 / 8-10), not the whole strip.
+| Term | Meaning |
+| --- | --- |
+| MCU (microcontroller) | The chip on your dev board that runs the firmware. On the RP2040-Zero, that's the RP2040. |
+| Firmware | The program running *on* the MCU, not on your laptop. Written in C++ (Arduino framework). |
+| Dev board | A ready-made PCB with the MCU plus USB and power regulation already wired up. The RP2040-Zero is one. |
+| Addressable LED / WS2812 | An LED controlled over a single data wire via a precisely-timed protocol. Many can be daisy-chained on one wire, each set to its own color individually. |
+| NeoPixel | Adafruit's name for WS2812-family LEDs, and the Arduino library (`Adafruit_NeoPixel`) that drives them. |
+| Data line / signal timing | WS2812 LEDs read color from a sequence of ~800kHz timed pulses — too fast/precise for plain `digitalWrite`, hence the NeoPixel library. |
+| Serial / USB CDC | The dev board shows up as a plain serial port over USB, so Python can read/write it directly. No custom driver needed on any OS. |
+| Watchdog | A firmware safety timer that resets to a known-safe state if it hasn't heard from the host in too long. |
+| KiCad | Free, open-source PCB design software — see [`../hardware/`](../hardware/). |
+| PCBA | "PCB Assembly": a bare PCB with all components soldered on. |
 
-## Pixel layout
+## Setup Checklist
 
-The strip is addressable, so each state lights a dedicated sub-range instead of the whole strip:
+1. **Install the Arduino IDE** (2.x).
+2. **Add the RP2040 board package:**
+   - Arduino IDE → Preferences → "Additional Board Manager URLs" → add the `arduino-pico` URL.
+   - Boards Manager → install "Raspberry Pi Pico/RP2040."
+   - Select **"Waveshare RP2040-Zero"** as the board when flashing.
+3. **Install the NeoPixel library** — Tools → Manage Libraries → search "Adafruit NeoPixel" → Install.
+4. **Wire the PCBA** (full walkthrough in [Wiring the LED Strip](#wiring-the-led-strip)):
+   - PCBA `G` → board `GND`
+   - PCBA `V` → board `5V`/`VBUS` (not `3V3`)
+   - PCBA `S` → one GPIO pin (firmware default: `GPIO1`)
+5. **Flash and verify:**
+   - Flash the sketch, open the Serial Monitor.
+   - Pixel 1 alone should light dim white on boot.
+   - Send `G`, `Y`, `R` — each should light only its own 3-pixel section (2-4 / 5-7 / 8-10), not the whole strip.
 
-```txt
-pixel:   1           2   3   4     5   6   7      8   9   10
-role:    status       green section    yellow section    red section
-lit by:  always on    G                Y                  R / stale-pulse
-```
+## Pixel Layout
 
-- **Pixel 1** is a dim white "board is powered and running" indicator — on in every state, including right after boot before any command has been sent.
-- **`G`** → pixels 2-4 solid green (pixels 5-10 dark, except pixel 1).
-- **`Y`** → pixels 5-7 solid yellow (pixels 2-4 and 8-10 dark, except pixel 1).
-- **`R`** → pixels 8-10 solid red (pixels 2-7 dark, except pixel 1).
-- **Stale/watchdog timeout** → pixels 8-10 breathe red (same section as `R`, pulsing instead of solid).
-- **Compacting** → not confined to the green section like the other states — a single lit pixel chases from pixel 10 down to pixel 2 and locks on, then the next pass sweeps down to pixel 3 (pixel 2 still lit) and locks pixel 3, and so on. Pixels fill in from pixel 2 upward, one per pass, until all 9 non-status pixels are lit, then it resets to empty and repeats.
+| Pixels | Section | Lit by |
+| --- | --- | --- |
+| 1 | Status | Always on (dim white) |
+| 2–4 | Green | `G` |
+| 5–7 | Yellow | `Y` |
+| 8–10 | Red | `R` / stale-pulse |
 
-If you see all 10 pixels the same color at once, that's old (pre-refinement) firmware — reflash from the current `device/firmware/` source to get the sectioned layout described above.
+| State | Behavior |
+| --- | --- |
+| `G` (working) | Pixels 2-4 solid green |
+| `Y` (waiting) | Pixels 5-7 solid yellow |
+| `R` (idle) | Pixels 8-10 solid red |
+| Stale (watchdog timeout) | Pixels 8-10 breathe red |
+| `C` (compacting) | Chase-fill: pixels light one at a time from pixel 10 down to pixel 2, each pass locking one more pixel starting from pixel 2 upward, until all 9 are lit — then it resets and repeats |
 
-## Soldering Pins First
+Pixel 1 stays dim white through every state, including right after boot.
 
-The Waveshare RP2040-Zero ships **bare** — the holes along its edges are **castellated pads** (plated half-holes), not header pins. Nothing plugs into a breadboard until something is soldered into them.
+If all 10 pixels light the same color at once, that's pre-refinement firmware — reflash from the current `device/firmware/` source.
 
-Board edge, cross-section of one pad:
+## Soldering the Pins
+
+The Waveshare RP2040-Zero ships bare — the edge holes are **castellated pads** (plated half-holes), not header pins. Nothing plugs into a breadboard until something is soldered into them.
 
 ```txt
    top of board
@@ -61,25 +83,21 @@ Board edge, cross-section of one pad:
         | <- header pin inserted through the hole,
         |    then soldered so solder fills the gap
         v
-     ( o )  <- solder joint (shiny blob once cooled)
+     ( o )  <- solder joint
 ```
 
-Solder at least: **5V**, **GND**, and one **GPIO** pin (the firmware defaults to `GPIO1`). Read the actual label printed on your board next to each pad — don't guess positions from any diagram, including this one.
+Solder at least **5V**, **GND**, and one **GPIO** pin (firmware default: `GPIO1`). Read the label printed on your board next to each pad — don't guess positions from a diagram.
 
-Two ways to do it:
+| Method | Trade-off |
+| --- | --- |
+| Solder a male header strip (recommended) | Board plugs into a breadboard like any other module — reusable |
+| Solder wires directly into the pads | No header stock needed, but hard-wires the board to those specific wires |
 
-- **Solder a male header strip into the pads (recommended).** Once cooled, the board plugs straight into a breadboard like any other module — reusable for future revisions.
-- **Solder wires directly into the pads.** Works with no header stock on hand, but that board is now hard-wired to those specific wires — less flexible if you re-wire later.
+**Caution:** let each joint cool a few seconds before touching it, and solder 5V and GND on separate pins — never bridge two adjacent pads with one solder blob.
 
-**Caution:** let the board cool a few seconds after each joint before touching it, and solder 5V and GND on separate pins — never bridge two adjacent pads with one solder blob.
+The fabricated PCB has the RP2040-Zero soldered directly onto it — this section covers the breadboard/prototype stage only.
 
-(For the current custom PCB, the RP2040-Zero is soldered directly onto the board itself — this section is about the earlier breadboard/prototype wiring stage, not the final PCBA.)
-
-## Wiring the LED Strip PCBA
-
-3 wires total: no resistor or capacitor to hand-add on the breadboard version (they're recommended inline on the data/power lines, per `BOM.md` items #8-9), no shared power rail beyond `V`/`G`.
-
-**Reading your boards:** both the RP2040-Zero and the strip PCBA have pin/pad names printed on the silkscreen. Read the actual text on your physical boards — the firmware's default pin number (`GPIO1`) is a placeholder until you confirm it.
+## Wiring the LED Strip
 
 ```txt
  [RP2040-Zero]                    [LED Strip PCBA, 3-pin connector]
@@ -90,33 +108,52 @@ Two ways to do it:
    USB-C port -----> cable -----> your computer
 ```
 
-1. **Seat/steady the MCU** on a breadboard if you have one handy.
-2. **Connect `G` (ground) first.** One wire from the MCU's `GND` pin to the PCBA's `G` pin.
-3. **Connect `V` to the MCU's `5V`/`VBUS` pin, not `3V3`.** 10 addressable LEDs can draw noticeably more current than `3V3` is meant to supply on most dev boards — see the Power section in `../firmware/README.md` for the full reasoning.
-4. **Connect `S` to one free GPIO pin** — make sure the pin you wire matches `kDataPin` in `andon_light_firmware_strip.ino` (or edit the sketch to match your wiring).
-5. **Plug in USB-C last**, once all 3 wires are connected — powering a half-wired setup risks a short.
+3 wires total on the breadboard version. Optional resistor/capacitor: see [`BOM.md`](BOM.md) items #8–9.
 
-## Reminders / Pitfalls
+1. Seat the MCU on a breadboard, if you have one.
+2. Connect `G` (ground) first.
+3. Connect `V` to `5V`/`VBUS`, not `3V3` — 10 addressable LEDs draw more current than `3V3` is meant to supply. See the Power section in [`../firmware/README.md`](../firmware/README.md).
+4. Connect `S` to a free GPIO pin, matching `kDataPin` in `andon_light_firmware.ino` (or edit the sketch to match your wiring).
+5. Plug in USB-C last, once all 3 wires are connected — powering a half-wired setup risks a short.
 
-- **`V` must be 5V, not 3V3.** The most common wiring mistake — 10 addressable LEDs' current draw needs it.
-- **Flicker or wrong colors on first power-up** usually means a data-line signal integrity issue (3.3V logic driving a 5V-rated strip), not a firmware bug — see `../firmware/README.md`'s level-shifter fallback before assuming the code is wrong.
-- **Confirm the connector pinout before plugging in.** Don't assume pin order from this doc or a photo — read the PCBA's silkscreen labels directly, and double-check `G` isn't accidentally landed on a signal pin (or vice versa) before powering on.
-- **Data-capable cable, always.** Many USB-C cables are charge-only. If the board doesn't enumerate as a serial port, try a different cable before debugging code.
-- **Don't skip the Serial Monitor step** (Phase 1, step 5) even though it feels redundant with building the Python CLI next — it isolates firmware bugs from host-software bugs.
-- **Windows CDC driver:** confirmed (2026-07-31) — the board enumerates as a COM port with zero extra steps on a stock Windows install; no `arduino-pico` INF or manual driver install needed.
-- **Heartbeat/watchdog isn't optional polish** — it's what makes this device trustworthy to walk away from.
-- **Claude Code hooks only fire at discrete moments, not continuously.** Real-world testing (2026-07-07) showed the light falsely dropping to the stale-pulse mid-turn, because nothing resets the watchdog during a long stretch of the model just thinking with no tool calls in between hook events. Fixed by adding a `PreToolUse` hook (kicks the watchdog on every tool call) and raising the watchdog timeout from 15s to 30 minutes — see `../firmware/README.md` and `../../hooks/README.md`.
+## Pitfalls to Avoid
 
-## Quick Reference: Wire Protocol
+| Pitfall | What to know |
+| --- | --- |
+| `V` wired to `3V3` instead of `5V` | The most common wiring mistake — 10 addressable LEDs need the extra current headroom. |
+| Flicker or wrong colors on power-up | Usually a data-line signal integrity issue (3.3V logic driving a 5V-rated strip), not a firmware bug. See the level-shifter fallback in [`../firmware/README.md`](../firmware/README.md). |
+| Wrong connector pinout | Read the PCBA's silkscreen labels directly — don't assume pin order from this doc or a photo. |
+| Charge-only USB-C cable | Board won't enumerate as a serial port. Try a different cable first. |
+| Skipping the Serial Monitor check | It isolates firmware bugs from host-CLI bugs before you add the Python CLI on top. |
+| Hooks not resetting the watchdog | Claude Code hooks fire only at discrete moments, not continuously — a long thinking-only stretch with no tool calls can leave the watchdog unfed. `PreToolUse` resets it on every tool call. |
 
-```text
-G\n   solid green    → agent working
-Y\n   solid yellow   → waiting for human input / permission
-R\n   solid red      → idle / stopped / quota reached / default at session start
-C\n   flashing green → compacting (internal maintenance, still alive)
-H\n   heartbeat      → no color change, resets the watchdog timer
-```
+Heartbeat/watchdog isn't optional polish — it's what makes this device trustworthy to walk away from.
 
-Watchdog timeout: **30 minutes** (raised from an initial 15s once real Claude Code sessions showed long thinking-only stretches falsely triggering the stale state).
+## OS-Specific Notes
 
-Hook mapping (fine-tuned 2026-07-07/08 from real usage — see `../../hooks/README.md`): `SessionStart`→idle, `UserPromptSubmit`/`PreToolUse`→working, `Notification`/`PermissionRequest`→waiting, `PreCompact`→compacting, `Stop`/`SessionEnd`→idle.
+| OS | CDC driver behavior |
+| --- | --- |
+| Windows | Enumerates as a COM port with no extra driver install. |
+| Linux | Enumerates as `/dev/ttyACM0`; your user needs `dialout` group membership — see [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md). |
+
+## Wire Protocol Reference
+
+| Command | Effect | Meaning |
+| --- | --- | --- |
+| `G\n` | Solid green | Agent working |
+| `Y\n` | Solid yellow | Waiting for human input / permission |
+| `R\n` | Solid red | Idle / stopped / session start |
+| `C\n` | Flashing green | Compacting (internal maintenance, still alive) |
+| `H\n` | No color change | Heartbeat, resets the watchdog |
+
+Watchdog timeout: **30 minutes**.
+
+Hook mapping (rationale: [`../../hooks/README.md`](../../hooks/README.md)):
+
+| Hook event | Color |
+| --- | --- |
+| `SessionStart` | idle |
+| `UserPromptSubmit` / `PreToolUse` | working |
+| `Notification` / `PermissionRequest` | waiting |
+| `PreCompact` | compacting |
+| `Stop` / `SessionEnd` | idle |
