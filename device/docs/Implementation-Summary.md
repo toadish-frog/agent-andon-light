@@ -25,7 +25,7 @@ No part on this list is export-restricted or unusual — it's a commodity microc
 - **Language:** C++ (Arduino framework).
 - **Library:** **Adafruit_NeoPixel** — required for the WS2812 strip; timing can't be bit-banged reliably with plain GPIO calls. (The archived bulb MVP needed no LED library — plain `digitalWrite`/`analogWrite` sufficed for 3 discrete on/off bulbs.)
 - **Toolchain:** Arduino IDE (or Arduino CLI) with the `arduino-pico` board package.
-- **Interface:** USB CDC serial — enumerates as a plain serial port on every OS, no custom driver needed on Linux/macOS; Windows may auto-install a CDC driver or need the one-time `arduino-pico` INF.
+- **Interface:** USB CDC serial — enumerates as a plain serial port on every OS, no custom driver needed on any of them (confirmed on Windows 2026-07-31: zero extra driver steps, no `arduino-pico` INF required).
 - **Power:** must be 5V/`VBUS`, not 3.3V — 10 addressable LEDs draw meaningfully more current than the bulb MVP's 3 discrete LEDs did. Firmware caps brightness (`kBrightness = 130/255`) to keep draw and eye comfort reasonable.
 
 ### Host Driver Software
@@ -157,7 +157,7 @@ Not Scrum, not pure waterfall — a hybrid that fits a solo builder mixing hardw
 | 4 | Reliability Pass | **Mostly done (2026-07-07)** — live unplug/replug + long-turn stress test still outstanding |
 | 5 | Custom PCB (strip) | **Done (2026-07-30)** — Rev A back from JLC, assembled, reflashed, and electrically verified across all 5 units |
 | 6 | Enclosure | **Done (2026-07-30)** — chassis base + lid 3D-printed via JLC, fit confirmed first-try on all 5 units, no rework needed |
-| 7 | Packaging & Distribution | **In Progress (2026-07-30)** — PyPI published, `install-hooks` shipped; Windows installer built but untested, Linux is docs-only by design, macOS deferred |
+| 7 | Packaging & Distribution | **Mostly done (2026-07-31)** — PyPI published, `install-hooks` shipped, Windows installer built and verified on real hardware; Linux is docs-only by design, macOS deferred; GitHub release still outstanding |
 | 8 | Stretch Goals | Backlog |
 
 ---
@@ -230,7 +230,7 @@ Not Scrum, not pure waterfall — a hybrid that fits a solo builder mixing hardw
 - **Published `andon-light` to PyPI (2026-07-30, v0.1.0, MIT licensed).** `pipx install andon-light` now works with no repo clone — see `../../host/README.md` and top-level `README.md`. Package is intentionally tiny (~8KB wheel/sdist).
 - **`andon-light install-hooks` subcommand shipped** — the single implementation of "merge hooks with explicit permission," used both by manual CLI use and by the Windows installer's finish-page checkbox (see below). Prints the exact `hooks` block, asks for confirmation, lets the user pick global vs. project scope, and warns before overwriting an already-customized hook event. Never edits silently — a "no" is a supported outcome, the CLI stays fully usable via manual `andon-light set ...` calls without it. See `../../hooks/README.md`.
 - **Linux: no installer, by design.** Linux users are assumed comfortable with a terminal and willing to read docs — `pipx install andon-light` (or `pipx install --editable .` from source, for development) is the whole story. No AppImage, no `.deb`, no install script — building one would be solving a problem this audience doesn't have.
-- **Windows: real one-click installer, in progress.** PyInstaller `--onefile` build (`windows/build.ps1`, dependency-analysis-based — not "bundle everything," expected size is low tens of MB) wrapped in a per-user Inno Setup installer (`windows/andon-light.iss`, no admin/UAC prompt, adds itself to `PATH`, finish-page checkbox runs `install-hooks`). Windows users are assumed non-technical, unlike the Linux audience — hand-holding is the point here. **Not yet built or tested** — needs to actually run on Windows hardware; see `windows/README.md` for the build steps and what to verify (CDC driver behavior is the main open question).
+- **Windows: real one-click installer, built and verified (2026-07-31).** PyInstaller `--onefile` build (`windows/build.ps1`, dependency-analysis-based — not "bundle everything") wrapped in a per-user Inno Setup installer (`windows/andon-light.iss`, no admin/UAC prompt, adds itself to `PATH`, finish-page checkbox runs `install-hooks`). Windows users are assumed non-technical, unlike the Linux audience — hand-holding is the point here. Built and tested on real Windows hardware: device enumerates as a COM port with no extra driver steps, PATH resolves in a new terminal, install-hooks flow and uninstall both confirmed working.
 - **macOS: still deferred**, no Apple hardware available to build, sign, or test on.
 - **Deliverable (Windows):** someone with zero Python/Arduino/CLI experience downloads one file, runs it, answers one permission prompt, plugs in a pre-flashed device, and it works.
 
@@ -253,9 +253,9 @@ Not Scrum, not pure waterfall — a hybrid that fits a solo builder mixing hardw
 - ~~`C` (CompactFlash) chase-fill~~ — resolved 2026-07-11, flashed and confirmed working.
 - ~~`StalePulse` animation~~ — resolved 2026-07-30: triggered and confirmed on real fabricated hardware (breathing red on pixels 8-10 after the watchdog timeout), not just validated by code inspection.
 - ~~Fabricated PCB electrical verification~~ — resolved 2026-07-30: all 5 Rev A boards back from JLC, assembled, reflashed, and individually confirmed working (`kDataPin`, power, all 10 pixels, all four states plus `StalePulse`).
-- **Installer tooling choice** — PyInstaller recommended in §1/Phase 7, not yet built or tested on any platform. Worth deciding early whether macOS code-signing/notarization is in scope.
+- ~~Installer tooling choice~~ — resolved: PyInstaller + Inno Setup, built and verified working on real Windows hardware 2026-07-31. macOS code-signing/notarization remains an open question, deferred with the rest of macOS support.
 - **Final brightness value** — `130/255` is a reasoned starting point (current draw + eye comfort), confirmed workable behind the actual diffuser now that the enclosure is built (Phase 6), but not formally re-tuned against it.
 - **Dim-white status pixel level** — `kDimWhiteLevel = 25` (pre-`kBrightness`-scaling) is a reasoned guess, not explicitly confirmed as the right dimness.
 - **Per-unit cost of this fab run** — the 5-board sample order (PCB + assembly + 3D-printed enclosure) was priced well above what a larger MOQ production run would cost; no clean per-unit figure was logged. Worth getting a real quote at a larger quantity before Phase 7 distribution makes per-unit cost a real question.
 
-Next step: begin Phase 7 (packaging & distribution) — decide the installer tooling approach (PyInstaller) and whether macOS notarization is in scope, then build the one-click installers.
+Next step: cut the `v0.1.0` GitHub release with the Windows installer attached — the last item in Phase 7.

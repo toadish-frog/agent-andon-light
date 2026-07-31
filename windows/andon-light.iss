@@ -50,6 +50,34 @@ begin
   Result := Pos(';' + Param + ';', ';' + OrigPath + ';') = 0;
 end;
 
+{ Inno Setup's [Registry] section doesn't know how to undo a string
+  concatenation (ValueData: "{olddata};{app}") on uninstall — without this,
+  the appended {app} entry is left in PATH forever after uninstalling. }
+procedure RemovePath(Param: string);
+var
+  OrigPath, Padded: string;
+  P: Integer;
+begin
+  if not RegQueryStringValue(HKEY_CURRENT_USER, 'Environment', 'Path', OrigPath) then
+    exit;
+  Padded := ';' + OrigPath + ';';
+  P := Pos(';' + Param + ';', Padded);
+  if P = 0 then
+    exit;
+  Delete(Padded, P, Length(Param) + 1);
+  if (Length(Padded) > 0) and (Padded[1] = ';') then
+    Delete(Padded, 1, 1);
+  if (Length(Padded) > 0) and (Padded[Length(Padded)] = ';') then
+    Delete(Padded, Length(Padded), 1);
+  RegWriteStringValue(HKEY_CURRENT_USER, 'Environment', 'Path', Padded);
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin
+  if CurUninstallStep = usPostUninstall then
+    RemovePath(ExpandConstant('{app}'));
+end;
+
 [Run]
 ; Same "show it, ask, then merge" flow as the CLI's interactive mode — the
 ; installer doesn't silently touch settings.json, it just launches the

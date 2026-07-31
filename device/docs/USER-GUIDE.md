@@ -103,7 +103,7 @@ Two ways to do it:
 - **Confirm the connector pinout before plugging in.** Don't assume pin order from this doc or a photo — read the PCBA's silkscreen labels directly, and double-check `G` isn't accidentally landed on a signal pin (or vice versa) before powering on.
 - **Data-capable cable, always.** Many USB-C cables are charge-only. If the board doesn't enumerate as a serial port, try a different cable before debugging code.
 - **Don't skip the Serial Monitor step** (Phase 1, step 5) even though it feels redundant with building the Python CLI next — it isolates firmware bugs from host-software bugs.
-- **Windows CDC driver:** if the board doesn't show up in Device Manager as a COM port, the `arduino-pico` package usually installs the right driver automatically; if not, search by exact board name + "Windows driver".
+- **Windows CDC driver:** confirmed (2026-07-31) — the board enumerates as a COM port with zero extra steps on a stock Windows install; no `arduino-pico` INF or manual driver install needed.
 - **Heartbeat/watchdog isn't optional polish** — it's what makes this device trustworthy to walk away from.
 - **Claude Code hooks only fire at discrete moments, not continuously.** Real-world testing (2026-07-07) showed the light falsely dropping to the stale-pulse mid-turn, because nothing resets the watchdog during a long stretch of the model just thinking with no tool calls in between hook events. Fixed by adding a `PreToolUse` hook (kicks the watchdog on every tool call) and raising the watchdog timeout from 15s to 30 minutes — see `../firmware/README.md` and `../../hooks/README.md`.
 

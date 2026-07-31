@@ -15,7 +15,7 @@ echo "3) waiting (yellow) -- simulates Notification / PermissionRequest"
 andon-light set waiting
 sleep 3
 
-echo "4) compacting (flashing green) -- simulates PostCompact"
+echo "4) compacting (flashing green) -- simulates PreCompact"
 andon-light set compacting
 sleep 3
 
