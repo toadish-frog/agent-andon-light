@@ -28,7 +28,7 @@ iscc packaging\windows\andon-light.iss
 | --- | --- |
 | Privilege | Per-user, no admin/UAC prompt |
 | PATH | Adds itself to the user's `PATH` |
-| Hooks | Finish-page checkbox runs `andon-light.exe install-hooks` (Claude Code, the default agent) — same confirm-before-writing flow as the CLI's interactive mode, see [`../../hooks/claude/README.md`](../../hooks/claude/README.md). Codex CLI users: run `andon-light.exe install-hooks --agent codex` from a terminal afterward — see [`../../hooks/codex/README.md`](../../hooks/codex/README.md) — the finish page doesn't offer it as a separate checkbox. |
+| Hooks | Finish page has two independent, unchecked checkboxes: one runs `andon-light.exe install-hooks` (Claude Code, see [`../../hooks/claude/README.md`](../../hooks/claude/README.md)), the other runs `andon-light.exe install-hooks --agent codex` (Codex CLI, see [`../../hooks/codex/README.md`](../../hooks/codex/README.md)). Same confirm-before-writing flow as the CLI's interactive mode either way — pick one, both, or neither. |
 
 ## 3. SmartScreen Warning
 
@@ -46,5 +46,5 @@ Test on real Windows hardware, not by inspection:
 
 - [ ] **CDC driver** — RP2040-Zero enumerates as a COM port with zero extra steps, no `arduino-pico` INF needed.
 - [ ] **PATH** — open a **new** terminal after installing (PATH changes don't apply to already-open ones) and confirm `andon-light doctor` resolves and finds the device.
-- [ ] **install-hooks from the finish page** — checkbox launches a visible console window with the interactive prompt; declining/confirming both behave as expected.
+- [ ] **install-hooks from the finish page** — both checkboxes (Claude Code, Codex CLI) independently launch a visible console window with the interactive prompt; declining/confirming both behave as expected; checking both writes both agents' hook configs without either interfering with the other.
 - [ ] **Uninstall** — "Add or Remove Programs" cleanly removes both the `PATH` entry and the installed files. Inno Setup doesn't undo a `[Registry]` string append automatically — `andon-light.iss` has explicit `RemovePath`/`CurUninstallStepChanged` logic for this; verify it actually works.

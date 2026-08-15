@@ -86,3 +86,9 @@ end;
 Filename: "{cmd}"; Parameters: "/K ""{app}\{#MyAppExeName}"" install-hooks"; \
     Description: "Configure Claude Code hooks now (recommended)"; \
     Flags: postinstall nowait skipifsilent unchecked
+; Same flow, targeting Codex CLI's hooks.json instead of Claude's settings.json —
+; see andon_light install-hooks --agent codex. Both checkboxes are unchecked and
+; independent, so picking one doesn't affect the other.
+Filename: "{cmd}"; Parameters: "/K ""{app}\{#MyAppExeName}"" install-hooks --agent codex"; \
+    Description: "Configure Codex CLI hooks now"; \
+    Flags: postinstall nowait skipifsilent unchecked
