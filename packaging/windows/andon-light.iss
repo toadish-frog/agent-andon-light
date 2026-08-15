@@ -9,7 +9,7 @@
 ; possible: no elevation, one finish-page checkbox for hook setup, done.
 
 #define MyAppName "Agent Andon Light"
-#define MyAppVersion "0.1.0"
+#define MyAppVersion "0.2.0"
 #define MyAppExeName "andon-light.exe"
 
 [Setup]

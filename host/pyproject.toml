@@ -1,6 +1,6 @@
 [project]
 name = "andon-light"
-version = "0.1.0"
+version = "0.2.0"
 description = "Host-side driver CLI for the Agent Andon Light desktop status device"
 readme = "README.md"
 requires-python = ">=3.9"
