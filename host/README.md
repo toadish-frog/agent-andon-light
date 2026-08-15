@@ -13,7 +13,8 @@ host/
 │   ├── serial_link.py       # opens/writes the serial connection, retry-on-busy
 │   ├── hooks_install.py     # `andon-light install-hooks` merge/confirm logic
 │   └── data/
-│       └── settings.snippet.json   # bundled copy for installed/frozen builds
+│       ├── settings.snippet.json   # bundled copy for installed/frozen builds (Claude Code)
+│       └── codex.hooks.json        # bundled copy for installed/frozen builds (Codex CLI)
 └── tests/
     └── test_hooks_install.py
 ```
@@ -47,11 +48,19 @@ andon-light set idle                             # solid red
 andon-light set compacting                       # flashing green
 andon-light heartbeat                            # keepalive, no color change
 andon-light --port /dev/ttyACM0 set working      # override auto-detection
-andon-light install-hooks                        # merge Claude Code hooks into settings.json
+andon-light install-hooks                        # merge Claude Code hooks into settings.json (default agent)
+andon-light install-hooks --agent codex          # merge Codex CLI hooks into hooks.json instead
 andon-light install-hooks --yes --scope global   # same, non-interactive (used by the Windows installer)
 ```
 
-`install-hooks` prints the exact `hooks` block before touching anything, asks for confirmation, lets you pick global (`~/.claude/settings.json`) vs. project (`./.claude/settings.json`) scope, and warns before overwriting any hook event you've already customized. It never edits silently — see [`../hooks/README.md`](../hooks/README.md).
+`install-hooks` prints the exact `hooks` block before touching anything, asks for confirmation, lets you pick global vs. project scope, and warns before overwriting any hook event you've already customized. It never edits silently. `--agent` selects which agent's hooks and config file to target:
+
+| `--agent` | Global scope | Project scope | Rationale |
+| --- | --- | --- | --- |
+| `claude` (default) | `~/.claude/settings.json` | `./.claude/settings.json` | See [`../hooks/claude/README.md`](../hooks/claude/README.md) |
+| `codex` | `~/.codex/hooks.json` | `./.codex/hooks.json` | See [`../hooks/codex/README.md`](../hooks/codex/README.md) |
+
+Both agents drive the same firmware over the same wire protocol — this is a host-only integration, no firmware update needed either way.
 
 ## Notes
 

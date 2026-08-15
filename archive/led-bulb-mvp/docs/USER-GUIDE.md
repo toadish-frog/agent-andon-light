@@ -94,7 +94,7 @@ Simpler than an addressable strip — 4 wires total, no resistor or capacitor to
 | Charge-only USB-C cable | Board won't enumerate as a serial port. Try a different cable first. |
 | Skipping the Serial Monitor check | Isolates firmware bugs from host-CLI bugs — matters most the first time debugging both halves of a system you haven't built before. |
 | Windows CDC driver not detected | If the board doesn't show up in Device Manager as a COM port, the `arduino-pico` package usually installs the right driver automatically; if not, search by exact board name + "Windows driver." |
-| Hooks not resetting the watchdog | Claude Code hooks fire only at discrete moments, not continuously — a long thinking-only stretch with no tool calls can leave the watchdog unfed. `PreToolUse` resets it on every tool call — see [`../firmware/README.md`](../firmware/README.md) and [`../../../hooks/README.md`](../../../hooks/README.md). |
+| Hooks not resetting the watchdog | Claude Code hooks fire only at discrete moments, not continuously — a long thinking-only stretch with no tool calls can leave the watchdog unfed. `PreToolUse` resets it on every tool call — see [`../firmware/README.md`](../firmware/README.md) and [`../../../hooks/claude/README.md`](../../../hooks/claude/README.md). |
 
 Heartbeat/watchdog isn't optional polish — it's what makes this device trustworthy to walk away from.
 
@@ -110,7 +110,7 @@ Heartbeat/watchdog isn't optional polish — it's what makes this device trustwo
 
 Watchdog timeout: **30 minutes**.
 
-Hook mapping (rationale: [`../../../hooks/README.md`](../../../hooks/README.md)):
+Hook mapping (rationale: [`../../../hooks/claude/README.md`](../../../hooks/claude/README.md)):
 
 | Hook event | Color |
 | --- | --- |

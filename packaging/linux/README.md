@@ -19,10 +19,11 @@ andon-light doctor
 
 Confirms the CLI can find the board. If it reports a permission error, your user needs `dialout` group membership — see [`../../device/docs/TROUBLESHOOTING.md`](../../device/docs/TROUBLESHOOTING.md) Linux-Specific section.
 
-## 3. Wire Up Claude Code Hooks
+## 3. Wire Up Hooks
 
 ```txt
-andon-light install-hooks
+andon-light install-hooks                 # Claude Code (default)
+andon-light install-hooks --agent codex   # Codex CLI
 ```
 
-Prints the exact `hooks` block before touching anything, asks for confirmation, and lets you pick global (`~/.claude/settings.json`) vs. project (`./.claude/settings.json`) scope — see [`../../hooks/README.md`](../../hooks/README.md).
+Prints the exact `hooks` block before touching anything, asks for confirmation, and lets you pick global vs. project scope — see [`../../hooks/claude/README.md`](../../hooks/claude/README.md) (Claude Code) or [`../../hooks/codex/README.md`](../../hooks/codex/README.md) (Codex CLI).

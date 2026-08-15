@@ -92,7 +92,7 @@ cat ~/.claude/settings.json
 
   If this errors, the file has a syntax mistake (usually a missing comma or brace) — Claude Code will likely ignore the whole `hooks` block until it's fixed.
 - [ ] **Does every hook command end in `|| true`?** Without it, a hook failure (e.g. device unplugged, or the permission error above) surfaces as noisy error output in Claude Code instead of failing silently. This also means Claude Code's own hook log can say "completed successfully" even when the underlying `andon-light` call actually failed — don't trust that log line as proof the light changed; run the command directly (without `|| true`) and check its real exit code if you suspect this.
-- [ ] **Are hook commands *not* marked `"async": true`?** Async causes hook commands to complete out of order, leaving the light stuck on a stale color — see [`../../hooks/README.md`](../../hooks/README.md) "Why not async."
+- [ ] **Are hook commands *not* marked `"async": true`?** Async causes hook commands to complete out of order, leaving the light stuck on a stale color — see [`../../hooks/claude/README.md`](../../hooks/claude/README.md) "Why not async."
 - [ ] **Did you restart Claude Code after editing this file?** Hook config is only read when a session starts — a session already running won't pick up a config change. This is the single most common "why didn't it do anything" cause.
 
 ## Step 5: Manually Simulate What a Hook Would Do

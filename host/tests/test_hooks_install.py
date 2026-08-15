@@ -1,7 +1,8 @@
 """Unit tests for andon_light.hooks_install.
 
-Every test patches GLOBAL_SETTINGS_PATH / PROJECT_SETTINGS_PATH to a tempdir —
-none of these tests may ever touch a real ~/.claude/settings.json.
+Every test patches GLOBAL_SETTINGS_PATH / PROJECT_SETTINGS_PATH (and their Codex
+equivalents) to a tempdir — none of these tests may ever touch a real
+~/.claude/settings.json or ~/.codex/hooks.json.
 """
 
 from __future__ import annotations
@@ -51,9 +52,13 @@ class RunTests(unittest.TestCase):
         tmp_root = Path(self._tmpdir.name)
         self.global_path = tmp_root / "home" / ".claude" / "settings.json"
         self.project_path = tmp_root / "project" / ".claude" / "settings.json"
+        self.codex_global_path = tmp_root / "home" / ".codex" / "hooks.json"
+        self.codex_project_path = tmp_root / "project" / ".codex" / "hooks.json"
         self._patches = [
             mock.patch.object(hooks_install, "GLOBAL_SETTINGS_PATH", self.global_path),
             mock.patch.object(hooks_install, "PROJECT_SETTINGS_PATH", self.project_path),
+            mock.patch.object(hooks_install, "CODEX_GLOBAL_HOOKS_PATH", self.codex_global_path),
+            mock.patch.object(hooks_install, "CODEX_PROJECT_HOOKS_PATH", self.codex_project_path),
         ]
         for p in self._patches:
             p.start()
@@ -131,24 +136,92 @@ class RunTests(unittest.TestCase):
             json.loads(self.global_path.read_text())["hooks"]["Stop"], ["custom"]
         )
 
+    def test_codex_scope_prompt_shows_codex_paths(self):
+        prompts: list[str] = []
+
+        def _input(prompt: str) -> str:
+            prompts.append(prompt)
+            return "g" if len(prompts) == 1 else "y"
+
+        result = hooks_install.run(
+            scope=None,
+            assume_yes=False,
+            agent="codex",
+            input_func=_input,
+            print_func=lambda *a, **k: None,
+        )
+        self.assertEqual(result, 0)
+        self.assertIn(str(self.codex_global_path), prompts[0])
+        self.assertIn(str(self.codex_project_path), prompts[0])
+        self.assertTrue(self.codex_global_path.exists())
+        self.assertFalse(self.global_path.exists())
+
+    def test_codex_non_interactive_writes_to_codex_scope_and_prints_trust_note(self):
+        printed: list[str] = []
+
+        def _print(*args, **kwargs):
+            printed.append(args[0] if args else "")
+
+        result = hooks_install.run(
+            scope="project",
+            assume_yes=True,
+            agent="codex",
+            input_func=_make_input(),  # never called
+            print_func=_print,
+        )
+        self.assertEqual(result, 0)
+        self.assertTrue(self.codex_project_path.exists())
+        self.assertFalse(self.project_path.exists())
+        written = json.loads(self.codex_project_path.read_text())
+        self.assertIn("PermissionRequest", written["hooks"])
+        self.assertNotIn("Notification", written["hooks"])
+        self.assertTrue(any("/hooks" in line for line in printed))
+
+    def test_claude_run_prints_no_post_install_note(self):
+        printed: list[str] = []
+
+        def _print(*args, **kwargs):
+            printed.append(args[0] if args else "")
+
+        result = hooks_install.run(
+            scope="project",
+            assume_yes=True,
+            agent="claude",
+            input_func=_make_input(),
+            print_func=_print,
+        )
+        self.assertEqual(result, 0)
+        self.assertFalse(any("/hooks" in line for line in printed))
+
 
 class PackagedSnippetDriftGuardTests(unittest.TestCase):
-    """Guards against the doc-facing and packaged copies of the hooks snippet diverging.
+    """Guards against the doc-facing and packaged copies of each agent's hooks snippet diverging.
 
-    See hooks/README.md — hooks/settings.snippet.json is what README.md tells people
-    to open and paste by hand; host/andon_light/data/settings.snippet.json is the
-    machine-facing copy `andon-light install-hooks` actually reads at runtime, bundled
-    because a built/installed CLI has no access to the source repo's file layout.
+    See hooks/claude/README.md and hooks/codex/README.md — the hooks/ copies are what those
+    docs tell people to open and paste by hand; the host/andon_light/data/ copies are
+    the machine-facing versions `andon-light install-hooks` actually reads at runtime,
+    bundled because a built/installed CLI has no access to the source repo's file layout.
     """
 
     def test_packaged_copy_matches_doc_facing_copy(self):
         repo_root = Path(__file__).resolve().parents[2]
-        doc_facing = repo_root / "hooks" / "settings.snippet.json"
+        doc_facing = repo_root / "hooks" / "claude" / "settings.snippet.json"
         packaged = repo_root / "host" / "andon_light" / "data" / "settings.snippet.json"
         self.assertEqual(
             doc_facing.read_text(),
             packaged.read_text(),
-            "hooks/settings.snippet.json and host/andon_light/data/settings.snippet.json "
+            "hooks/claude/settings.snippet.json and host/andon_light/data/settings.snippet.json "
+            "have drifted apart — keep them byte-identical.",
+        )
+
+    def test_codex_packaged_copy_matches_doc_facing_copy(self):
+        repo_root = Path(__file__).resolve().parents[2]
+        doc_facing = repo_root / "hooks" / "codex" / "hooks.json"
+        packaged = repo_root / "host" / "andon_light" / "data" / "codex.hooks.json"
+        self.assertEqual(
+            doc_facing.read_text(),
+            packaged.read_text(),
+            "hooks/codex/hooks.json and host/andon_light/data/codex.hooks.json "
             "have drifted apart — keep them byte-identical.",
         )
 

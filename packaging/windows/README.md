@@ -28,7 +28,7 @@ iscc packaging\windows\andon-light.iss
 | --- | --- |
 | Privilege | Per-user, no admin/UAC prompt |
 | PATH | Adds itself to the user's `PATH` |
-| Hooks | Finish-page checkbox runs `andon-light.exe install-hooks` — same confirm-before-writing flow as the CLI's interactive mode, see [`../../hooks/README.md`](../../hooks/README.md) |
+| Hooks | Finish-page checkbox runs `andon-light.exe install-hooks` (Claude Code, the default agent) — same confirm-before-writing flow as the CLI's interactive mode, see [`../../hooks/claude/README.md`](../../hooks/claude/README.md). Codex CLI users: run `andon-light.exe install-hooks --agent codex` from a terminal afterward — see [`../../hooks/codex/README.md`](../../hooks/codex/README.md) — the finish page doesn't offer it as a separate checkbox. |
 
 ## 3. SmartScreen Warning
 

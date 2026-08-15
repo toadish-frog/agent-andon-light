@@ -43,15 +43,16 @@ Confirm it can see the device:
 andon-light doctor
 ```
 
-**3. Wire up the Claude Code hooks:**
+**3. Wire up hooks for your agent:**
 
 ```txt
-andon-light install-hooks
+andon-light install-hooks                 # Claude Code (default)
+andon-light install-hooks --agent codex   # Codex CLI
 ```
 
-Shows you the exact hook config before touching anything, then merges it into `~/.claude/settings.json` (or a single project's config) once you confirm. Rationale for each hook mapping: [`hooks/README.md`](hooks/README.md).
+Shows you the exact hook config before touching anything, then merges it into the agent's config file (`~/.claude/settings.json` for Claude Code, `~/.codex/hooks.json` for Codex CLI — or a single project's config for either) once you confirm. Both agents drive the same host CLI and firmware — this is a host-only difference, nothing to reflash. Rationale for each hook mapping: [`hooks/claude/README.md`](hooks/claude/README.md) (Claude Code), [`hooks/codex/README.md`](hooks/codex/README.md) (Codex CLI).
 
-**4. Restart Claude Code** (or start a new session) — hook config changes don't apply to a session already running.
+**4. Restart your agent** (or start a new session) — hook config changes don't apply to a session already running. For Codex CLI specifically, also run `/hooks` inside it once to trust the new hooks — see [`hooks/codex/README.md`](hooks/codex/README.md).
 
 From here the light tracks your session automatically — no manual commands needed day to day.
 
@@ -83,7 +84,8 @@ See [`device/docs/TROUBLESHOOTING.md`](device/docs/TROUBLESHOOTING.md) for the f
 ### Software
 
 - [Host CLI](host/README.md) — CLI development & usage
-- [Claude Code Hooks](hooks/README.md) — hook mapping & rationale
+- [Claude Code Hooks](hooks/claude/README.md) — hook mapping & rationale
+- [Codex CLI Hooks](hooks/codex/README.md) — hook mapping & rationale
 
 ### Installing
 
@@ -107,7 +109,9 @@ agent-andon-light/
 │   ├── hardware/             KiCad schematic, PCB, manufacturing files
 │   └── docs/                  BOM, user guide, troubleshooting, images
 ├── host/                   Python CLI (`andon-light`) — talks to the firmware over USB serial
-├── hooks/                  Claude Code hook config that drives the CLI automatically
+├── hooks/                  Agent hook configs that drive the CLI automatically
+│   ├── claude/                Claude Code hooks (settings.snippet.json + README)
+│   └── codex/                 Codex CLI hooks (hooks.json + README)
 ├── packaging/              OS-specific install/build tooling
 │   ├── linux/                docs-only install path (pipx, no build step)
 │   └── windows/               PyInstaller build + Inno Setup installer
@@ -118,4 +122,4 @@ agent-andon-light/
 
 ## Status
 
-5 units built and tested — custom PCB, 3D-printed enclosure, firmware, host CLI, and Claude Code hooks all confirmed working end to end. Published on PyPI; a one-click Windows installer is available.
+5 units built and tested — custom PCB, 3D-printed enclosure, firmware, host CLI, and Claude Code hooks all confirmed working end to end. Codex CLI hook support added on top (host-only — no firmware or hardware change involved). Published on PyPI; a one-click Windows installer is available.

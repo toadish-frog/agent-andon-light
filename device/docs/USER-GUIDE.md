@@ -165,7 +165,7 @@ Heartbeat/watchdog isn't optional polish — it's what makes this device trustwo
 
 Watchdog timeout: **30 minutes**.
 
-Hook mapping (rationale: [`../../hooks/README.md`](../../hooks/README.md)):
+Hook mapping (rationale: [`../../hooks/claude/README.md`](../../hooks/claude/README.md)):
 
 | Hook event | Color |
 | --- | --- |

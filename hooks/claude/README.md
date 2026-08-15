@@ -1,6 +1,6 @@
 # Claude Code Hook Integration: Agent Andon Light
 
-`settings.snippet.json` maps agent events to `andon-light` CLI calls.
+`settings.snippet.json` maps agent events to `andon-light` CLI calls. Same wire protocol, same firmware, same `andon-light` binary as [`../codex/README.md`](../codex/README.md) (Codex CLI) — this is a host-only integration.
 
 ## Hook → Color Mapping
 
@@ -15,13 +15,13 @@
 | `Stop` | idle (red) | Turn/session ended normally |
 | `SessionEnd` | idle (red) | Session terminated for any reason, including abrupt ones `Stop` doesn't cover |
 
-Commands run synchronously, not `async` — see [Why Not `async`](#why-not-async) below. The `hooks` object from `settings.snippet.json` merges into `~/.claude/settings.json` (global) or a project's `.claude/settings.json`. This config has no visibility into what's wired up on the far side of the serial link — it just runs `andon-light` commands, and firmware ([`../device/firmware/`](../device/firmware/)) does the rest. Restart Claude Code (or start a new session) to pick up a config change.
+Commands run synchronously, not `async` — see [Why Not `async`](#why-not-async) below. The `hooks` object from `settings.snippet.json` merges into `~/.claude/settings.json` (global) or a project's `.claude/settings.json`. This config has no visibility into what's wired up on the far side of the serial link — it just runs `andon-light` commands, and firmware ([`../../device/firmware/`](../../device/firmware/)) does the rest. Restart Claude Code (or start a new session) to pick up a config change.
 
 ## Design Notes
 
 ### `PreToolUse` Keeps the Watchdog Fed
 
-`UserPromptSubmit`/`Notification`/`Stop` only fire at 3 discrete moments — nothing resets the firmware watchdog during a long stretch of tool calls in between, so the light can fall back to the stale/disconnected pulse mid-turn. `PreToolUse` fires on every tool invocation (reads, edits, bash commands) and sends `working`, so any tool-heavy turn keeps kicking the watchdog continuously. It doesn't cover a turn that's pure extended thinking with zero tool calls — there's no hook event for "still generating text" — so that gap is instead covered by a much longer firmware watchdog timeout (30 minutes); see [`../device/firmware/README.md`](../device/firmware/README.md).
+`UserPromptSubmit`/`Notification`/`Stop` only fire at 3 discrete moments — nothing resets the firmware watchdog during a long stretch of tool calls in between, so the light can fall back to the stale/disconnected pulse mid-turn. `PreToolUse` fires on every tool invocation (reads, edits, bash commands) and sends `working`, so any tool-heavy turn keeps kicking the watchdog continuously. It doesn't cover a turn that's pure extended thinking with zero tool calls — there's no hook event for "still generating text" — so that gap is instead covered by a much longer firmware watchdog timeout (30 minutes); see [`../../device/firmware/README.md`](../../device/firmware/README.md).
 
 ### `PermissionRequest` vs. `Notification`
 

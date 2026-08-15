@@ -57,7 +57,7 @@ def cmd_doctor(_args: argparse.Namespace) -> None:
 
 
 def cmd_install_hooks(args: argparse.Namespace) -> int:
-    return run_install_hooks(scope=args.scope, assume_yes=args.yes)
+    return run_install_hooks(scope=args.scope, assume_yes=args.yes, agent=args.agent)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -80,13 +80,22 @@ def build_parser() -> argparse.ArgumentParser:
     doctor_parser.set_defaults(func=cmd_doctor)
 
     install_hooks_parser = subparsers.add_parser(
-        "install-hooks", help="Merge the Claude Code hooks into settings.json"
+        "install-hooks", help="Merge agent hooks into the target agent's config"
+    )
+    install_hooks_parser.add_argument(
+        "--agent",
+        choices=["claude", "codex"],
+        default="claude",
+        help="Which agent's hooks to install (default: claude)",
     )
     install_hooks_parser.add_argument(
         "--scope",
         choices=["global", "project"],
         default=None,
-        help="global (~/.claude/settings.json) or project (./.claude/settings.json)",
+        help=(
+            "global or project config scope — for claude: ~/.claude/settings.json "
+            "or ./.claude/settings.json; for codex: ~/.codex/hooks.json or ./.codex/hooks.json"
+        ),
     )
     install_hooks_parser.add_argument(
         "--yes",

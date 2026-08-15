@@ -27,7 +27,7 @@ Internal reference for the archived 3-discrete-bulb variant — dev/agent-facing
 - **Language:** Python 3 — runs identically on Linux/Windows/macOS with minimal setup.
 - **Key library:** `pyserial`.
 - **Packaging:** pip-installable package (`andon-light`) exposing a CLI.
-- **Integration point:** Claude Code [Hooks](https://docs.claude.com/) — `SessionStart` → idle, `UserPromptSubmit`/`PreToolUse` → working, `Notification`/`PermissionRequest` → waiting, `PreCompact` → compacting, `Stop` → idle. Commands run synchronously, not `async` — see [`../../../hooks/README.md`](../../../hooks/README.md) "Why not async."
+- **Integration point:** Claude Code [Hooks](https://docs.claude.com/) — `SessionStart` → idle, `UserPromptSubmit`/`PreToolUse` → working, `Notification`/`PermissionRequest` → waiting, `PreCompact` → compacting, `Stop` → idle. Commands run synchronously, not `async` — see [`../../../hooks/claude/README.md`](../../../hooks/claude/README.md) "Why not async."
 - **Known gap:** no hook fires on a user-initiated Esc/interrupt — not exposed by Claude Code's hook system at the time. The light holds its last color through an Esc interrupt.
 
 ---

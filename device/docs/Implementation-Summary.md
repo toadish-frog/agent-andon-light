@@ -32,9 +32,10 @@ Full parts list: [`BOM.md`](BOM.md).
 - **Language:** Python 3 — runs identically on Linux/Windows/macOS with minimal setup; `pyserial` + `pipx install andon-light` is far less friction than distributing compiled binaries per OS.
 - **Key library:** `pyserial`.
 - **Packaging:** pip-installable package (`andon-light`) exposing a CLI, published on PyPI.
-- **Integration point:** Claude Code [Hooks](https://docs.claude.com/) — mapping and rationale in [`../../hooks/README.md`](../../hooks/README.md). Commands run synchronously (not `async`) — see History for why.
-- **Known gap:** no hook fires on a user-initiated Esc/interrupt — not exposed by Claude Code's hook system. The light holds its last color through an Esc interrupt.
-- **Unaffected by which firmware is flashed.** `host/andon_light/cli.py` maps each state to a single ASCII byte (`G`/`Y`/`R`/`C`) and writes it to whatever serial port `device_discovery.py` found — it has no idea how many LEDs are on the other end or how they're wired. That logic lives entirely in firmware. This is why `host/` and `hooks/` needed zero changes when the project moved from the bulb MVP to the strip.
+- **Integration point:** two agents supported in parallel, both host-only integrations against the same `andon-light` CLI and wire protocol — Claude Code [Hooks](https://docs.claude.com/) (mapping/rationale in [`../../hooks/claude/README.md`](../../hooks/claude/README.md)) and Codex CLI's own lifecycle hooks (mapping/rationale in [`../../hooks/codex/README.md`](../../hooks/codex/README.md)). Commands run synchronously (not `async`) on both — see History for why.
+- **Known gap (Claude Code):** no hook fires on a user-initiated Esc/interrupt — not exposed by Claude Code's hook system. The light holds its last color through an Esc interrupt.
+- **Known gap (Codex CLI):** no `Notification`-equivalent lifecycle event, so `PermissionRequest` alone carries the "waiting on you" mapping — see [`../../hooks/codex/README.md`](../../hooks/codex/README.md). Also, Codex won't run a new/changed `hooks.json` until the user explicitly trusts it via `/hooks` inside the CLI — `install-hooks --agent codex` prints a reminder, but can't do this step for them.
+- **Unaffected by which firmware is flashed.** `host/andon_light/cli.py` maps each state to a single ASCII byte (`G`/`Y`/`R`/`C`) and writes it to whatever serial port `device_discovery.py` found — it has no idea how many LEDs are on the other end or how they're wired. That logic lives entirely in firmware. This is why `host/` and `hooks/` needed zero changes when the project moved from the bulb MVP to the strip, and why adding Codex CLI support (below) was a pure `host/`/`hooks/` change too — the wire protocol was already agent-agnostic, so no firmware reflash was needed to support a second agent.
 
 ---
 
@@ -105,7 +106,9 @@ For `G`/`Y`/`R`/`StalePulse`, only the active section's pixels are lit; every ot
 agent-andon-light/
 ├── README.md                   # top-level orientation + quick start
 ├── host/                        # Python driver package (andon-light CLI)
-├── hooks/                       # Claude Code integration (settings.snippet.json + README)
+├── hooks/                       # Agent integrations, one subdir per agent
+│   ├── claude/                    # settings.snippet.json + README (Claude Code)
+│   └── codex/                     # hooks.json + README (Codex CLI)
 ├── packaging/                    # OS-specific distribution — windows/, linux/
 └── device/                      # the only hardware line
     ├── firmware/
@@ -140,7 +143,8 @@ agent-andon-light/
 | 5 | Custom PCB (strip) | Done — Rev A back from JLC, assembled, reflashed, electrically verified across all 5 units |
 | 6 | Enclosure | Done — chassis base + lid 3D-printed via JLC, fit confirmed first-try on all 5 units |
 | 7 | Packaging & distribution | Mostly done — PyPI published, `install-hooks` shipped, Windows installer built and verified on real hardware; Linux is docs-only by design, macOS deferred; GitHub release still outstanding |
-| 8 | Stretch goals | Backlog — multi-agent/multi-light support, buzzer for alerts, ambient-light brightness sensing, user-configurable color mapping |
+| 8 | Multi-agent support | Codex CLI done — `install-hooks --agent {claude,codex}`, host-only, no firmware change. Multi-*light* (one device per agent/session) still backlog. |
+| 9 | Stretch goals | Backlog — multi-light support, buzzer for alerts, ambient-light brightness sensing, user-configurable color mapping |
 
 ---
 
@@ -167,3 +171,5 @@ Chronological log of decisions and resolutions — the detail that used to be sc
 | 2026-07-14 | Project restructured: retired the parallel `led-bulb/`/`led-strip/` hardware tracks. Strip renamed from `led-strip/` to `device/` as the sole ongoing hardware line. Bulb MVP archived at `archive/led-bulb-mvp/`. |
 | 2026-07-30 | Rev A PCB (5-board sample run) back from JLC — all 5 assembled, reflashed, and individually confirmed working: `G`/`Y`/`R`/`C` correct on the fabricated PCB's own traces, and `StalePulse` triggered and confirmed on real hardware for the first time (previously validated by code inspection only). Enclosure (chassis base + lid) 3D-printed via JLC alongside the PCB order — fit correct first-try on all 5 units, no reprint or redesign needed. Level-shifter footprint confirmed unnecessary on real hardware, left unpopulated. `andon-light` published to PyPI (v0.1.0, MIT licensed). `install-hooks` CLI subcommand shipped. |
 | 2026-07-31 | Windows installer (PyInstaller + Inno Setup) built and verified on real Windows hardware: device enumerates as a COM port with zero extra driver steps, PATH resolves in a new terminal, `install-hooks` finish-page flow and uninstall (including a PATH-cleanup fix) both confirmed working. |
+| 2026-08-15 | Codex CLI hook support added (Phase 8), host-only — no firmware update needed, since the wire protocol was already agent-agnostic. `hooks_install.py` generalized with an `agent` parameter (`claude`/`codex`), each with its own snippet resource, global/project path pair, and optional post-install note; `andon-light install-hooks --agent codex` writes/merges `~/.codex/hooks.json` (or project-scoped) instead of `~/.claude/settings.json`. New `hooks/codex/hooks.json` + `hooks/codex/README.md` mirror the Claude Code mapping, minus `Notification` — Codex's lifecycle-hook system has no equivalent event, so `PermissionRequest` alone covers the "waiting on you" moment. Codex also requires an explicit in-CLI `/hooks` trust step before a new hooks file runs, which `install-hooks` can only remind about, not perform. Existing Claude Code behavior (paths, prompts, output) confirmed byte-identical via the existing test suite plus new agent-parametrized cases. Separately, verified the real integration end-to-end on real hardware: real `codex exec` run against a real installed `hooks.json` (via `--dangerously-bypass-hook-trust`) fired `SessionStart`→idle, `UserPromptSubmit`/`PreToolUse`→working, `Stop`/`SessionEnd`→idle in the correct order with no hook failures. |
+| 2026-08-16 | `hooks/` regrouped so both agents sit in parallel subdirectories — `hooks/README.md` + `hooks/settings.snippet.json` moved to `hooks/claude/`, matching the `hooks/codex/` layout added the day before. No content changes, only the move plus every cross-reference across the repo (top-level `README.md`, `host/README.md`, `hooks_install.py`, `packaging/*/README.md`, `device/docs/*.md`, `archive/led-bulb-mvp/docs/*.md`, and the drift-guard test paths) updated to match. |

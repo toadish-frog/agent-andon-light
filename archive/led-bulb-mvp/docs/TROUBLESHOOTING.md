@@ -65,7 +65,7 @@ If `id` is missing `dialout`:
 | Permanent fix | Every process, system-wide | `sudo reboot` |
 | One-off stopgap | Resets on every replug | `sudo chmod 666 /dev/ttyACM0` |
 
-**Gotcha: `|| true` hides this failure.** Every hook command ends in `|| true` (see [`../../../hooks/README.md`](../../../hooks/README.md)), so Claude Code's hook log can report "completed successfully" even when the underlying `andon-light` call actually failed with this exact permission error — the hook process itself still exits 0. Don't trust that log line; run the command directly (without `|| true`) and check its real exit code if you suspect this.
+**Gotcha: `|| true` hides this failure.** Every hook command ends in `|| true` (see [`../../../hooks/claude/README.md`](../../../hooks/claude/README.md)), so Claude Code's hook log can report "completed successfully" even when the underlying `andon-light` call actually failed with this exact permission error — the hook process itself still exits 0. Don't trust that log line; run the command directly (without `|| true`) and check its real exit code if you suspect this.
 
 ## Step 3: Is Something Else Holding the Port Open?
 
@@ -90,7 +90,7 @@ cat ~/.claude/settings.json
 
 - [ ] **Valid JSON?** Run: `python3 -c "import json, os; json.load(open(os.path.expanduser('~/.claude/settings.json'))); print('VALID JSON')"`
 - [ ] **Does every hook command end in `|| true`?** Without it, a hook failure surfaces as noisy error output instead of failing silently.
-- [ ] **Hook commands *not* marked `"async": true`?** Async causes hook commands to complete out of order, leaving the light stuck on a stale color — see [`../../../hooks/README.md`](../../../hooks/README.md) "Why not async."
+- [ ] **Hook commands *not* marked `"async": true`?** Async causes hook commands to complete out of order, leaving the light stuck on a stale color — see [`../../../hooks/claude/README.md`](../../../hooks/claude/README.md) "Why not async."
 - [ ] **Restarted Claude Code after editing this file?** Hook config is only read at session start.
 
 ## Step 5: Manually Simulate What a Hook Would Do

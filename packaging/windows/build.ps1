@@ -21,7 +21,8 @@ python -m venv $BuildVenv
 & "$BuildVenv\Scripts\pip.exe" install --quiet --upgrade pip
 & "$BuildVenv\Scripts\pip.exe" install --quiet $HostDir pyinstaller
 
-$SnippetSrc = Join-Path $HostDir "andon_light\data\settings.snippet.json"
+$ClaudeSnippetSrc = Join-Path $HostDir "andon_light\data\settings.snippet.json"
+$CodexSnippetSrc = Join-Path $HostDir "andon_light\data\codex.hooks.json"
 
 # PyInstaller only bundles what its import-graph analysis actually finds
 # reachable from andon_light_entry.py — it does not "bundle everything" by
@@ -37,7 +38,8 @@ $SnippetSrc = Join-Path $HostDir "andon_light\data\settings.snippet.json"
     --distpath $DistDir `
     --workpath $WorkDir `
     --specpath $WindowsDir `
-    --add-data "$SnippetSrc;andon_light\data" `
+    --add-data "$ClaudeSnippetSrc;andon_light\data" `
+    --add-data "$CodexSnippetSrc;andon_light\data" `
     --exclude-module tkinter `
     --exclude-module unittest `
     --exclude-module test `
