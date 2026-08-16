@@ -20,6 +20,33 @@ Unlike `hooks/claude/settings.snippet.json`, this file doesn't get merged into a
 
 Codex won't execute a new or changed non-managed `hooks.json` until you explicitly review and trust it — there's no way to pre-trust it from outside the CLI. After running `andon-light install-hooks --agent codex`, start Codex CLI, run `/hooks`, and confirm the new definitions. If the light doesn't react, check this first — an untrusted hook silently doesn't run, it doesn't error.
 
+### The ChatGPT App's Codex Tab (Windows)
+
+On Windows, "Codex app" usually means the ChatGPT desktop app's Codex tab (Microsoft Store) — a GUI chat surface, not the terminal `codex` CLI this doc otherwise assumes. The distinction matters because **`/hooks` (trust, above) only exists in an interactive terminal Codex CLI session** — the ChatGPT app has no equivalent UI, so trust can't be granted from inside it.
+
+Trust is stored on disk and shared across front-ends, though — both read the same `~/.codex` config. So even if you only ever use the ChatGPT app day to day, open a terminal Codex CLI session **once**, run `/hooks`, and grant trust there; the ChatGPT app picks it up from then on. Until that happens, the light just stays silent in the ChatGPT app with no error shown — the same untrusted-hook behavior described above.
+
+If plain `codex` isn't a recognized command in your terminal, the ChatGPT app likely bundles its own private CLI binary instead of adding one to `PATH`. Find and launch it, in PowerShell:
+
+1. Look at the config file directly, so you can see the value yourself instead of trusting a script blindly:
+
+   ```powershell
+   Get-Content "$env:USERPROFILE\.codex\config.toml" | Select-String CODEX_CLI_PATH
+   ```
+
+   This prints a line like `CODEX_CLI_PATH = "C:\Users\you\AppData\...\codex.exe"`.
+2. Run that exact path, quoted, with `&` in front (PowerShell's "run this program" operator):
+
+   ```powershell
+   & "C:\Users\you\AppData\...\codex.exe"
+   ```
+
+   — paste the path from step 1 in place of the example above.
+3. That opens a real terminal Codex CLI session. Run `/hooks` there, review, and trust the new definitions.
+4. Close that window. The ChatGPT app's Codex tab will now pick up the trusted hooks — that trust is stored on disk, not tied to the window you approved it in.
+
+Steps 1–2 are the same idea as the one-liner Codex may hand you (reading `CODEX_CLI_PATH` out of `config.toml` and launching it) — just split out so you can see the actual path before running anything, rather than piping it straight into `&` unseen.
+
 ## Design Notes
 
 ### No `Notification` Equivalent
