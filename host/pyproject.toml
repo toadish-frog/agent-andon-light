@@ -15,6 +15,7 @@ classifiers = [
 ]
 
 [project.urls]
+Homepage = "https://www.agent-andon-light.site/"
 Repository = "https://github.com/toadish-frog/agent-andon-light"
 
 [project.scripts]
