@@ -18,6 +18,23 @@ COLOR_COMMANDS = {
     "compacting": "C",
 }
 
+# Must match LedController::kMinBrightnessPercent / kMaxBrightnessPercent in firmware —
+# below 5% the status pixel rounds to off.
+MIN_BRIGHTNESS_PERCENT = 5
+MAX_BRIGHTNESS_PERCENT = 100
+
+
+def _brightness_percent(value: str) -> int:
+    try:
+        percent = int(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"invalid percent: {value!r} (expected a whole number)")
+    if not MIN_BRIGHTNESS_PERCENT <= percent <= MAX_BRIGHTNESS_PERCENT:
+        raise argparse.ArgumentTypeError(
+            f"percent must be between {MIN_BRIGHTNESS_PERCENT} and {MAX_BRIGHTNESS_PERCENT}, got {percent}"
+        )
+    return percent
+
 
 def _resolve_port(explicit_port: str | None) -> str:
     if explicit_port:
@@ -44,6 +61,12 @@ def cmd_heartbeat(args: argparse.Namespace) -> None:
     port = _resolve_port(args.port)
     with SerialLink(port) as link:
         link.send("H")
+
+
+def cmd_brightness(args: argparse.Namespace) -> None:
+    port = _resolve_port(args.port)
+    with SerialLink(port) as link:
+        link.send(f"B{args.percent}")
 
 
 def cmd_doctor(_args: argparse.Namespace) -> None:
@@ -73,6 +96,16 @@ def build_parser() -> argparse.ArgumentParser:
         "heartbeat", help="Send a keepalive without changing color"
     )
     heartbeat_parser.set_defaults(func=cmd_heartbeat)
+
+    brightness_parser = subparsers.add_parser(
+        "brightness", help="Set LED brightness as a percent of maximum (saved on the device)"
+    )
+    brightness_parser.add_argument(
+        "percent",
+        type=_brightness_percent,
+        help=f"{MIN_BRIGHTNESS_PERCENT}-{MAX_BRIGHTNESS_PERCENT}",
+    )
+    brightness_parser.set_defaults(func=cmd_brightness)
 
     doctor_parser = subparsers.add_parser(
         "doctor", help="Detect the device and report its port"

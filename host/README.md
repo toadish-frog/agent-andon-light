@@ -16,6 +16,7 @@ host/
 │       ├── settings.snippet.json   # bundled copy for installed/frozen builds (Claude Code)
 │       └── codex.hooks.json        # bundled copy for installed/frozen builds (Codex CLI)
 └── tests/
+    ├── test_cli.py
     └── test_hooks_install.py
 ```
 
@@ -47,6 +48,7 @@ andon-light set waiting                         # solid yellow
 andon-light set idle                             # solid red
 andon-light set compacting                       # flashing green
 andon-light heartbeat                            # keepalive, no color change
+andon-light brightness 30                        # LED brightness, 5-100% of max, saved on the device
 andon-light --port /dev/ttyACM0 set working      # override auto-detection
 andon-light install-hooks                        # merge Claude Code hooks into settings.json (default agent)
 andon-light install-hooks --agent codex          # merge Codex CLI hooks into hooks.json instead
@@ -65,5 +67,6 @@ Both agents drive the same firmware over the same wire protocol — this is a ho
 ## Notes
 
 - Auto-detection (`device_discovery.py`) filters by USB vendor ID `0x2E8A` (Raspberry Pi Foundation, used by arduino-pico's default TinyUSB descriptor) — matches the Waveshare RP2040-Zero.
+- `brightness` needs firmware with the `B<n>` command ([`../device/firmware/README.md`](../device/firmware/README.md) Wire Protocol Reference). Older firmware silently ignores it — the firmware never replies, so the CLI can't detect this; if nothing changes, reflash.
 - Override with `--port` or the `ANDON_LIGHT_PORT` env var if auto-detection picks the wrong port or finds nothing.
 - "Device or resource busy" means another process (e.g. Arduino IDE's Serial Monitor) has the port open — only one process can hold it at a time. `andon-light` retries automatically for ~450ms before giving up; a serial failure then prints a one-line message with exit code 1 instead of a raw Python traceback.

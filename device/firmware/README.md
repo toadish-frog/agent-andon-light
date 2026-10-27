@@ -24,7 +24,7 @@ WS2812-style LEDs need sub-microsecond bit timing that plain `digitalWrite`/`ana
 
 1. Arduino IDE 2.x, with the `arduino-pico` board package installed.
 2. Install the Adafruit NeoPixel library (Tools → Manage Libraries).
-3. Open `andon_light_firmware/andon_light_firmware.ino` — Arduino IDE loads `led_controller.h/.cpp` and `watchdog.h` alongside it as tabs.
+3. Open `andon_light_firmware/andon_light_firmware.ino` — Arduino IDE loads `led_controller.h/.cpp`, `watchdog.h` and `brightness_store.h` alongside it as tabs.
 
 Building the physical board (soldering the MCU on, or wiring a breadboard prototype) happens in [`../docs/USER-GUIDE.md`](../docs/USER-GUIDE.md) §2, before you get to Flash & Test below.
 
@@ -35,13 +35,14 @@ Building the physical board (soldering the MCU on, or wiring a breadboard protot
 3. Confirm pixel 1 alone is dim white and pixels 2-10 are dark (boot state).
 4. Type `G`, `Y`, `R`, pressing enter after each — confirm only that color's 3-pixel section lights, rest stays dark.
 5. Type `C` — confirm the chase-fill sweep described in [Pixel Layout](#pixel-layout) below.
-6. To test `StalePulse` without waiting 30 minutes: temporarily set `kWatchdogTimeoutMs` to `15000`, flash, confirm the breathing red pulse on pixels 8-10, then set it back to `1800000` and reflash.
+6. Type `B20` — confirm the lit section dims immediately without changing color. Type `B100`, then `B51` to return to the default. Unplug and replug — confirm the last value is kept.
+7. To test `StalePulse` without waiting 30 minutes: temporarily set `kWatchdogTimeoutMs` to `15000`, flash, confirm the breathing red pulse on pixels 8-10, then set it back to `1800000` and reflash.
 
 ## Reference
 
 ### Power
 
-Brightness is capped at `kBrightness = 130/255` (`led_controller.cpp`) for current draw and eye comfort — raise it if the strip is diffused behind a cover. If you're seeing flicker or wrong colors, that's a hardware issue (solder joint or wiring, depending on your build) — see [`../docs/USER-GUIDE.md`](../docs/USER-GUIDE.md) Pitfalls to Avoid, not a firmware setting.
+Brightness is set at runtime with `B<n>` (or `andon-light brightness <n>` from the host) as a percent of the LEDs' hardware maximum (255/255), range 5-100. The default is 51% (130/255, the original fixed cap). The value is saved to the board's flash (`brightness_store.h`, arduino-pico's EEPROM emulation) and restored on every boot; flash is only written when the value actually changes. Current draw stays within USB bus power even at 100% — at most 9 pixels are lit at once, never full white. Below about 10%, yellow can drift toward orange or green as the LEDs lose color precision; 5% is the floor because the dim-white status pixel rounds to off below it. If you're seeing flicker or wrong colors, that's a hardware issue (solder joint or wiring, depending on your build) — see [`../docs/USER-GUIDE.md`](../docs/USER-GUIDE.md) Pitfalls to Avoid, not a firmware setting.
 
 ### Pixel Layout
 
@@ -68,5 +69,6 @@ See `led_controller.cpp`'s `kGreenStart`/`kYellowStart`/`kRedStart`/`kStatusPixe
 | `R\n` | Pixels 8-10 solid red | Idle / stopped / quota reached |
 | `C\n` | Chase-fill across pixels 2-10 | Compacting — internal maintenance, still alive |
 | `H\n` | No color change | Heartbeat, resets the watchdog |
+| `B<n>\n` | Brightness set to `n`% (5-100, clamped), saved to flash | Display setting — does **not** reset the watchdog. Malformed input (no digits, non-digit, more than 3 digits) is ignored. Firmware that predates this command ignores it too. |
 
 Watchdog timeout: **30 minutes**.

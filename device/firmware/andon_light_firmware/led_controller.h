@@ -9,14 +9,25 @@ class LedController {
  public:
   LedController(uint8_t dataPin, uint16_t numPixels);
 
-  void begin();
+  void begin(uint8_t brightnessPercent);
   void setColor(LightColor color);
+  // Percent of the hardware maximum (255), clamped to [kMinBrightnessPercent, 100]. Re-renders
+  // the current solid color immediately; animations pick it up on their next update().
+  void setBrightnessPercent(uint8_t percent);
   void update();  // call every loop() iteration; drives the StalePulse/CompactFlash animation
+
+  static constexpr uint8_t kMinBrightnessPercent = 5;  // below this the status pixel rounds to off
+  static constexpr uint8_t kMaxBrightnessPercent = 100;
+  static constexpr uint8_t kDefaultBrightnessPercent = 51;  // 130/255, the original fixed cap
 
  private:
   Adafruit_NeoPixel strip_;
   LightColor current_ = LightColor::Off;
   uint32_t pulsePhaseStartMs_ = 0;
+
+  // Draws current_ if it's a solid state (Off/Green/Yellow/Red). Animated states are drawn
+  // by update() instead, so this is a no-op for them.
+  void renderSolid();
 
   // Lights pixels [sectionStart, sectionStart + sectionCount) to (r,g,b) and every other
   // non-status pixel off, then always re-asserts the dim-white status pixel on top. This is

@@ -25,7 +25,7 @@ Full parts list: [`BOM.md`](BOM.md).
 - **Library:** Adafruit_NeoPixel — required for WS2812 timing; can't be bit-banged reliably with plain GPIO calls.
 - **Toolchain:** Arduino IDE (or Arduino CLI) with the `arduino-pico` board package.
 - **Interface:** USB CDC serial — enumerates as a plain serial port on every OS, no custom driver needed on any of them.
-- **Power:** must be 5V/`VBUS`, not 3.3V — 10 addressable LEDs draw meaningfully more current than a 3.3V regulator is meant to supply. Firmware caps brightness (`kBrightness = 130/255`) for draw and eye comfort.
+- **Power:** must be 5V/`VBUS`, not 3.3V — 10 addressable LEDs draw meaningfully more current than a 3.3V regulator is meant to supply. Brightness is user-set at runtime (`B<n>`, 5-100% of 255/255, default 51% = 130/255) and saved to flash — see [`../firmware/README.md`](../firmware/README.md) Power.
 
 ### Host Driver Software
 
@@ -77,6 +77,7 @@ Full parts list: [`BOM.md`](BOM.md).
 | `R\n` | Idle — red section solid |
 | `C\n` | Compacting — chase-fill sequence |
 | `H\n` | Heartbeat — no color change, resets watchdog |
+| `B<n>\n` | Brightness — `n`% of max (5-100), saved to flash; no color change, does not reset watchdog |
 
 **Reliability:** the firmware runs a watchdog timer — no heartbeat/command within **30 minutes** falls back to a slow-pulse red on the red section ("stale/disconnected") rather than silently freezing on a stale color if the host driver crashes. See History for how the timeout value was tuned.
 
@@ -116,6 +117,7 @@ agent-andon-light/
     │   └── andon_light_firmware/
     │       ├── andon_light_firmware.ino
     │       ├── led_controller.h/.cpp
+    │       ├── brightness_store.h
     │       └── watchdog.h
     ├── hardware/                # KiCad schematic/PCB/manufacturing files — Rev A sent to JLC for fab
     │   ├── kicad/
@@ -144,13 +146,14 @@ agent-andon-light/
 | 6 | Enclosure | Done — chassis base + lid 3D-printed via JLC, fit confirmed first-try on all 5 units |
 | 7 | Packaging & distribution | Done for Windows/Linux — PyPI published (`0.1.0`, `0.2.0`), `install-hooks` shipped, Windows installer built and verified on real hardware, GitHub Releases cut for both versions with the installer attached; Linux is docs-only by design. macOS still deferred. |
 | 8 | Multi-agent support | Codex CLI done — `install-hooks --agent {claude,codex}`, host-only, no firmware change; verified end-to-end on real Windows hardware, including the ChatGPT desktop app's Codex tab (needs a one-time terminal `/hooks` trust step — see [`../../hooks/codex/README.md`](../../hooks/codex/README.md)). Multi-*light* (one device per agent/session) still backlog. |
-| 9 | Stretch goals | Backlog — multi-light support, buzzer for alerts, ambient-light brightness sensing, user-configurable color mapping |
+| 9 | Stretch goals | Backlog — multi-light support, buzzer for alerts, ambient-light brightness sensing (manual `andon-light brightness` done, pending hardware verification), user-configurable color mapping |
 
 ---
 
 ## 5. Open Items
 
-- **Final brightness value** — `130/255` is a reasoned starting point (current draw + eye comfort), workable behind the actual diffuser, but not formally re-tuned against it.
+- **Brightness command on hardware** — `B<n>` + flash persistence (`feat/brightness`) compile-checked and parser-simulated only; not yet flashed or verified on a real unit. Default stays 51% (130/255).
+- **Firmware version reporting** — the firmware never replies, so the CLI can't tell whether a board has the `B<n>` command; a version query would close this.
 - **Dim-white status pixel level** — `kDimWhiteLevel = 25` (pre-`kBrightness`-scaling) is a reasoned guess, not explicitly confirmed as the right dimness.
 - **Per-unit cost at production quantity** — the 5-board sample order (PCB + assembly + enclosure) was priced well above what a larger MOQ run would cost; no clean per-unit figure logged.
 - **macOS support** — deferred, no Apple hardware available to build, sign, or test on. Code-signing/notarization requirements unresearched.
@@ -173,3 +176,4 @@ Chronological log of decisions and resolutions — the detail that used to be sc
 | 2026-08-15 | Codex CLI hook support added (Phase 8), host-only — no firmware update needed, since the wire protocol was already agent-agnostic. `hooks_install.py` generalized with an `agent` parameter (`claude`/`codex`), each with its own snippet resource, global/project path pair, and optional post-install note; `andon-light install-hooks --agent codex` writes/merges `~/.codex/hooks.json` (or project-scoped) instead of `~/.claude/settings.json`. New `hooks/codex/hooks.json` + `hooks/codex/README.md` mirror the Claude Code mapping, minus `Notification` — Codex's lifecycle-hook system has no equivalent event, so `PermissionRequest` alone covers the "waiting on you" moment. Codex also requires an explicit in-CLI `/hooks` trust step before a new hooks file runs, which `install-hooks` can only remind about, not perform. Existing Claude Code behavior (paths, prompts, output) confirmed byte-identical via the existing test suite plus new agent-parametrized cases. Separately, verified the real integration end-to-end on real hardware: real `codex exec` run against a real installed `hooks.json` (via `--dangerously-bypass-hook-trust`) fired `SessionStart`→idle, `UserPromptSubmit`/`PreToolUse`→working, `Stop`/`SessionEnd`→idle in the correct order with no hook failures. |
 | 2026-08-16 | `hooks/` regrouped so both agents sit in parallel subdirectories — `hooks/README.md` + `hooks/settings.snippet.json` moved to `hooks/claude/`, matching the `hooks/codex/` layout added the day before. No content changes, only the move plus every cross-reference across the repo (top-level `README.md`, `host/README.md`, `hooks_install.py`, `packaging/*/README.md`, `device/docs/*.md`, `archive/led-bulb-mvp/docs/*.md`, and the drift-guard test paths) updated to match. `andon-light` v0.2.0 (Codex CLI support) built, validated (`twine check` PASSED, fresh non-editable install exercised for both agents), and published to PyPI — a packaging bug caught during that pass: `packaging/windows/build.ps1` only ever passed `settings.snippet.json` to PyInstaller's `--add-data`, so a Windows build would have shipped without `codex.hooks.json` and crashed on `install-hooks --agent codex`; fixed by bundling both. `andon-light.iss` finish page also gained a second, independent, unchecked checkbox for Codex CLI hooks — previously Windows users could only wire up Codex via a manual terminal command after install. |
 | 2026-08-17 | `v0.2.0` build tested end-to-end on real Windows hardware: both finish-page checkboxes confirmed present and working. Real-world gap found and diagnosed while testing Codex on Windows: the ChatGPT desktop app's Codex tab (the thing "codex app windows" search results actually point to) has no `/hooks` UI at all, so hook trust — required before any hook fires — can only be granted from an actual terminal Codex CLI session; the ChatGPT app just silently does nothing until that one-time step happens elsewhere, since both surfaces read the same `~/.codex` config. Documented in [`../../hooks/codex/README.md`](../../hooks/codex/README.md) with the concrete PowerShell steps (find the bundled CLI binary via `CODEX_CLI_PATH` in `config.toml`, launch it, run `/hooks` once). `v0.2.0` GitHub Release cut with `andon-light-setup.exe` attached, closing out Phase 7. |
+| 2026-10-27 | User-adjustable brightness added on branch `feat/brightness`: new `B<n>\n` wire command (5-100% of the LEDs' 255/255 maximum, clamped; default 51% = the old fixed `kBrightness = 130`), saved to flash via arduino-pico's EEPROM emulation (`brightness_store.h`, magic byte + value, written only on change), re-renders the current solid color immediately. Brightness does not kick the watchdog. Host: `andon-light brightness <percent>` with 5-100 validation, plus `host/tests/test_cli.py`. Older firmware ignores `B<n>`, so a newer CLI can't break an older board. Checked by a stub-header compile and a host-side simulation of the parser (repeats, CRLF, clamping, malformed input, reboot restore); not yet flashed to hardware. |

@@ -18,11 +18,14 @@ constexpr uint32_t kCompactStepMs = 120;
 constexpr uint16_t kCompactPixelCount = 9;
 constexpr uint16_t kCompactTotalSteps = kCompactPixelCount * (kCompactPixelCount + 1) / 2;
 
-// Base brightness cap (0-255), applied to every solid/animated color.
-// WS2812 pixels are uncomfortably bright at 255/255 close up, and capping
-// also keeps worst-case current draw well within what USB bus power can
-// supply across 10 pixels. Raise if the strip is diffused/behind a cover.
-constexpr uint8_t kBrightness = 130;
+// Brightness is set at runtime as a percent of the hardware maximum (255) via the `B<n>`
+// command, persisted by BrightnessStore, and defaults to kDefaultBrightnessPercent (51% =
+// 130/255, the original fixed cap). Current draw stays well within USB bus power even at
+// 100%: at most 9 of the 10 pixels are ever lit at once, each in a single color channel
+// (yellow uses two), never full white.
+uint8_t percentToLevel(uint8_t percent) {
+  return static_cast<uint8_t>((static_cast<uint16_t>(percent) * 255 + 50) / 100);
+}
 
 // Pixel layout (0-indexed; silkscreen/BOM label these 1-10). An andon light communicates
 // state by which lamp is lit, not by turning every lamp the same color at once — so each
@@ -36,7 +39,7 @@ constexpr uint16_t kYellowCount = 3;
 constexpr uint16_t kRedStart = 7;      // pixels 8-10
 constexpr uint16_t kRedCount = 3;
 
-// Deliberately low per-channel value (pre-scaled again by kBrightness at show() time) —
+// Deliberately low per-channel value (pre-scaled again by the brightness level) —
 // a status indicator, not a fourth state color, so it should read as clearly dimmer than
 // any active G/Y/R section next to it.
 constexpr uint8_t kDimWhiteLevel = 25;
@@ -45,9 +48,9 @@ constexpr uint8_t kDimWhiteLevel = 25;
 LedController::LedController(uint8_t dataPin, uint16_t numPixels)
     : strip_(numPixels, dataPin, NEO_GRB + NEO_KHZ800) {}
 
-void LedController::begin() {
+void LedController::begin(uint8_t brightnessPercent) {
   strip_.begin();
-  strip_.setBrightness(kBrightness);
+  strip_.setBrightness(percentToLevel(constrain(brightnessPercent, kMinBrightnessPercent, kMaxBrightnessPercent)));
   strip_.clear();
   strip_.show();  // all off until the first color, avoids a garbage-data flash on boot
   // Boot to Off (dim-white status pixel only, all sections dark) rather than a solid
@@ -66,14 +69,28 @@ void LedController::setColor(LightColor color) {
   }
   current_ = color;
 
-  switch (color) {
+  if (color == LightColor::StalePulse || color == LightColor::CompactFlash) {
+    pulsePhaseStartMs_ = millis();
+  } else {
+    renderSolid();
+  }
+}
+
+void LedController::setBrightnessPercent(uint8_t percent) {
+  // Adafruit_NeoPixel's setBrightness() rescales the already-stored pixel buffer lossily,
+  // so re-render from the full-range colors afterwards instead of relying on that rescale.
+  strip_.setBrightness(percentToLevel(constrain(percent, kMinBrightnessPercent, kMaxBrightnessPercent)));
+  renderSolid();
+}
+
+void LedController::renderSolid() {
+  switch (current_) {
     case LightColor::Green:  renderSection(kGreenStart, kGreenCount, 0, 255, 0);     break;
     case LightColor::Yellow: renderSection(kYellowStart, kYellowCount, 255, 255, 0); break;
     case LightColor::Red:    renderSection(kRedStart, kRedCount, 255, 0, 0);         break;
     case LightColor::StalePulse:
     case LightColor::CompactFlash:
-      pulsePhaseStartMs_ = millis();
-      break;
+      break;  // drawn by update() every loop
     case LightColor::Off:
     default: renderSection(0, 0, 0, 0, 0); break;  // no section lit; status pixel still shown
   }

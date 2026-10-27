@@ -67,6 +67,7 @@ Useful for testing, or to set the light by hand:
 | `andon-light set idle` | 🟥 Solid red |
 | `andon-light set compacting` | 🟩💫 Chase-fill (compacting) |
 | `andon-light heartbeat` | Keepalive, no color change |
+| `andon-light brightness 30` | LED brightness, 5-100% of max (default 51%), saved on the device. Needs current firmware — see [`device/firmware/README.md`](device/firmware/README.md) |
 | `andon-light doctor` | Detect the device and report its port |
 
 ## Troubleshooting
