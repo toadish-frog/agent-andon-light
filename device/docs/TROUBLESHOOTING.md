@@ -18,6 +18,8 @@ Diagnostic playbook — work through these in order to narrow down where a probl
 lsusb | grep -i "2e8a"
 ```
 
+On macOS there's no `lsusb` — use [macOS-Specific: Is the Board Connected?](#is-the-board-connected) instead.
+
 | Output | Meaning | Fix |
 | --- | --- | --- |
 | `2e8a:0003 Raspberry Pi RP2 Boot` | Board is in **bootloader mode**, not running firmware — no LEDs will respond, no serial port exists | Open Arduino IDE and click Upload — it detects this state and finishes the flash |
@@ -40,7 +42,7 @@ andon-light doctor
 
 | Output | Meaning |
 | --- | --- |
-| `Found device on /dev/ttyACM0` (or similar) | CLI can see it, port permissions are fine — move to Step 3 |
+| `Found device on /dev/ttyACM0` (`/dev/cu.usbmodem…` on macOS, `COM3` or similar on Windows) | CLI can see it, port permissions are fine — move to Step 3 |
 | `No device found` | Board isn't running firmware — go back to Step 1 |
 | `[Errno 13] Permission denied` | Port-permissions issue — see [Linux-Specific: Permission Denied](#permission-denied-opening-the-port) below |
 
@@ -163,6 +165,39 @@ Found device on /dev/ttyACM0
 $ andon-light set working; echo "exit=$?"
 exit=0
 ```
+
+## macOS-Specific
+
+### Is the Board Connected?
+
+```txt
+system_profiler SPUSBDataType | grep -i -B 2 -A 8 "rp2"
+ls /dev/cu.usbmodem*
+```
+
+| Output | Meaning | Fix |
+| --- | --- | --- |
+| An entry with `Vendor ID: 0x2e8a`, and a `/dev/cu.usbmodem…` port listed | Firmware is running normally | Move to Step 2 |
+| An `RP2 Boot` entry, and an `RPI-RP2` drive under `/Volumes` | Board is in **bootloader mode** | Flash it from Arduino IDE (Step 1) |
+| Nothing (zsh prints `no matches found` for the `ls`) | Not connected, or the cable is power-only | Try a different USB-C cable, or a port without a hub |
+
+`ioreg -p IOUSB -l -w0 | grep -i -E "idVendor|USB Product Name"` shows the same information faster. Vendor ID `0x2e8a` appears there as decimal `11914`.
+
+### `cu.` vs. `tty.` Ports
+
+macOS creates two device files per serial port. `andon-light` uses `/dev/cu.usbmodem…` — what `doctor` reports. The `/dev/tty.usbmodem…` twin is meant for incoming connections and can block on open in some tools. If you set `--port` or `ANDON_LIGHT_PORT` by hand, use the `cu.` one.
+
+### No Permission Setup Needed
+
+Unlike Linux, there's no `dialout` group — the logged-in user can open USB serial ports by default.
+
+### `brew install pipx` Fails Building Python
+
+Homebrew no longer ships prebuilt packages for some older macOS versions and falls back to building Python from source, which can fail with the installed compiler. Install pipx with the built-in Python instead — see [`../../packaging/macos/README.md`](../../packaging/macos/README.md) Route B.
+
+### Hooks Never Change the Light, but Manual Commands Work
+
+An agent launched as a GUI app (Dock, Spotlight) doesn't inherit your shell's `PATH`, so `andon-light` isn't found and `|| true` hides the failure. Start the agent from a terminal, or put the full path from `which andon-light` in the hook commands.
 
 ## Windows-Specific
 

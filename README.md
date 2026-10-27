@@ -24,7 +24,7 @@ This doc covers "I already have the hardware, how do I get it running." Building
 
 - The assembled device — a Waveshare RP2040-Zero hand-soldered onto the custom PCB, **pre-flashed with firmware.** Building one from scratch instead? Start at [`device/docs/USER-GUIDE.md`](device/docs/USER-GUIDE.md), not here.
 - A data-capable USB-C cable.
-- Python 3 — Linux only. Windows doesn't need it; the installer is self-contained.
+- Python 3 — Linux and macOS (macOS ships one with the Xcode Command Line Tools). Windows doesn't need it; the installer is self-contained.
 
 ## Quick Start
 
@@ -35,6 +35,7 @@ This doc covers "I already have the hardware, how do I get it running." Building
 | OS | How |
 | --- | --- |
 | Linux | `pipx install andon-light` — see [`packaging/linux/README.md`](packaging/linux/README.md) |
+| macOS | `pipx install andon-light` — see [`packaging/macos/README.md`](packaging/macos/README.md) (covers installing pipx when Homebrew can't) |
 | Windows | Download `andon-light-setup.exe` from [Releases](https://github.com/toadish-frog/agent-andon-light/releases) and run it — see [`packaging/windows/README.md`](packaging/windows/README.md) |
 
 Confirm it can see the device:
@@ -71,7 +72,7 @@ Useful for testing, or to set the light by hand:
 
 ## Troubleshooting
 
-See [`device/docs/TROUBLESHOOTING.md`](device/docs/TROUBLESHOOTING.md) for the full diagnostic playbook, covering both Windows and Linux.
+See [`device/docs/TROUBLESHOOTING.md`](device/docs/TROUBLESHOOTING.md) for the full diagnostic playbook, covering Windows, Linux and macOS.
 
 ## Documentation
 
@@ -90,11 +91,12 @@ See [`device/docs/TROUBLESHOOTING.md`](device/docs/TROUBLESHOOTING.md) for the f
 ### Installing
 
 - [Linux Install](packaging/linux/README.md)
+- [macOS Install](packaging/macos/README.md)
 - [Windows Install](packaging/windows/README.md)
 
 ### Troubleshooting
 
-- [Diagnostic Playbook](device/docs/TROUBLESHOOTING.md) — Windows + Linux
+- [Diagnostic Playbook](device/docs/TROUBLESHOOTING.md) — Windows, Linux and macOS
 
 ### Archive
 
@@ -114,6 +116,7 @@ agent-andon-light/
 │   └── codex/                 Codex CLI hooks (hooks.json + README)
 ├── packaging/              OS-specific install/build tooling
 │   ├── linux/                docs-only install path (pipx, no build step)
+│   ├── macos/                docs-only install path (pipx, no build step)
 │   └── windows/               PyInstaller build + Inno Setup installer
 ├── scripts/                misc dev/demo scripts
 └── archive/                retired hardware iterations, frozen history

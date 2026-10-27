@@ -16,12 +16,13 @@ host/
 │       ├── settings.snippet.json   # bundled copy for installed/frozen builds (Claude Code)
 │       └── codex.hooks.json        # bundled copy for installed/frozen builds (Codex CLI)
 └── tests/
+    ├── test_device_discovery.py
     └── test_hooks_install.py
 ```
 
 ## Install (development)
 
-For actually using the CLI (Claude Code hooks, manual `andon-light` calls), install the published package instead — see [`../packaging/linux/README.md`](../packaging/linux/README.md) (Linux) or [`../packaging/windows/README.md`](../packaging/windows/README.md) (Windows). macOS isn't tested or supported yet.
+For actually using the CLI (Claude Code hooks, manual `andon-light` calls), install the published package instead — see [`../packaging/linux/README.md`](../packaging/linux/README.md) (Linux), [`../packaging/macos/README.md`](../packaging/macos/README.md) (macOS) or [`../packaging/windows/README.md`](../packaging/windows/README.md) (Windows).
 
 To develop this repo, install in editable mode — symlinks back to source, so edits show up immediately without reinstalling:
 
@@ -47,7 +48,7 @@ andon-light set waiting                         # solid yellow
 andon-light set idle                             # solid red
 andon-light set compacting                       # flashing green
 andon-light heartbeat                            # keepalive, no color change
-andon-light --port /dev/ttyACM0 set working      # override auto-detection
+andon-light --port /dev/ttyACM0 set working      # override auto-detection (macOS: /dev/cu.usbmodem…, Windows: COM3)
 andon-light install-hooks                        # merge Claude Code hooks into settings.json (default agent)
 andon-light install-hooks --agent codex          # merge Codex CLI hooks into hooks.json instead
 andon-light install-hooks --yes --scope global   # same, non-interactive (used by the Windows installer)
@@ -64,6 +65,6 @@ Both agents drive the same firmware over the same wire protocol — this is a ho
 
 ## Notes
 
-- Auto-detection (`device_discovery.py`) filters by USB vendor ID `0x2E8A` (Raspberry Pi Foundation, used by arduino-pico's default TinyUSB descriptor) — matches the Waveshare RP2040-Zero.
+- Auto-detection (`device_discovery.py`) filters by USB vendor ID `0x2E8A` (Raspberry Pi Foundation, used by arduino-pico's default TinyUSB descriptor) — matches the Waveshare RP2040-Zero. On macOS pyserial lists only the `/dev/cu.*` side of each port, so there's one candidate per board, not two.
 - Override with `--port` or the `ANDON_LIGHT_PORT` env var if auto-detection picks the wrong port or finds nothing.
 - "Device or resource busy" means another process (e.g. Arduino IDE's Serial Monitor) has the port open — only one process can hold it at a time. `andon-light` retries automatically for ~450ms before giving up; a serial failure then prints a one-line message with exit code 1 instead of a raw Python traceback.
